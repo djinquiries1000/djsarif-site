@@ -1,15 +1,993 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DJ Sarif – Official Website</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
 
   <style>
-    /* Client Access modal must be fixed overlay */
+    :root {
+      --bg1: #05010a;
+      --neon1: #ff00ff;
+      --neon2: #00e5ff;
+      --text: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--bg1);
+      color: var(--text);
+      overflow-x: hidden;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 50px;
+      text-shadow: 0 0 20px var(--neon1);
+      margin: 0 0 10px;
+    }
+
+    h2 {
+      font-size: 24px;
+      text-shadow: 0 0 10px var(--neon2);
+      margin: 0 0 10px;
+    }
+
+    h3 {
+      font-size: 22px;
+      margin: 0 0 10px;
+    }
+
+    h4 {
+      font-size: 18px;
+      margin: 0 0 10px;
+    }
+
+    /* anchor offset for sticky nav */
+    #about,
+    #media,
+    #services,
+    #reviews,
+    #calendar,
+    #booking,
+    #contact {
+      scroll-margin-top: 90px;
+    }
+
+    /* ================================
+        CLUB BACKGROUND (SPEAKER + DJ)
+       ================================ */
+    .bg-wave {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.14;
+      mix-blend-mode: screen;
+      filter: blur(.6px) saturate(120%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-controller {
+      position: fixed;
+      left: 50%;
+      top: 180px;
+      transform: translateX(-50%);
+      width: min(980px, 95vw);
+      height: auto;
+      opacity: 0.16;
+      filter:
+        drop-shadow(0 0 40px rgba(255, 0, 255, .35)) drop-shadow(0 0 50px rgba(0, 229, 255, .30));
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @media (max-width:768px) {
+      .bg-controller {
+        display: none;
+      }
+
+      .bg-wave {
+        opacity: 0.10;
+      }
+    }
+
+    /* Main site overlay */
+    .overlay {
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.72);
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    .image-row {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .cover-img {
+      width: 280px;
+      height: 280px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 3px solid var(--neon1);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+      transition: .3s;
+    }
+
+    .cover-img:hover {
+      transform: scale(1.05);
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.75);
+      margin: 30px;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      text-decoration: none;
+      transition: .3s;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.08);
+    }
+
+    .socials a {
+      color: var(--neon2);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 0;
+      font-size: 14px;
+      opacity: .9;
+    }
+
+    .neon-divider {
+      width: 70%;
+      height: 2px;
+      margin: 50px auto;
+      background: linear-gradient(90deg, transparent, var(--neon1), var(--neon2), transparent);
+      box-shadow: 0 0 12px var(--neon1), 0 0 22px var(--neon2);
+      border-radius: 10px;
+    }
+
+    /* === TOP NAV + DROPDOWNS === */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 9998;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      position: relative;
+    }
+
+    .brand {
+      font-weight: 900;
+      letter-spacing: .6px;
+      text-decoration: none;
+      color: #fff;
+      text-shadow: 0 0 18px var(--neon1);
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link,
+    .nav-btn {
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 999px;
+      transition: .25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: inherit;
+    }
+
+    .nav-link:hover,
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 46px;
+      right: 0;
+      min-width: 230px;
+      background: rgba(0, 0, 0, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      box-shadow: 0 0 22px rgba(0, 229, 255, 0.18);
+      border-radius: 16px;
+      padding: 10px;
+      display: none;
+      transform-origin: top right;
+      animation: ddIn .18s ease-out;
+      z-index: 9999;
+    }
+
+    @keyframes ddIn {
+      from {
+        opacity: 0;
+        transform: translateY(-6px) scale(.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .nav-item:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .dropdown a:hover {
+      background: rgba(255, 0, 255, 0.14);
+      box-shadow: 0 0 10px rgba(255, 0, 255, 0.25);
+    }
+
+    .hamburger {
+      display: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 900;
+      font-family: inherit;
+    }
+
+    @media (max-width:900px) {
+      .hamburger {
+        display: inline-flex;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 60px;
+        margin: 0 12px;
+        padding: 14px;
+        flex-direction: column;
+        align-items: stretch;
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 18px;
+        box-shadow: 0 0 28px rgba(0, 0, 0, 0.55);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .dropdown {
+        position: static;
+        display: none;
+        margin-top: 8px;
+      }
+
+      .nav-item.open .dropdown {
+        display: block;
+      }
+
+      .nav-item:hover .dropdown {
+        display: none;
+      }
+    }
+
+    /* Client Access button styling (nav) */
+    .client-btn {
+      border: 2px solid rgba(255, 0, 255, 0.85);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 0 18px rgba(255, 0, 255, 0.18);
+    }
+
+    .client-btn:hover {
+      background: rgba(255, 0, 255, 0.20);
+      box-shadow: 0 0 24px rgba(255, 0, 255, 0.30);
+    }
+
+    /* === WIZARD === */
+    .pre-wizard {
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: auto;
+    }
+
+    .pre-wizard.hidden {
+      display: none;
+    }
+
+    .pre-wizard-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      pointer-events: auto;
+    }
+
+    .pre-wizard-content {
+      position: relative;
+      z-index: 20001;
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.95);
+      padding: 30px;
+      border-radius: 24px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 40px var(--neon1);
+    }
+
+    .wizard-option-btn {
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 16px;
+    }
+
+    .wizard-skip-btn {
+      margin-top: 14px;
+      padding: 12px 26px;
+      border-radius: 30px;
+      border: 2px solid var(--neon2);
+      background: transparent;
+      color: var(--neon2);
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* === FLOATING CONTACT BUTTONS (RIGHT) === */
+    .floating-call,
+    .floating-sms,
+    .floating-email,
+    .whatsapp-float {
+      position: fixed;
+      right: 20px;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      color: white;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      z-index: 999;
+    }
+
+    .floating-call {
+      bottom: 260px;
+      background: linear-gradient(90deg, var(--neon2), #00bcd4);
+    }
+
+    .floating-sms {
+      bottom: 200px;
+      background: linear-gradient(90deg, var(--neon1), #ff6aff);
+    }
+
+    .floating-email {
+      bottom: 140px;
+      background: linear-gradient(90deg, #ff9800, #ffc107);
+    }
+
+    .whatsapp-float {
+      bottom: 80px;
+      background: #25d366;
+    }
+
+    /* === MOBILE STICKY BOOK BAR === */
+    .mobile-book-bar {
+      display: none;
+    }
+
+    @media (max-width:768px) {
+      .mobile-book-bar {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(90deg, var(--neon1), var(--neon2));
+        padding: 14px 0;
+        text-align: center;
+        z-index: 9999;
+      }
+
+      .mobile-book-bar a {
+        color: white;
+        font-size: 18px;
+        font-weight: 900;
+        text-decoration: none;
+      }
+    }
+
+    /* ===========================
+        SERVICES SECTION
+       =========================== */
+    .services-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 20px;
+    }
+
+    .services-head {
+      margin: 0 0 18px;
+      text-align: left;
+    }
+
+    .services-head h2 {
+      font-size: 28px;
+      margin: 0 0 6px;
+      text-shadow: 0 0 12px rgba(255, 0, 255, .55);
+    }
+
+    .services-head p {
+      margin: 0;
+      opacity: .88;
+      font-size: 14px;
+      max-width: 760px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1050px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .service-card {
+      border-radius: 18px;
+      padding: 16px 16px 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+        0 0 26px rgba(0, 0, 0, 0.55);
+      position: relative;
+      overflow: hidden;
+      min-height: 140px;
+    }
+
+    .service-card:before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 30% 20%, rgba(255, 0, 255, .25), rgba(0, 229, 255, .12), transparent 55%);
+      transform: rotate(8deg);
+      opacity: .9;
+      pointer-events: none;
+    }
+
+    .service-title {
+      position: relative;
+      z-index: 2;
+      font-weight: 900;
+      font-size: 14px;
+      margin: 0 0 8px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 0, 255, .35);
+    }
+
+    .service-text {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 12.5px;
+      opacity: .90;
+      line-height: 1.55;
+      max-width: 320px;
+    }
+
+    /* =================================================
+       SERVICES POP EFFECT — ADDED (HOVER ANIMATION)
+    ================================================== */
+
+    /* Base */
+    #services .service-card {
+      transform: translateY(0) scale(1);
+      transition:
+        transform .35s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .35s cubic-bezier(.2, .8, .2, 1),
+        border-color .35s cubic-bezier(.2, .8, .2, 1),
+        filter .35s cubic-bezier(.2, .8, .2, 1);
+      will-change: transform;
+    }
+
+    /* Hover anywhere in Services section */
+    #services:hover .service-card {
+      transform: translateY(-8px) scale(1.035);
+      border-color: rgba(0, 229, 255, 0.22);
+      box-shadow:
+        0 18px 60px rgba(0, 0, 0, .65),
+        0 0 0 1px rgba(255, 255, 255, .06) inset,
+        0 0 40px rgba(255, 0, 255, .15),
+        0 0 36px rgba(0, 229, 255, .12);
+      filter: saturate(1.06) brightness(1.03);
+    }
+
+    /* Cascade */
+    #services:hover .service-card:nth-child(1) {
+      transition-delay: 0ms;
+    }
+
+    #services:hover .service-card:nth-child(2) {
+      transition-delay: 60ms;
+    }
+
+    #services:hover .service-card:nth-child(3) {
+      transition-delay: 120ms;
+    }
+
+    #services:hover .service-card:nth-child(4) {
+      transition-delay: 180ms;
+    }
+
+    /* Extra lift on direct hover */
+    #services .service-card:hover {
+      transform: translateY(-12px) scale(1.055);
+      border-color: rgba(255, 0, 255, 0.35);
+      transition-delay: 0ms;
+    }
+
+    /* Reduced motion */
+    @media(prefers-reduced-motion:reduce) {
+
+      #services .service-card,
+      #services:hover .service-card {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
+
+    /* ===========================
+        VIP FLOATING SIGNUP
+       =========================== */
+    .vip-orb {
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: radial-gradient(circle at 30% 30%, rgba(255, 0, 255, .95), rgba(0, 229, 255, .78), rgba(0, 0, 0, .2));
+      box-shadow: 0 0 18px rgba(255, 0, 255, .55), 0 0 26px rgba(0, 229, 255, .45);
+      cursor: pointer;
+      z-index: 10000;
+      display: grid;
+      place-items: center;
+      animation: orbFloat 2.6s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .vip-orb:before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 90deg, rgba(255, 0, 255, 0), rgba(255, 0, 255, .45), rgba(0, 229, 255, .45), rgba(255, 0, 255, 0));
+      filter: blur(1px);
+      animation: spin 2.3s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes orbFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .vip-orb-label {
+      position: relative;
+      z-index: 2;
+      font-weight: 900;
+      letter-spacing: .6px;
+      font-size: 14px;
+      color: #fff;
+      text-shadow: 0 0 12px rgba(0, 229, 255, .8);
+      user-select: none;
+    }
+
+    .vip-panel-wrap {
+      position: fixed;
+      left: 18px;
+      bottom: 92px;
+      width: min(420px, calc(100vw - 36px));
+      z-index: 10001;
+      pointer-events: none;
+    }
+
+    .vip-panel {
+      pointer-events: auto;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(0, 0, 0, .62));
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 22px;
+      box-shadow:
+        0 0 0 1px rgba(0, 229, 255, .18) inset,
+        0 0 28px rgba(0, 229, 255, .14),
+        0 0 38px rgba(255, 0, 255, .12);
+      overflow: hidden;
+      opacity: 0;
+      transition: .22s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .vip-panel.open {
+      opacity: 1;
+    }
+
+    .vip-head {
+      padding: 18px 18px 10px;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .vip-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 900;
+      text-shadow: 0 0 14px rgba(255, 0, 255, .55);
+    }
+
+    .vip-sub {
+      margin: 6px 0 0;
+      font-size: 13px;
+      opacity: .85;
+      max-width: 280px;
+    }
+
+    .vip-close {
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1;
+      transition: .2s;
+    }
+
+    .vip-close:hover {
+      transform: scale(1.05);
+    }
+
+    .vip-body {
+      padding: 0 18px 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .vip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (max-width:520px) {
+      .vip-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .vip-input,
+    .vip-select,
+    .vip-textarea {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .vip-input::placeholder,
+    .vip-textarea::placeholder {
+      color: rgba(255, 255, 255, .65);
+    }
+
+    .vip-textarea {
+      min-height: 80px;
+      resize: vertical;
+      grid-column: 1/-1;
+    }
+
+    .vip-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .vip-btn {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 900;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      color: #fff;
+      transition: .22s;
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .vip-btn:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .vip-ghost {
+      flex: 1;
+      min-width: 160px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .22s;
+      font-family: inherit;
+    }
+
+    .vip-ghost:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .vip-note {
+      font-size: 12px;
+      opacity: .82;
+      margin-top: 10px;
+    }
+
+    .vip-success {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0, 229, 255, 0.10);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.12);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .vip-error {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 0, 255, 0.10);
+      border: 1px solid rgba(255, 0, 255, 0.25);
+      box-shadow: 0 0 18px rgba(255, 0, 255, 0.12);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .date-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 10px;
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width:520px) {
+      .date-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* PROFILE MODAL */
+    #profileModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+    }
+
+    .modal-card {
+      position: relative;
+      max-width: 900px;
+      width: 92%;
+      margin: 6vh auto;
+      background: rgba(0, 0, 0, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 26px;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.18);
+      padding: 20px;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .modal-close {
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .modal-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media(max-width:800px) {
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .modal-grid img {
+      width: 100%;
+      height: 280px;
+      border-radius: 20px;
+      object-fit: cover;
+    }
+
+    .about-box {
+      margin-top: 14px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .about-box h3 {
+      margin: 0;
+      color: var(--neon2);
+      text-shadow: 0 0 10px var(--neon2);
+    }
+
+    /* CLIENT ACCESS MODAL */
     #clientAccessModal {
       display: none;
       position: fixed;
@@ -17,277 +995,856 @@
       z-index: 10060;
     }
 
-    :root{
-      --bg1:#05010a;
-      --neon1:#ff00ff;
-      --neon2:#00e5ff;
-      --text:#fff;
-    }
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family:'Poppins', Arial, sans-serif;
-      background:var(--bg1);
-      color:var(--text);
-      overflow-x:hidden;
-      font-size:17px;
-      line-height:1.7;
-    }
-    h1{ font-size:46px; text-shadow:0 0 20px var(--neon1); margin:0 0 10px; }
-    h2{ font-size:24px; text-shadow:0 0 10px var(--neon2); margin:0 0 10px; }
-    h3{ font-size:22px; margin:0 0 10px; }
-    h4{ font-size:18px; margin:0 0 10px; }
-
-    /* anchor offset for sticky nav */
-    #about,#media,#services,#reviews,#calendar,#booking,#contact { scroll-margin-top: 90px; }
-
-    /* CLUB BACKGROUND */
-    .bg-wave{
-      position:fixed; inset:0;
-      width:100%; height:100%;
-      object-fit:cover;
-      opacity:0.14;
-      mix-blend-mode:screen;
-      filter:blur(.6px) saturate(120%);
-      pointer-events:none;
-      z-index:0;
-    }
-    .bg-controller{
-      position:fixed;
-      left:50%; top:180px;
-      transform:translateX(-50%);
-      width:min(980px,95vw);
-      height:auto;
-      opacity:0.16;
-      filter: drop-shadow(0 0 40px rgba(255,0,255,.35)) drop-shadow(0 0 50px rgba(0,229,255,.30));
-      pointer-events:none;
-      z-index:1;
-    }
-    @media (max-width:768px){
-      .bg-controller{ display:none; }
-      .bg-wave{ opacity:0.10; }
-      h1{ font-size:34px; }
-      h2{ font-size:20px; }
+    .client-modal-card {
+      position: relative;
+      max-width: 900px;
+      width: 92%;
+      margin: 6vh auto;
+      background: rgba(0, 0, 0, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 26px;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.18);
+      padding: 20px;
     }
 
-    /* Main site overlay */
-    .overlay{
-      position:relative;
-      z-index:2;
-      background:rgba(0,0,0,0.72);
-      min-height:100vh;
-    }
-    header{
-      text-align:center;
-      padding:60px 20px 30px;
-    }
-    .image-row{
-      display:flex;
-      justify-content:center;
-      gap:22px;
-      flex-wrap:wrap;
-      margin-bottom:15px;
-    }
-    .cover-img{
-      width:280px; height:280px;
-      border-radius:20px;
-      object-fit:cover;
-      border:3px solid var(--neon1);
-      box-shadow:0 0 25px rgba(255,255,255,0.4);
-      transition:.3s;
-    }
-    .cover-img:hover{ transform:scale(1.05); }
-
-    .card{
-      background:rgba(0,0,0,0.75);
-      margin:30px;
-      padding:30px;
-      border-radius:25px;
-      box-shadow:0 0 35px rgba(0,0,0,0.6);
-      text-align:center;
-    }
-    @media (max-width:768px){
-      .card{ margin:18px; padding:22px; }
+    .client-modal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
     }
 
-    .btn-primary{
-      display:inline-block;
-      margin-top:18px;
-      padding:14px 32px;
-      border-radius:999px;
-      background:linear-gradient(90deg,var(--neon1),var(--neon2));
-      color:#fff;
-      font-size:18px;
-      font-weight:900;
-      text-decoration:none;
-      transition:.3s;
-      border:none;
-      cursor:pointer;
-      font-family:inherit;
-    }
-    .btn-primary:hover{ transform:scale(1.08); }
-
-    .socials a{
-      color:var(--neon2);
-      text-decoration:none;
-      font-weight:bold;
+    .client-modal-close {
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-family: inherit;
     }
 
-    footer{
-      text-align:center;
-      padding:25px 0;
-      font-size:14px;
-      opacity:.9;
+    .client-form {
+      margin-top: 14px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 16px;
     }
 
-    .neon-divider{
-      width:70%;
-      height:2px;
-      margin:50px auto;
-      background:linear-gradient(90deg,transparent,var(--neon1),var(--neon2),transparent);
-      box-shadow:0 0 12px var(--neon1), 0 0 22px var(--neon2);
-      border-radius:10px;
+    .client-form h3 {
+      margin: 0;
+      color: var(--neon2);
+      text-shadow: 0 0 10px var(--neon2);
     }
 
-    /* === TOP NAV + DROPDOWNS === */
-    .topnav{
-      position:sticky;
-      top:0;
-      z-index:9998;
-      background:rgba(0,0,0,0.82);
-      backdrop-filter:blur(10px);
-      border-bottom:1px solid rgba(255,255,255,0.08);
+    .client-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
-    .nav-inner{
-      max-width:1100px;
-      margin:0 auto;
-      padding:14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      position:relative;
-    }
-    .brand{
-      font-weight:900;
-      letter-spacing:.6px;
-      text-decoration:none;
-      color:#fff;
-      text-shadow:0 0 18px var(--neon1);
-      white-space:nowrap;
-    }
-    .nav-links{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .nav-item{ position:relative; }
-    .nav-link,.nav-btn{
-      color:#fff;
-      font-weight:900;
-      text-decoration:none;
-      padding:10px 12px;
-      border-radius:999px;
-      transition:.25s;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-family:inherit;
-    }
-    .nav-link:hover,.nav-btn:hover{
-      background:rgba(255,255,255,0.08);
-      transform:translateY(-1px);
-    }
-    .nav-btn{
-      border:none;
-      background:transparent;
-      cursor:pointer;
-      font-size:16px;
-    }
-    .dropdown{
-      position:absolute;
-      top:46px;
-      right:0;
-      min-width:230px;
-      background:rgba(0,0,0,0.92);
-      border:1px solid rgba(0,229,255,0.25);
-      box-shadow:0 0 22px rgba(0,229,255,0.18);
-      border-radius:16px;
-      padding:10px;
-      display:none;
-      transform-origin:top right;
-      animation:ddIn .18s ease-out;
-      z-index:9999;
-    }
-    @keyframes ddIn{
-      from{ opacity:0; transform:translateY(-6px) scale(.98); }
-      to{ opacity:1; transform:translateY(0) scale(1); }
-    }
-    .nav-item:hover .dropdown{ display:block; }
-    .dropdown a{
-      display:block;
-      padding:10px 12px;
-      border-radius:12px;
-      text-decoration:none;
-      color:#fff;
-      font-weight:800;
-    }
-    .dropdown a:hover{
-      background:rgba(255,0,255,0.14);
-      box-shadow:0 0 10px rgba(255,0,255,0.25);
-    }
-    .hamburger{
-      display:none;
-      border:1px solid rgba(255,255,255,0.15);
-      background:rgba(255,255,255,0.06);
-      color:#fff;
-      padding:10px 12px;
-      border-radius:14px;
-      cursor:pointer;
-      font-weight:900;
-      font-family:inherit;
-    }
-    @media (max-width:900px){
-      .hamburger{ display:inline-flex; }
-      .nav-links{
-        display:none;
-        position:absolute;
-        left:0; right:0;
-        top:60px;
-        margin:0 12px;
-        padding:14px;
-        flex-direction:column;
-        align-items:stretch;
-        background:rgba(0,0,0,0.92);
-        border:1px solid rgba(255,255,255,0.10);
-        border-radius:18px;
-        box-shadow:0 0 28px rgba(0,0,0,0.55);
+
+    @media(max-width:700px) {
+      .client-grid {
+        grid-template-columns: 1fr;
       }
-      .nav-links.open{ display:flex; }
-      .dropdown{ position:static; display:none; margin-top:8px; }
-      .nav-item.open .dropdown{ display:block; }
-      .nav-item:hover .dropdown{ display:none; }
     }
 
-    /* Client Access button styling (nav) */
-    .client-btn{
-      border:2px solid rgba(255,0,255,0.85);
-      background:rgba(255,255,255,0.04);
-      box-shadow:0 0 18px rgba(255,0,255,0.18);
+    .client-input,
+    .client-select,
+    .client-textarea {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
     }
-    .client-btn:hover{
-      background:rgba(255,0,255,0.20);
-      box-shadow:0 0 24px rgba(255,0,255,0.30);
+
+    .client-textarea {
+      min-height: 90px;
+      resize: vertical;
+      grid-column: 1 / -1;
     }
+
+    .client-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .client-btn-primary {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 900;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      color: #fff;
+      transition: .22s;
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .client-btn-primary:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .client-btn-ghost {
+      flex: 1;
+      min-width: 160px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .22s;
+      font-family: inherit;
+    }
+
+    .client-btn-ghost:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .client-terms {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 0, 255, 0.20);
+      box-shadow: 0 0 18px rgba(255, 0, 255, 0.08);
+      font-size: 13px;
+      opacity: .92;
+    }
+
+    /* ===========================
+       OSM AUTOCOMPLETE STYLING
+       =========================== */
+    .autoComplete_wrapper {
+      width: 100%;
+    }
+
+    .autoComplete_wrapper input {
+      width: 100% !important;
+      padding: 12px 12px !important;
+      border-radius: 14px !important;
+      border: 1px solid rgba(0, 229, 255, 0.22) !important;
+      background: rgba(0, 0, 0, 0.35) !important;
+      color: #fff !important;
+      outline: none !important;
+      font-family: inherit !important;
+      font-weight: 700 !important;
+      font-size: 14px !important;
+    }
+
+    .autoComplete_wrapper input::placeholder {
+      color: rgba(255, 255, 255, .65) !important;
+    }
+
+    .autoComplete_wrapper>ul {
+      background: rgba(0, 0, 0, 0.96) !important;
+      border: 1px solid rgba(0, 229, 255, 0.25) !important;
+      border-radius: 14px !important;
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.18) !important;
+      padding: 6px !important;
+      margin-top: 8px !important;
+      z-index: 200000 !important;
+      max-height: 260px !important;
+      overflow-y: auto !important;
+    }
+
+    .autoComplete_wrapper>ul>li {
+      color: #fff !important;
+      border-radius: 12px !important;
+      margin: 4px 0 !important;
+      font-weight: 750 !important;
+    }
+
+    .autoComplete_wrapper>ul>li:hover {
+      background: rgba(255, 0, 255, 0.14) !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ===== MEDIA (Tabs + Player) ===== */
+    .media-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .media-tab {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-weight: 900;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    .media-tab:hover {
+      transform: translateY(-1px);
+    }
+
+    .media-tab.active {
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      border-color: rgba(0, 229, 255, 0.25);
+    }
+
+    .media-player {
+      max-width: 520px;
+      margin: 16px auto 0;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.30);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 12px;
+      position: relative;
+    }
+
+    .media-player video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+      background: #000;
+    }
+
+    /* Logo overlay on video */
+    .media-logo {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 64px;
+      height: auto;
+      z-index: 5;
+      opacity: 0.92;
+      filter:
+        drop-shadow(0 0 8px rgba(0, 229, 255, 0.6)) drop-shadow(0 0 12px rgba(255, 0, 255, 0.45));
+      pointer-events: none;
+    }
+
+    .media-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .media-caption {
+      margin-top: 14px;
+      font-size: 14px;
+      opacity: .85;
+    }
+
+    /* Glow highlight */
+    .media-glow {
+      animation: mediaGlow 1.2s ease-in-out 2;
+    }
+
+    @keyframes mediaGlow {
+      0% {
+        box-shadow: 0 0 18px rgba(0, 229, 255, 0.20), 0 0 24px rgba(255, 0, 255, 0.18);
+      }
+
+      50% {
+        box-shadow: 0 0 34px rgba(0, 229, 255, 0.55), 0 0 46px rgba(255, 0, 255, 0.40);
+      }
+
+      100% {
+        box-shadow: 0 0 18px rgba(0, 229, 255, 0.20), 0 0 24px rgba(255, 0, 255, 0.18);
+      }
+    }
+
+    /* Custom Play Overlay button (big play) */
+    .play-overlay {
+      position: absolute;
+      inset: 12px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.55));
+      z-index: 6;
+      opacity: 1;
+      transition: opacity .18s ease, transform .18s ease;
+      pointer-events: auto;
+    }
+
+    .play-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.98);
+    }
+
+    .play-btn {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(135deg, rgba(255, 0, 255, 0.9), rgba(0, 229, 255, 0.85));
+      box-shadow: 0 0 28px rgba(255, 0, 255, 0.28), 0 0 34px rgba(0, 229, 255, 0.22);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform .15s ease;
+    }
+
+    .play-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    .play-tri {
+      width: 0;
+      height: 0;
+      border-left: 18px solid #fff;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 6px;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+    }
+
+    /* VIDEO MODAL */
+    #videoModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 11000;
+    }
+
+    .video-modal-card {
+      position: relative;
+      max-width: 980px;
+      width: 92%;
+      margin: 6vh auto;
+      background: rgba(0, 0, 0, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 26px;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.18);
+      padding: 14px;
+    }
+
+    .video-modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 6px 12px;
+    }
+
+    .video-modal-top h3 {
+      margin: 0;
+    }
+
+    .video-modal-close {
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .video-modal-player {
+      border-radius: 18px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.12);
+    }
+
+    .video-modal-player video {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #000;
+    }
+
+    @media (max-width: 520px) {
+      .video-modal-card {
+        margin: 8vh auto;
+      }
+    }
+
+    /* ===== Reviews (submission only; no fake reviews) ===== */
+    .review-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 0 26px rgba(0, 229, 255, 0.12);
+    }
+
+    .review-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width:700px) {
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .review-input,
+    .review-select,
+    .review-textarea {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .review-textarea {
+      min-height: 110px;
+      resize: vertical;
+      grid-column: 1 / -1;
+    }
+
+    .stars-row {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 0, 255, 0.20);
+      background: rgba(0, 0, 0, 0.30);
+      box-shadow: 0 0 18px rgba(255, 0, 255, 0.08);
+    }
+
+    .stars {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .star-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform .12s ease, box-shadow .12s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .star-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .star-btn.active {
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.18), 0 0 22px rgba(255, 0, 255, 0.16);
+    }
+
+    .star {
+      font-size: 20px;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.22));
+    }
+
+    .rating-pill {
+      font-weight: 900;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      white-space: nowrap;
+    }
+
+    .review-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .review-note {
+      font-size: 12px;
+      opacity: .82;
+      margin-top: 10px;
+    }
+
+    /* ================================
+       EVENT PROMOTION SYSTEM: CSS ADDITIONS
+       Scoped classes only; safe to reuse.
+       ================================ */
+    .event-promo-popup {
+      position: fixed;
+      inset: 0;
+      z-index: 21050;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .28s ease;
+    }
+
+    .event-promo-popup.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .event-promo-modal {
+      position: relative;
+      width: min(860px, 94vw);
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 0, 255, .58);
+      background:
+        linear-gradient(135deg, rgba(0, 0, 0, .78), rgba(4, 0, 10, .94)),
+        rgba(0, 0, 0, .92);
+      box-shadow:
+        0 0 32px rgba(255, 0, 255, .38),
+        0 0 56px rgba(0, 229, 255, .20);
+      transform: translateY(14px) scale(.97);
+      transition: transform .28s ease;
+    }
+
+    .event-promo-popup.is-visible .event-promo-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .event-promo-modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      min-height: 430px;
+    }
+
+    .event-promo-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      padding: 42px;
+      text-align: left;
+    }
+
+    .event-promo-kicker,
+    .event-promo-sidebar-kicker {
+      color: var(--neon1);
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .event-promo-title {
+      margin: 0;
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .92;
+      text-shadow: 0 0 22px rgba(255, 0, 255, .34);
+    }
+
+    .event-promo-date {
+      width: max-content;
+      max-width: 100%;
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 229, 255, .74);
+      color: #fff;
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      box-shadow: 0 0 18px rgba(0, 229, 255, .20), inset 0 0 18px rgba(255, 0, 255, .16);
+    }
+
+    .event-promo-text {
+      margin: 0;
+      color: rgba(255, 255, 255, .86);
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .event-promo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .event-promo-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 13px 26px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 229, 255, .58);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 900;
+      background: rgba(255, 255, 255, .04);
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .event-promo-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(0, 229, 255, .24);
+    }
+
+    .event-promo-button-primary {
+      border-color: transparent;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      box-shadow: 0 0 26px rgba(255, 0, 255, .26);
+    }
+
+    .event-promo-image-wrap {
+      position: relative;
+      min-height: 430px;
+      background: #05010a;
+    }
+
+    .event-promo-image-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0, 0, 0, .72), transparent 46%);
+      pointer-events: none;
+    }
+
+    .event-promo-image {
+      width: 100%;
+      height: 100%;
+      min-height: 430px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .event-promo-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .20);
+      background: rgba(0, 0, 0, .46);
+      color: #fff;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(255, 0, 255, .18);
+    }
+
+    .event-promo-sidebar {
+      position: fixed;
+      top: 120px;
+      right: 18px;
+      z-index: 60;
+      width: min(300px, calc(100vw - 36px));
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 229, 255, .24);
+      background: rgba(0, 0, 0, .78);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 28px rgba(255, 0, 255, .16), 0 0 30px rgba(0, 229, 255, .10);
+    }
+
+    .event-promo-sidebar-title {
+      margin: 6px 0 14px;
+      font-size: 18px;
+      line-height: 1.2;
+      text-shadow: 0 0 12px rgba(0, 229, 255, .58);
+    }
+
+    .event-promo-list {
+      display: grid;
+      gap: 10px;
+      max-height: min(62vh, 640px);
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-color: rgba(255, 0, 255, .55) rgba(255, 255, 255, .08);
+    }
+
+    .event-promo-card {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .event-promo-date-badge {
+      display: grid;
+      place-items: center;
+      min-height: 62px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 0, 255, .48);
+      background: rgba(0, 0, 0, .46);
+      box-shadow: inset 0 0 18px rgba(0, 229, 255, .08), 0 0 18px rgba(255, 0, 255, .14);
+      text-align: center;
+      line-height: 1;
+    }
+
+    .event-promo-month {
+      color: var(--neon1);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .event-promo-day {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .event-promo-card-title {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .event-promo-card-location {
+      margin: 5px 0 9px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 12px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .event-promo-card-link,
+    .event-promo-booked-tag {
+      display: inline-flex;
+      width: max-content;
+      max-width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 229, 255, .38);
+      color: #fff;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      background: rgba(0, 0, 0, .34);
+    }
+
+    .event-promo-booked-tag {
+      border-color: rgba(255, 0, 255, .38);
+      color: var(--neon1);
+    }
+
+    .event-promo-empty {
+      margin: 0;
+      color: rgba(255, 255, 255, .74);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1180px) {
+      .event-promo-sidebar {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: auto;
+        max-width: 900px;
+        margin: 18px auto 0;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .event-promo-modal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .event-promo-copy {
+        padding: 30px 22px;
+      }
+
+      .event-promo-image-wrap,
+      .event-promo-image {
+        min-height: 260px;
+      }
+
+      .event-promo-image-wrap {
+        order: -1;
+      }
+
+      .event-promo-image-wrap::after {
+        background: linear-gradient(0deg, rgba(0, 0, 0, .74), transparent 62%);
+      }
+
+      .event-promo-actions {
+        flex-direction: column;
+      }
+
+      .event-promo-button {
+        width: 100%;
+      }
+    }
+
+    /* Keep your logo usage intact (as you requested) */
   </style>
 </head>
 
 <body>
+  <img src="speaker-wave.jpg" class="bg-wave" alt="">
+  <img src="dj-controller.jpg" class="bg-controller" alt="">
+
   <nav class="topnav">
     <div class="nav-inner">
       <a class="brand" href="#top" style="display:flex; align-items:center; gap:10px;">
-        <img id="navLogo" src="dj-sarif-logo.png" alt="DJ Sarif Logo" style="height:46px;">
+        <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" style="height:36px;">
         <span>DJ Sarif</span>
       </a>
 
@@ -301,7 +1858,9 @@
         <a class="nav-link" href="#calendar">Availability</a>
         <a class="nav-link" href="#booking">Book</a>
         <a class="nav-link" href="#contact">Contact</a>
+
         <div class="nav-item" id="mediaItem" style="display:none;"></div>
+
         <button class="nav-btn client-btn" type="button" onclick="openClientAccess()">Client Access</button>
       </div>
     </div>
@@ -322,6 +1881,7 @@
       <button class="wizard-option-btn" type="button" onclick="selectEvent('Concert')">Concert</button>
 
       <button class="wizard-skip-btn" type="button" onclick="enterWebsite()">Enter Website →</button>
+
     </div>
   </div>
 
@@ -336,130 +1896,42 @@
       <h2>Weddings • Clubs • Corporate • Private Parties — clean mixes, real crowd reading, zero awkward silence.</h2>
     </header>
 
-    <style>
-      /* === WIZARD === */
-      .pre-wizard{
-        position:fixed; inset:0;
-        z-index:20000;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        pointer-events:auto;
-      }
-      .pre-wizard.hidden{ display:none; }
-      .pre-wizard-backdrop{
-        position:absolute; inset:0;
-        background:rgba(0,0,0,0.9);
-        pointer-events:auto;
-      }
-      .pre-wizard-content{
-        position:relative;
-        z-index:20001;
-        pointer-events:auto;
-        background:rgba(0,0,0,0.95);
-        padding:30px;
-        border-radius:24px;
-        max-width:420px;
-        width:90%;
-        text-align:center;
-        box-shadow:0 0 40px var(--neon1);
-      }
-      .wizard-option-btn{
-        width:100%;
-        margin:8px 0;
-        padding:12px;
-        border-radius:999px;
-        border:none;
-        font-weight:900;
-        background:linear-gradient(90deg,var(--neon1),var(--neon2));
-        color:#fff;
-        cursor:pointer;
-        font-family:inherit;
-        font-size:16px;
-      }
-      .wizard-skip-btn{
-        margin-top:14px;
-        padding:12px 26px;
-        border-radius:30px;
-        border:2px solid var(--neon2);
-        background:transparent;
-        color:var(--neon2);
-        font-size:16px;
-        font-weight:900;
-        cursor:pointer;
-        font-family:inherit;
-      }
-
-      /* Floating contacts */
-      .floating-call,.floating-sms,.floating-email,.whatsapp-float{
-        position:fixed;
-        right:20px;
-        width:54px;
-        height:54px;
-        border-radius:50%;
-        color:white;
-        font-size:22px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        text-decoration:none;
-        z-index:999;
-      }
-      .floating-call{ bottom:260px; background:linear-gradient(90deg,var(--neon2),#00bcd4); }
-      .floating-sms{ bottom:200px; background:linear-gradient(90deg,var(--neon1),#ff6aff); }
-      .floating-email{ bottom:140px; background:linear-gradient(90deg,#ff9800,#ffc107); }
-      .whatsapp-float{ bottom:80px; background:#25d366; }
-
-      /* Mobile sticky book bar */
-      .mobile-book-bar{ display:none; }
-      @media (max-width:768px){
-        .mobile-book-bar{
-          display:block;
-          position:fixed;
-          bottom:0; left:0;
-          width:100%;
-          background:linear-gradient(90deg,var(--neon1),var(--neon2));
-          padding:14px 0;
-          text-align:center;
-          z-index:9999;
-        }
-        .mobile-book-bar a{
-          color:white;
-          font-size:18px;
-          font-weight:900;
-          text-decoration:none;
-        }
-      }
-    </style>
-        <!-- ABOUT -->
+    <!-- ABOUT -->
     <section class="card" id="about">
-      <h2 style="margin:0 0 6px; font-size:26px; letter-spacing:.5px;">Meet DJ Sarif</h2>
+      <h2>Meet DJ Sarif</h2>
 
       <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" style="
-        width:180px;
-        margin:-6px auto 10px;
+        width:80px;
+        margin:10px auto 0;
         display:block;
-        filter: drop-shadow(0 0 12px rgba(255,0,255,.6));
+        filter: drop-shadow(0 0 10px rgba(255,0,255,.6));
       ">
 
-      <div style="max-width:900px; margin:0 auto; display:grid; grid-template-columns: 1.2fr 0.8fr; gap:18px; align-items:center;">
-        <div style="text-align:left; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:22px; padding:18px; box-shadow:0 0 26px rgba(0,229,255,0.12);">
-          <h3 style="margin:0; color:#00e5ff; text-shadow:0 0 10px #00e5ff;">High-Energy DJ • Clean Mixes • Crowd Reading</h3>
+      <div
+        style="max-width:900px; margin:0 auto; display:grid; grid-template-columns: 1.2fr 0.8fr; gap:18px; align-items:center;">
+        <div
+          style="text-align:left; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:22px; padding:18px; box-shadow:0 0 26px rgba(0,229,255,0.12);">
+          <h3 style="margin:0; color:#00e5ff; text-shadow:0 0 10px #00e5ff;">High-Energy DJ • Clean Mixes • Crowd
+            Reading</h3>
           <p style="margin:10px 0 0;">
-            Bringing Bollywood, Nepali, Hip-Hop, EDM & Top-40 with clean transitions, crowd reading, and professional sound & lighting.
+            Bringing Bollywood, Nepali, Hip-Hop, EDM & Top-40 with clean transitions, crowd reading, and professional
+            sound & lighting.
           </p>
           <button class="btn-primary" type="button" onclick="openProfile()">View Profile</button>
         </div>
 
         <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-          <img src="IMG_1234.jpg" alt="DJ Sarif" style="width:160px; height:160px; border-radius:18px; object-fit:cover; border:2px solid #ff00ff; box-shadow:0 0 18px rgba(255,255,255,0.25);" />
-          <img src="IMG_1235.jpg" alt="DJ Sarif" style="width:160px; height:160px; border-radius:18px; object-fit:cover; border:2px solid #00e5ff; box-shadow:0 0 18px rgba(255,255,255,0.25);" />
+          <img src="IMG_1234.jpg" alt="DJ Sarif"
+            style="width:160px; height:160px; border-radius:18px; object-fit:cover; border:2px solid #ff00ff; box-shadow:0 0 18px rgba(255,255,255,0.25);" />
+          <img src="IMG_1235.jpg" alt="DJ Sarif"
+            style="width:160px; height:160px; border-radius:18px; object-fit:cover; border:2px solid #00e5ff; box-shadow:0 0 18px rgba(255,255,255,0.25);" />
         </div>
       </div>
 
       <div class="neon-divider"></div>
 
-      <div style="max-width:900px; margin:0 auto; text-align:left; background: rgba(0,0,0,0.6); padding:18px; border-radius:20px; box-shadow:0 0 30px rgba(0,229,255,0.22);">
+      <div
+        style="max-width:900px; margin:0 auto; text-align:left; background: rgba(0,0,0,0.6); padding:18px; border-radius:20px; box-shadow:0 0 30px rgba(0,229,255,0.22);">
         <h3 style="margin:0; color:#00e5ff; text-shadow:0 0 10px #00e5ff;">Why clients book me</h3>
         <ul style="list-style:none; padding:0; margin:12px 0 0;">
           <li style="margin:8px 0;">✅ Clean transitions + professional sound</li>
@@ -475,32 +1947,23 @@
       <h2>Live Performance</h2>
 
       <div class="media-tabs" role="tablist" aria-label="Video categories">
-        <button class="media-tab active" type="button" data-key="highlight" onclick="setMediaVideo('highlight')">Highlights</button>
+        <button class="media-tab active" type="button" data-key="highlight"
+          onclick="setMediaVideo('highlight')">Highlights</button>
         <button class="media-tab" type="button" data-key="wedding" onclick="setMediaVideo('wedding')">Weddings</button>
         <button class="media-tab" type="button" data-key="club" onclick="setMediaVideo('club')">Clubs</button>
-        <button class="media-tab" type="button" data-key="corporate" onclick="setMediaVideo('corporate')">Corporate</button>
+        <button class="media-tab" type="button" data-key="corporate"
+          onclick="setMediaVideo('corporate')">Corporate</button>
       </div>
 
       <div class="media-player" id="mediaPlayerWrap">
         <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" class="media-logo" />
 
-        <!-- Cloudflare Stream inline player (iframe only) -->
-        <div class="stream-shell" aria-label="Performance video player">
-          <iframe
-            id="aboutVideoFrame"
-            title="DJ Sarif video"
-            src="about:blank"
-            loading="lazy"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"
-          ></iframe>
+        <video id="aboutVideo" src="dj-sarif-highlight.mp4" controls loop playsinline preload="metadata"></video>
 
-          <!-- Neon play overlay stays -->
-          <div class="play-overlay" id="playOverlay" aria-label="Play video">
-            <div class="play-btn" role="button" tabindex="0" onclick="playInlineVideo()">
-              <div class="play-tri"></div>
-            </div>
+        <!-- Big Play Overlay -->
+        <div class="play-overlay" id="playOverlay" aria-label="Play video">
+          <div class="play-btn" role="button" tabindex="0" onclick="playInlineVideo()">
+            <div class="play-tri"></div>
           </div>
         </div>
 
@@ -512,237 +1975,8 @@
       <p class="media-caption">Real crowd energy. Clean mixes. Professional sound.</p>
     </section>
 
-    <style>
-      /* MEDIA */
-      .media-tabs{
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-        justify-content:center;
-        margin-top:14px;
-      }
-      .media-tab{
-        border:1px solid rgba(255,255,255,0.14);
-        background:rgba(255,255,255,0.06);
-        color:#fff;
-        font-weight:900;
-        padding:10px 14px;
-        border-radius:999px;
-        cursor:pointer;
-        transition:.2s;
-        font-family:inherit;
-      }
-      .media-tab:hover{ transform:translateY(-1px); }
-      .media-tab.active{
-        background:linear-gradient(90deg,var(--neon1),var(--neon2));
-        border-color:rgba(0,229,255,0.25);
-      }
-
-      .media-player{
-        max-width:520px;
-        margin:16px auto 0;
-        border-radius:22px;
-        overflow:hidden;
-        box-shadow:0 0 30px rgba(255,0,255,0.30);
-        border:1px solid rgba(255,255,255,0.10);
-        background:rgba(0,0,0,0.35);
-        padding:12px;
-        position:relative;
-      }
-
-      /* Stream iframe shell (replaces <video> styling) */
-      .stream-shell{
-        width:100%;
-        border-radius:16px;
-        background:#000;
-        position:relative;
-        overflow:hidden;
-        aspect-ratio:16/9;
-      }
-      .stream-shell iframe{
-        position:absolute;
-        inset:0;
-        width:100%;
-        height:100%;
-        border:0;
-        display:block;
-        background:#000;
-        border-radius:16px;
-      }
-      /* Fallback for older browsers */
-      @supports not (aspect-ratio: 16 / 9){
-        .stream-shell{ height:0; padding-top:56.25%; }
-        .stream-shell iframe,
-        .stream-shell .play-overlay{ position:absolute; inset:0; }
-      }
-
-      .media-logo{
-        position:absolute;
-        top:14px;
-        left:14px;
-        width:64px;
-        height:auto;
-        z-index:5;
-        opacity:0.92;
-        filter: drop-shadow(0 0 8px rgba(0,229,255,0.6)) drop-shadow(0 0 12px rgba(255,0,255,0.45));
-        pointer-events:none;
-      }
-      .media-actions{
-        display:flex;
-        justify-content:center;
-        gap:10px;
-        margin-top:10px;
-        flex-wrap:wrap;
-      }
-      .media-caption{ margin-top:14px; font-size:14px; opacity:.85; }
-
-      .media-glow{ animation:mediaGlow 1.2s ease-in-out 2; }
-      @keyframes mediaGlow{
-        0%{ box-shadow:0 0 18px rgba(0,229,255,0.20), 0 0 24px rgba(255,0,255,0.18); }
-        50%{ box-shadow:0 0 34px rgba(0,229,255,0.55), 0 0 46px rgba(255,0,255,0.40); }
-        100%{ box-shadow:0 0 18px rgba(0,229,255,0.20), 0 0 24px rgba(255,0,255,0.18); }
-      }
-
-      /* Play overlay */
-      .play-overlay{
-        position:absolute;
-        inset:0;
-        border-radius:16px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:radial-gradient(circle at 50% 45%, rgba(0,0,0,0.10), rgba(0,0,0,0.55));
-        z-index:6;
-        opacity:1;
-        transition:opacity .18s ease, transform .18s ease;
-        pointer-events:auto;
-      }
-      .play-overlay.hidden{
-        opacity:0;
-        pointer-events:none;
-        transform:scale(0.98);
-      }
-      .play-btn{
-        width:86px;
-        height:86px;
-        border-radius:50%;
-        border:1px solid rgba(255,255,255,0.18);
-        background:linear-gradient(135deg, rgba(255,0,255,0.9), rgba(0,229,255,0.85));
-        box-shadow:0 0 28px rgba(255,0,255,0.28), 0 0 34px rgba(0,229,255,0.22);
-        display:grid;
-        place-items:center;
-        cursor:pointer;
-        transform:translateY(0);
-        transition:transform .15s ease;
-      }
-      .play-btn:hover{ transform:translateY(-2px) scale(1.03); }
-      .play-tri{
-        width:0; height:0;
-        border-left:18px solid #fff;
-        border-top:12px solid transparent;
-        border-bottom:12px solid transparent;
-        margin-left:6px;
-        filter:drop-shadow(0 0 8px rgba(255,255,255,0.35));
-      }
-    </style>
-
-    <!-- STREAM VIDEO MODAL -->
-    <div class="video-modal" id="videoModal" aria-hidden="true">
-      <div class="video-modal-backdrop" onclick="closeVideoModal()"></div>
-
-      <div class="video-modal-panel" role="dialog" aria-label="Full screen video">
-        <button class="video-modal-close" aria-label="Close video" onclick="closeVideoModal()">&times;</button>
-
-        <div class="video-modal-frame-wrap">
-          <iframe
-            id="videoModalFrame"
-            title="DJ Sarif full screen video"
-            src="about:blank"
-            loading="lazy"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"
-          ></iframe>
-        </div>
-      </div>
-    </div>
-
-    <style>
-      /* VIDEO MODAL (Stream iframe) */
-      .video-modal{
-        position:fixed;
-        inset:0;
-        z-index:9999;
-        display:none;
-      }
-      .video-modal.active{ display:block; }
-
-      .video-modal-backdrop{
-        position:absolute;
-        inset:0;
-        background:rgba(0,0,0,0.78);
-        backdrop-filter: blur(4px);
-      }
-
-      .video-modal-panel{
-        position:relative;
-        max-width:1100px;
-        margin:6vh auto;
-        background:rgba(0,0,0,0.85);
-        border-radius:22px;
-        border:1px solid rgba(255,255,255,0.12);
-        box-shadow:
-          0 0 40px rgba(255,0,255,0.35),
-          0 0 60px rgba(0,229,255,0.25);
-        padding:14px;
-        animation: modalPop .22s ease;
-      }
-
-      @keyframes modalPop{
-        from{ transform:scale(.96); opacity:0; }
-        to{ transform:scale(1); opacity:1; }
-      }
-
-      .video-modal-close{
-        position:absolute;
-        top:10px;
-        right:12px;
-        background:none;
-        border:none;
-        color:#fff;
-        font-size:22px;
-        cursor:pointer;
-        opacity:.8;
-      }
-      .video-modal-close:hover{ opacity:1; }
-
-      .video-modal-frame-wrap{
-        width:100%;
-        aspect-ratio:16/9;
-        border-radius:16px;
-        overflow:hidden;
-        background:#000;
-      }
-      @supports not (aspect-ratio: 16 / 9){
-        .video-modal-frame-wrap{ height:0; padding-top:56.25%; }
-        .video-modal-frame-wrap iframe{ position:absolute; inset:0; }
-      }
-
-      .video-modal-frame-wrap iframe{
-        width:100%;
-        height:100%;
-        border:0;
-        display:block;
-      }
-
-      @media (max-width:768px){
-        .video-modal-panel{
-          margin:10vh 10px;
-        }
-      }
-    </style>
     <!-- SERVICES -->
-    <section id="services" style="padding:10px 0 10px;">
+    <section id="services" style="padding: 10px 0 10px;">
       <div class="services-wrap">
         <div class="services-head">
           <h2>Services</h2>
@@ -752,29 +1986,25 @@
         <div class="services-grid">
           <div class="service-card">
             <p class="service-title">Weddings & Receptions</p>
-            <p class="service-text">
-              A polished soundtrack from cocktail hour to the final song with clean transitions and crowd-first pacing.
-            </p>
+            <p class="service-text">A polished soundtrack from cocktail hour to the final song with clean transitions
+              and crowd-first pacing.</p>
           </div>
 
           <div class="service-card">
             <p class="service-title">Corporate & Private Events</p>
-            <p class="service-text">
-              Brand-safe energy, strong professionalism, and the right volume for conversations and moments.
-            </p>
+            <p class="service-text">Brand-safe energy, strong professionalism, and the right volume for conversations
+              and moments.</p>
           </div>
 
           <div class="service-card">
             <p class="service-title">Clubs & Festivals</p>
-            <p class="service-text">
-              High-energy sets built for the dancefloor with momentum, pacing, and peak-time control.
-            </p>
+            <p class="service-text">High-energy sets built for the dancefloor with momentum, pacing, and peak-time
+              control.</p>
           </div>
 
           <div class="service-card">
             <p class="service-title">Custom Mixes / Playlists</p>
-            <p class="service-text">
-              Tailored mixes for workouts, content, events, or a specific vibe you want to own.
+            <p class="service-text">Tailored mixes for workouts, content, events, or a specific vibe you want to own.
             </p>
           </div>
         </div>
@@ -783,27 +2013,19 @@
 
     <div class="neon-divider"></div>
 
-    <!-- REVIEWS -->
+    <!-- REVIEWS (no fake reviews displayed) -->
     <section class="card" id="reviews">
-      <h2>Reviews</h2>
-
-      <div class="review-wrap" style="margin-bottom:18px;">
-        <h3 style="margin:0 0 8px;">Client Reviews</h3>
-        <div id="approvedReviews" style="display:grid; gap:12px;"></div>
-        <div id="approvedReviewsEmpty" style="opacity:.85; font-size:14px; margin-top:8px;">
-          No reviews posted yet.
-        </div>
-      </div>
+      <h2>Leave a Review</h2>
 
       <div class="review-wrap">
         <p style="margin:0; opacity:.88; font-size:14px;">
-          If you booked DJ Sarif, leave an honest review. Reviews only appear on the site after approval.
+          If you booked DJ Sarif, please leave an honest review. Your feedback helps new clients.
         </p>
 
         <form id="reviewForm" onsubmit="submitReview(event)">
           <div class="review-grid">
             <input class="review-input" name="reviewerName" placeholder="Your Name" required />
-            <input class="review-input" name="reviewerEmail" type="email" placeholder="Your Email" required />
+            <input class="review-input" name="reviewerEmail" type="email" placeholder="Your Email (optional)" />
 
             <select class="review-select" name="eventType" required>
               <option value="" disabled selected>Event Type</option>
@@ -818,24 +2040,23 @@
 
             <div class="stars-row">
               <div class="stars" aria-label="Star rating">
-                <button type="button" class="star-btn" data-val="1" onclick="setStars(1)"><span class="star">★</span></button>
-                <button type="button" class="star-btn" data-val="2" onclick="setStars(2)"><span class="star">★</span></button>
-                <button type="button" class="star-btn" data-val="3" onclick="setStars(3)"><span class="star">★</span></button>
-                <button type="button" class="star-btn" data-val="4" onclick="setStars(4)"><span class="star">★</span></button>
-                <button type="button" class="star-btn" data-val="5" onclick="setStars(5)"><span class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="1" onclick="setStars(1)"><span
+                    class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="2" onclick="setStars(2)"><span
+                    class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="3" onclick="setStars(3)"><span
+                    class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="4" onclick="setStars(4)"><span
+                    class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="5" onclick="setStars(5)"><span
+                    class="star">★</span></button>
               </div>
-              <div class="rating-pill">
-                Rating: <span id="ratingText">0</span>/5
-              </div>
+              <div class="rating-pill" id="ratingPill">Rating: <span id="ratingText">0</span>/5</div>
             </div>
 
             <input type="hidden" name="rating" id="ratingInput" value="0" />
 
-            <textarea
-              class="review-textarea"
-              name="reviewText"
-              placeholder="Write your review..."
-              required></textarea>
+            <textarea class="review-textarea" name="reviewText" placeholder="Write your review..." required></textarea>
           </div>
 
           <div class="review-actions">
@@ -844,7 +2065,7 @@
           </div>
 
           <div class="review-note" id="reviewNote">
-            Reviews are sent for approval. If approved, they will appear publicly on the website.
+            Reviews are submitted to DJ Sarif for verification. No example/fake reviews are shown on the website.
           </div>
         </form>
       </div>
@@ -870,129 +2091,6 @@
 
     <div class="neon-divider"></div>
 
-    <style>
-      /* SERVICES */
-      .services-wrap{ max-width:1100px; margin:0 auto; padding:0 24px 20px; }
-      .services-head{ margin:0 0 18px; text-align:left; }
-      .services-head h2{ font-size:28px; margin:0 0 6px; text-shadow:0 0 12px rgba(255,0,255,.55); }
-      .services-head p{ margin:0; opacity:.88; font-size:14px; max-width:760px; }
-
-      .services-grid{
-        display:grid;
-        grid-template-columns:repeat(4,1fr);
-        gap:16px;
-      }
-      @media (max-width:1050px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
-      @media (max-width:560px){ .services-grid{ grid-template-columns:1fr; } }
-
-      .service-card{
-        border-radius:18px;
-        padding:16px 16px 18px;
-        background:rgba(255,255,255,0.06);
-        border:1px solid rgba(255,255,255,0.10);
-        box-shadow:
-          0 0 0 1px rgba(255,255,255,0.03) inset,
-          0 0 26px rgba(0,0,0,0.55);
-        position:relative;
-        overflow:hidden;
-        min-height:140px;
-        transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease, filter .28s ease;
-      }
-      .service-card:hover{
-        transform:translateY(-10px) scale(1.04);
-        border-color:rgba(0,229,255,0.22);
-        box-shadow:
-          0 18px 60px rgba(0,0,0,.65),
-          0 0 0 1px rgba(255,255,255,.06) inset,
-          0 0 40px rgba(255,0,255,.15),
-          0 0 36px rgba(0,229,255,.12);
-        filter:saturate(1.06) brightness(1.03);
-      }
-
-      /* Reviews */
-      .review-wrap{
-        max-width:900px;
-        margin:0 auto;
-        text-align:left;
-        background:rgba(255,255,255,0.06);
-        border:1px solid rgba(255,255,255,0.12);
-        border-radius:22px;
-        padding:18px;
-        box-shadow:0 0 26px rgba(0,229,255,0.12);
-      }
-      .review-grid{
-        margin-top:12px;
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-      }
-      @media (max-width:700px){ .review-grid{ grid-template-columns:1fr; } }
-      .review-input,.review-select,.review-textarea{
-        width:100%;
-        padding:12px;
-        border-radius:14px;
-        border:1px solid rgba(0,229,255,0.22);
-        background:rgba(0,0,0,0.35);
-        color:#fff;
-        font-family:inherit;
-        font-weight:700;
-        font-size:14px;
-      }
-      .review-textarea{
-        min-height:110px;
-        resize:vertical;
-        grid-column:1 / -1;
-      }
-      .stars-row{
-        grid-column:1 / -1;
-        display:flex;
-        gap:10px;
-        align-items:center;
-        justify-content:space-between;
-        flex-wrap:wrap;
-        padding:10px 12px;
-        border-radius:14px;
-        border:1px solid rgba(255,0,255,0.20);
-        background:rgba(0,0,0,0.30);
-      }
-      .stars{ display:flex; gap:8px; }
-      .star-btn{
-        width:42px;
-        height:42px;
-        border-radius:14px;
-        border:1px solid rgba(255,255,255,0.14);
-        background:rgba(255,255,255,0.06);
-        cursor:pointer;
-        display:grid;
-        place-items:center;
-      }
-      .star-btn.active{
-        background:linear-gradient(90deg,var(--neon1),var(--neon2));
-      }
-      .star{ font-size:20px; }
-      .rating-pill{
-        font-weight:900;
-        padding:8px 12px;
-        border-radius:999px;
-        border:1px solid rgba(255,255,255,0.14);
-        background:rgba(255,255,255,0.06);
-      }
-      .review-actions{
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-        margin-top:12px;
-      }
-      .review-note{
-        font-size:12px;
-        opacity:.82;
-        margin-top:10px;
-      }
-
-      @media (max-width:520px){
-        #calendar iframe{ height:420px !important; }
-      }
-    </style>
     <!-- BOOKING -->
     <section class="card" id="booking">
       <h2>Book Your Event</h2>
@@ -1007,25 +2105,102 @@
     <section class="card" id="contact">
       <h2>Connect with DJ Sarif</h2>
       <p class="socials">
-        Facebook:
-        <a href="https://www.facebook.com/profile.php?id=100011071497688" target="_blank" rel="noopener">Sarif Subedi</a><br>
-        Instagram:
-        <a href="https://instagram.com/_dj.sarif" target="_blank" rel="noopener">@_dj.sarif</a><br>
+        Facebook: <a href="https://www.facebook.com/profile.php?id=100011071497688" target="_blank" rel="noopener">Sarif
+          Subedi</a><br>
+        Instagram: <a href="https://instagram.com/_dj.sarif" target="_blank" rel="noopener">@_dj.sarif</a><br>
         Phone: <a href="tel:+16147726549">614-772-6549</a><br>
         Email: <a href="mailto:Djinquiries1000@gmail.com">Djinquiries1000@gmail.com</a>
       </p>
     </section>
 
-    <footer>© 2026 DJ Sarif. All Rights Reserved.</footer>
+    <footer>© 2025 DJ Sarif. All Rights Reserved.</footer>
   </div>
 
   <!-- Floating contacts -->
   <a href="tel:+16147726549" class="floating-call" aria-label="Call DJ Sarif">📞</a>
   <a href="sms:+16147726549" class="floating-sms" aria-label="Text DJ Sarif">💬</a>
   <a href="mailto:Djinquiries1000@gmail.com" class="floating-email" aria-label="Email DJ Sarif">✉️</a>
-  <a href="https://wa.me/16147726549" target="_blank" rel="noopener" class="whatsapp-float" aria-label="WhatsApp DJ Sarif">💬</a>
+  <a href="https://wa.me/16147726549" target="_blank" rel="noopener" class="whatsapp-float"
+    aria-label="WhatsApp DJ Sarif">💬</a>
 
   <div class="mobile-book-bar"><a href="#booking">📅 Book DJ Sarif Now</a></div>
+
+  <!-- EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
+  <div id="eventPromoPopupRoot" aria-live="polite"></div>
+
+  <aside class="event-promo-sidebar" id="eventPromoSidebar" aria-label="Upcoming Events">
+    <div class="event-promo-sidebar-kicker">Upcoming Events</div>
+    <h2 class="event-promo-sidebar-title">WHERE I'M PLAYING NEXT</h2>
+    <div class="event-promo-list" id="eventPromoList">
+      <p class="event-promo-empty">Loading upcoming dates...</p>
+    </div>
+  </aside>
+  <!-- END EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
+
+  <!-- VIP Orb -->
+  <button class="vip-orb" type="button" onclick="toggleVIP(true)" aria-label="Open VIP Signup">
+    <span class="vip-orb-label">VIP</span>
+  </button>
+
+  <!-- VIP Panel -->
+  <div class="vip-panel-wrap" aria-live="polite">
+    <div class="vip-panel" id="vipPanel" role="dialog" aria-label="VIP Signup Panel">
+      <div class="vip-head">
+        <div>
+          <p class="vip-title">Join the VIP List</p>
+          <p class="vip-sub">You’ll get a confirmation email that your request has been received.</p>
+        </div>
+        <button class="vip-close" type="button" onclick="toggleVIP(false)" aria-label="Close VIP Panel">✕</button>
+      </div>
+
+      <div class="vip-body">
+        <form id="vipForm" onsubmit="submitVIP(event)">
+          <div class="vip-grid">
+            <input class="vip-input" name="name" placeholder="Full Name" required />
+            <input class="vip-input" name="email" type="email" placeholder="Email Address" required />
+
+            <select class="vip-select" name="eventType" required>
+              <option value="" disabled selected>Event Type</option>
+              <option>Wedding</option>
+              <option>Birthday</option>
+              <option>Corporate</option>
+              <option>Concert</option>
+              <option>Private Party</option>
+            </select>
+
+            <div class="date-row">
+              <select class="vip-select" name="mm" required aria-label="Month">
+                <option value="" disabled selected>Month</option>
+              </select>
+              <select class="vip-select" name="dd" required aria-label="Day">
+                <option value="" disabled selected>Day</option>
+              </select>
+              <select class="vip-select" name="yyyy" required aria-label="Year">
+                <option value="" disabled selected>Year</option>
+              </select>
+            </div>
+
+            <input class="vip-input" id="vipVenue" name="venue" placeholder="Venue Name / Location"
+              autocomplete="off" />
+            <input class="vip-input" name="guests" type="number" placeholder="Estimated Guests" />
+            <input class="vip-input" name="startTime" type="text" placeholder="Start Time (e.g. 6PM)" />
+            <input class="vip-input" name="duration" type="text" placeholder="Duration (e.g. 4 Hours)" />
+            <textarea class="vip-textarea" name="specialRequests"
+              placeholder="Special Requests or Must-Play songs..."></textarea>
+          </div>
+
+          <div class="vip-actions">
+            <button class="vip-btn" id="vipSubmitBtn" type="submit">Send Request</button>
+            <button class="vip-ghost" type="button" onclick="goToBooking()">Book Now</button>
+          </div>
+
+          <div class="vip-note" id="vipNote">
+            When you click “Send Request”, the site will email you and the customer (confirmation).
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- PROFILE MODAL -->
   <div id="profileModal">
@@ -1044,15 +2219,11 @@
         <img src="IMG_1235.jpg" style="border:2px solid var(--neon2);" alt="DJ Sarif photo 2">
       </div>
 
-      <div class="modal-grid" style="margin-top:12px;">
-        <img src="IMG_0047.jpeg" data-optional="1" style="border:2px solid rgba(255,0,255,.45);" alt="DJ Sarif extra">
-        <img src="IMG_8923.png" data-optional="1" style="border:2px solid rgba(0,229,255,.45);" alt="DJ Sarif extra">
-      </div>
-
       <div class="about-box">
         <h3>About</h3>
         <p style="margin:10px 0 0;">
-          I specialize in reading the crowd and keeping energy high with clean transitions. I mix Bollywood, Nepali, Hip-Hop, Top 40, and EDM to match your vibe.
+          I specialize in reading the crowd and keeping energy high with clean transitions. I mix Bollywood, Nepali,
+          Hip-Hop, Top 40, and EDM to match your vibe.
         </p>
         <p style="margin:10px 0 0;">
           Professional sound system, wireless mic, dance floor lighting, and full setup/breakdown included.
@@ -1066,106 +2237,33 @@
     </div>
   </div>
 
-  <style>
-    /* PROFILE MODAL */
-    #profileModal{
-      display:none;
-      position:fixed;
-      inset:0;
-      z-index:10050;
-    }
-    .modal-backdrop{
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,0.88);
-    }
-    .modal-card{
-      position:relative;
-      max-width:900px;
-      width:92%;
-      margin:6vh auto;
-      background:rgba(0,0,0,0.92);
-      border:1px solid rgba(0,229,255,0.22);
-      border-radius:26px;
-      box-shadow:0 0 40px rgba(255,0,255,0.18);
-      padding:20px;
-    }
-    .modal-top{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      align-items:flex-start;
-    }
-    .modal-close{
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      font-weight:900;
-      border-radius:14px;
-      padding:10px 12px;
-      cursor:pointer;
-      font-family:inherit;
-    }
-    .modal-grid{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
-    @media(max-width:800px){ .modal-grid{ grid-template-columns:1fr; } }
-    .modal-grid img{
-      width:100%;
-      height:280px;
-      border-radius:20px;
-      object-fit:cover;
-    }
-    .about-box{
-      margin-top:14px;
-      text-align:left;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.12);
-      border-radius:20px;
-      padding:16px;
-    }
-    .about-box h3{
-      margin:0;
-      color:var(--neon2);
-      text-shadow:0 0 10px var(--neon2);
-    }
-  </style>
-
   <!-- CLIENT ACCESS MODAL -->
   <div id="clientAccessModal" role="dialog" aria-modal="true" aria-label="Client Access">
     <div class="modal-backdrop" onclick="closeClientAccess()"></div>
-
-    <div class="client-modal-card" role="document">
+    <div class="client-modal-card">
       <div class="client-modal-top">
         <div>
           <h2 style="margin:0;">Client Access</h2>
-          <p style="margin:8px 0 0; opacity:.85;">
-            Event details, updates, or a new request — it all goes to DJ Sarif.
-          </p>
+          <p style="margin:8px 0 0; opacity:.85;">Finalize details, confirm terms, or send a quick update.</p>
         </div>
-        <button class="client-modal-close" type="button" onclick="closeClientAccess()" aria-label="Close Client Access">✕</button>
+        <button class="client-modal-close" type="button" onclick="closeClientAccess()"
+          aria-label="Close Client Access">✕</button>
       </div>
 
       <div class="client-form">
-        <h3>Event Details / Update</h3>
+        <h3>Booking Agreement / Update</h3>
         <p style="margin:8px 0 0; opacity:.85; font-size:14px;">
-          New lead or existing client — use this to share your event details. You’ll get an email copy after you submit.
+          Use this after you’ve spoken with DJ Sarif to confirm details.
         </p>
 
-        <div style="margin-top:12px;">
-          <button class="btn-primary" type="button" onclick="scrollToAvailability()">Check Availability</button>
-        </div>
-        <form id="clientAccessForm" onsubmit="submitClientAccess(event)" style="margin-top:12px;">
+        <form id="clientAccessForm" onsubmit="submitClientAccess(event)">
           <div class="client-grid">
-            <input class="client-input" name="clientName" placeholder="Full Name" required />
-            <input class="client-input" name="clientEmail" type="email" placeholder="Email Address (required)" required />
-            <input class="client-input" name="phone" type="tel" placeholder="Phone Number (optional)" />
+            <input class="client-input" name="clientName" placeholder="Client Name" required />
+            <input class="client-input" name="clientEmail" type="email" placeholder="Client Email" required />
             <input class="client-input" name="eventDate" placeholder="Event Date (MM/DD/YYYY)" />
-            <input class="client-input" id="clientLocation" name="location" placeholder="Venue / City" autocomplete="off" />
-
+            <input class="client-input" id="clientLocation" name="location" placeholder="Venue / Location"
+              autocomplete="off" />
+            <input class="client-input" name="rate" type="number" placeholder="Agreed Rate ($)" />
             <select class="client-select" name="eventType">
               <option value="" disabled selected>Event Type</option>
               <option>Wedding</option>
@@ -1173,409 +2271,91 @@
               <option>Corporate</option>
               <option>Concert</option>
               <option>Private Party</option>
-              <option>Club</option>
-              <option>Other</option>
             </select>
-
-            <input class="client-input" name="budget" placeholder="Budget in mind (optional)" />
-
             <textarea class="client-textarea" name="notes"
-              placeholder="Tell me about your event, updates, timeline, or any questions..."></textarea>
+              placeholder="Notes, timeline, must-play songs, special requests..."></textarea>
           </div>
 
           <div class="client-terms">
-            <strong>What happens next?</strong>
-            <ul>
-              <li>This goes directly to DJ Sarif and is stored securely.</li>
-              <li>You’ll receive a copy by email.</li>
-              <li>DJ Sarif will follow up to confirm availability and next steps.</li>
+            <strong>Terms (example):</strong>
+            <ul style="margin:8px 0 0; padding-left:18px;">
+              <li>30% non-refundable deposit required to secure booking.</li>
+              <li>Remaining balance due on or before event date.</li>
+              <li>Cancellation within 14 days may require 50% of agreed rate.</li>
             </ul>
           </div>
 
           <div class="client-actions">
-            <button class="client-btn-primary" type="submit" id="clientSubmitBtn">Send Request</button>
-            <button class="client-btn-ghost" type="button" onclick="window.print()">Save / Print</button>
+            <button class="client-btn-primary" type="submit" id="clientSubmitBtn">Send</button>
+            <button class="client-btn-ghost" type="button" onclick="window.print()">Save as PDF</button>
           </div>
 
           <div class="vip-note" id="clientNote" style="margin-top:10px;">
-            Tip: Use “Save / Print” to download a PDF copy.
+            When you click “Send”, the site will email you and the customer (confirmation).
           </div>
         </form>
       </div>
     </div>
   </div>
 
-  <style>
-    /* CLIENT ACCESS — match modal quality */
-    .client-modal-card{
-      position:relative;
-      max-width:980px;
-      width:92%;
-      margin:6vh auto;
-      background:rgba(0,0,0,0.92);
-      border:1px solid rgba(0,229,255,0.22);
-      border-radius:26px;
-      box-shadow:0 0 40px rgba(255,0,255,0.18);
-      padding:20px;
-    }
-    .client-modal-top{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:flex-start;
-    }
-    .client-modal-close{
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      font-weight:900;
-      border-radius:14px;
-      padding:10px 12px;
-      cursor:pointer;
-      font-family:inherit;
-    }
-    .client-form{
-      margin-top:12px;
-      text-align:left;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.12);
-      border-radius:22px;
-      padding:18px;
-      box-shadow:0 0 26px rgba(0,229,255,0.12);
-    }
-    .client-grid{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-    @media (max-width:820px){ .client-grid{ grid-template-columns:1fr; } }
-
-    .client-input,.client-textarea,.client-select{
-      width:100%;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(0,229,255,0.22);
-      background:rgba(0,0,0,0.35);
-      color:#fff;
-      outline:none;
-      font-family:inherit;
-      font-weight:700;
-      font-size:14px;
-    }
-    .client-textarea{ min-height:120px; resize:vertical; grid-column:1 / -1; }
-    @media (max-width:820px){ .client-textarea{ grid-column:auto; } }
-
-    .client-terms{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:18px;
-      border:1px solid rgba(255,0,255,0.18);
-      background:rgba(0,0,0,0.30);
-    }
-    .client-terms ul{ margin:8px 0 0; padding-left:18px; opacity:.9; }
-    .client-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
-
-    .client-btn-primary{
-      border:none;
-      cursor:pointer;
-      font-weight:900;
-      font-family:inherit;
-      padding:14px 22px;
-      border-radius:999px;
-      color:#fff;
-      background:linear-gradient(90deg,var(--neon1),var(--neon2));
-    }
-    .client-btn-ghost{
-      border:1px solid rgba(0,229,255,0.40);
-      background:rgba(255,255,255,0.04);
-      color:var(--neon2);
-      cursor:pointer;
-      font-weight:900;
-      font-family:inherit;
-      padding:14px 22px;
-      border-radius:999px;
-    }
-
-    .vip-success{
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(0,229,255,0.28);
-      background:rgba(0,229,255,0.10);
-      box-shadow:0 0 22px rgba(0,229,255,0.12);
-    }
-    .vip-error{
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,0,255,0.28);
-      background:rgba(255,0,255,0.10);
-      box-shadow:0 0 22px rgba(255,0,255,0.10);
-    }
-  </style>
-
-  <!-- VIP PANEL (PREMIUM, MATCHES CLIENT ACCESS) -->
-  <style>
-    /* VIP floating button (bigger + moved down/right) */
-    #vipFab{
-      position:fixed;
-      left:28px;
-      bottom:120px;
-      width:64px;
-      height:64px;
-      border-radius:999px;
-      border:none;
-      cursor:pointer;
-      z-index:10080;
-
-      font-weight:900;
-      font-size:13px;
-      letter-spacing:1px;
-      color:#07010a;
-
-      background:linear-gradient(135deg,var(--neon1),var(--neon2));
-      box-shadow:0 0 14px rgba(255,0,255,.55),0 0 28px rgba(0,229,255,.55);
-      transition:transform .25s ease, box-shadow .25s ease;
-    }
-    #vipFab:hover{
-      transform:scale(1.08);
-      box-shadow:0 0 18px rgba(255,0,255,.75),0 0 36px rgba(0,229,255,.75);
-    }
-
-    /* VIP modal shell */
-    #vipPanel{
-      display:none;
-      position:fixed;
-      inset:0;
-      z-index:10070;
-    }
-    #vipPanel.open{ display:block; }
-
-    #vipPanel .vip-backdrop{
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,0.65);
-      backdrop-filter:blur(6px);
-    }
-
-    #vipPanel .vip-card{
-      position:relative;
-      width:min(980px, 94vw);
-      margin:6vh auto;
-      background:rgba(0,0,0,0.92);
-      border:1px solid rgba(0,229,255,0.22);
-      border-radius:26px;
-      box-shadow:0 0 40px rgba(255,0,255,0.18);
-      padding:20px;
-    }
-
-    #vipPanel .vip-top{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:flex-start;
-    }
-
-    #vipPanel .vip-close{
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      font-weight:900;
-      border-radius:14px;
-      padding:10px 12px;
-      cursor:pointer;
-      font-family:inherit;
-    }
-
-    /* VIP form styling (dark neon inputs) */
-    .vip-input,.vip-textarea,.vip-select{
-      width:100%;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(0,229,255,0.22);
-      background:rgba(0,0,0,0.35);
-      color:#fff;
-      outline:none;
-      font-family:inherit;
-      font-weight:700;
-      font-size:14px;
-    }
-    .vip-input::placeholder,.vip-textarea::placeholder{ color:rgba(255,255,255,0.55); }
-    .vip-textarea{ min-height:120px; resize:vertical; }
-
-    .vip-grid{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
-    .vip-date{
-      grid-column:1 / -1;
-      display:grid;
-      grid-template-columns:1fr 1fr 1fr;
-      gap:10px;
-    }
-    .vip-wide{ grid-column:1 / -1; }
-
-    .vip-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .vip-primary{
-      border:none;
-      cursor:pointer;
-      font-weight:900;
-      font-family:inherit;
-      padding:14px 22px;
-      border-radius:999px;
-      color:#fff;
-      background:linear-gradient(90deg,var(--neon1),var(--neon2));
-    }
-    .vip-ghost{
-      border:1px solid rgba(0,229,255,0.40);
-      background:rgba(255,255,255,0.04);
-      color:var(--neon2);
-      cursor:pointer;
-      font-weight:900;
-      font-family:inherit;
-      padding:14px 22px;
-      border-radius:999px;
-    }
-
-    @media (max-width:820px){
-      #vipFab{ left:16px; bottom:90px; width:58px; height:58px; }
-      .vip-grid{ grid-template-columns:1fr; }
-    }
-    @media (max-width:520px){
-      .vip-date{ grid-template-columns:1fr; }
-    }
-  </style>
-
-  <button id="vipFab" type="button" onclick="toggleVIP(true)">VIP</button>
-
-  <div id="vipPanel" role="dialog" aria-modal="true" aria-label="VIP Request">
-    <div class="vip-backdrop" onclick="toggleVIP(false)"></div>
-
-    <div class="vip-card" role="document">
-      <div class="vip-top">
-        <div>
-          <h2 style="margin:0;">VIP Request</h2>
-          <p style="margin:8px 0 0; opacity:.85;">
-            Priority booking request — DJ Sarif will respond directly.
-          </p>
-        </div>
-        <button class="vip-close" type="button" onclick="toggleVIP(false)" aria-label="Close VIP">✕</button>
+  <!-- VIDEO MODAL -->
+  <div id="videoModal" role="dialog" aria-modal="true" aria-label="Full screen video">
+    <div class="modal-backdrop" onclick="closeVideoModal()"></div>
+    <div class="video-modal-card">
+      <div class="video-modal-top">
+        <h3>DJ Sarif – Video</h3>
+        <button class="video-modal-close" type="button" onclick="closeVideoModal()">✕</button>
       </div>
 
-      <form id="vipForm" onsubmit="submitVIP(event)" style="margin-top:12px;">
-        <div class="vip-grid">
-          <input class="vip-input" name="name" placeholder="Full Name" required />
-          <input class="vip-input" name="email" type="email" placeholder="Email Address (required)" required />
-
-          <input class="vip-input" name="phone" type="tel" placeholder="Phone Number (optional)" />
-          <select class="vip-select" name="eventType">
-            <option value="" disabled selected>Event Type</option>
-            <option>Wedding</option><option>Birthday</option><option>Corporate</option>
-            <option>Concert</option><option>Private Party</option><option>Club</option><option>Other</option>
-          </select>
-
-          <div class="vip-date">
-            <select class="vip-select" name="mm" aria-label="Month"><option value="" disabled selected>Month</option></select>
-            <select class="vip-select" name="dd" aria-label="Day"><option value="" disabled selected>Day</option></select>
-            <select class="vip-select" name="yyyy" aria-label="Year"><option value="" disabled selected>Year</option></select>
-          </div>
-
-          <input class="vip-input vip-wide" id="vipVenue" name="venue" placeholder="Venue / City" autocomplete="off" />
-          <input class="vip-input" name="budget" placeholder="Budget in mind (optional)" />
-          <textarea class="vip-textarea vip-wide" name="notes"
-            placeholder="Tell me about your event (timeline, guest count, location, special requests)..."></textarea>
-        </div>
-
-        <div class="vip-actions">
-          <button class="vip-primary" type="submit" id="vipSubmitBtn">Send Request</button>
-          <button class="vip-ghost" type="button" onclick="scrollToAvailability(); toggleVIP(false);">Check Availability</button>
-        </div>
-
-        <div class="vip-note" id="vipNote" style="margin-top:10px; opacity:.85; font-size:13px;">
-          You’ll receive a confirmation email.
-        </div>
-      </form>
+      <div class="video-modal-player">
+        <video id="modalVideo" controls playsinline></video>
+      </div>
     </div>
   </div>
-  <script>
-    /* =========================================================
-       DJ SARIF — Inline JS (Unified + Stream iframe media)
-       ========================================================= */
 
+  <!-- autoComplete.js (OSM) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+
+  <script>
     /* ===========================
-       IMPORTANT: Apps Script URL
+       IMPORTANT: Your Apps Script URL
        =========================== */
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxM7Qldb2a84TnD1-rxrSgRMzmTigdc5Ugkgy9CudE77l16zX-CN-2_qtg2aiwo3XVl/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymsCM8DIxlUw4gvTJsXJMc4Flc7-o8DlDQqmcY2CMHiaXPh4L2FmmF2Pa-Z2MdJOAO/exec";
 
     /* ===========================
        MEDIA VIDEO CONFIG (TABS)
-       Cloudflare Stream IFRAME ONLY
        =========================== */
-    const STREAM_CUSTOMER_HOST = "customer-tj8nsrtq4n6pjvgm.cloudflarestream.com";
-
     const MEDIA_VIDEOS = {
-      highlight: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Highlights" },
-      wedding:   { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Weddings" },
-      club:      { uid: "9edf078f3801e17ffda7b0e73fc78e57", label: "Clubs" },
-      corporate: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Corporate" }
+      highlight: { src: "dj-sarif-highlight.mp4", label: "Highlights" },
+      wedding: { src: "dj-sarif-highlight.mp4", label: "Weddings" },
+      club: { src: "dj-sarif-highlight.mp4", label: "Clubs" },
+      corporate: { src: "dj-sarif-highlight.mp4", label: "Corporate" }
     };
 
-    let currentMediaKey = "highlight";
     let userStartedInlineVideo = false;
 
-    function buildStreamIframeSrc(uid, opts) {
-      const o = Object.assign(
-        { autoplay: false, muted: false, loop: true, controls: true },
-        opts || {}
-      );
-
-      const params = new URLSearchParams();
-      if (o.autoplay) params.set("autoplay", "true");
-      if (o.muted) params.set("muted", "true");
-      if (o.loop) params.set("loop", "true");
-      if (o.controls) params.set("controls", "true");
-
-      const qs = params.toString();
-      return `https://${STREAM_CUSTOMER_HOST}/${uid}/iframe${qs ? "?" + qs : ""}`;
-    }
-
-    function getMediaFrame() {
-      return document.getElementById("aboutVideoFrame");
-    }
-
-    function syncPlayOverlay(show) {
-      const overlay = document.getElementById("playOverlay");
-      if (!overlay) return;
-      if (show) overlay.classList.remove("hidden");
-      else overlay.classList.add("hidden");
-    }
-
     function setMediaVideo(key) {
-      const cfg = MEDIA_VIDEOS[key];
-      const frame = getMediaFrame();
+      const video = document.getElementById("aboutVideo");
       const wrap = document.getElementById("mediaPlayerWrap");
-      if (!cfg || !frame) return;
+      const overlay = document.getElementById("playOverlay");
+      if (!video || !MEDIA_VIDEOS[key]) return;
 
-      currentMediaKey = key;
-
-      document.querySelectorAll(".media-tab").forEach((btn) => {
+      document.querySelectorAll(".media-tab").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.key === key);
       });
 
-      frame.src = buildStreamIframeSrc(cfg.uid, {
-        autoplay: false,
-        muted: false,
-        loop: true,
-        controls: true
-      });
+      const wasPlaying = !video.paused && !video.ended;
 
-      syncPlayOverlay(true);
+      video.pause();
+      video.src = MEDIA_VIDEOS[key].src;
+      video.load();
+
+      // show overlay again when switching videos
+      if (overlay) overlay.classList.remove("hidden");
+
+      if (userStartedInlineVideo && wasPlaying) {
+        video.play().catch(() => { });
+      }
 
       if (wrap) {
         wrap.classList.remove("media-glow");
@@ -1583,41 +2363,51 @@
         wrap.classList.add("media-glow");
       }
     }
+    function enterWebsite() {
+  const w = document.getElementById("djWizard");
+  if (w) w.classList.add("hidden");
+
+  // always re-enable scroll (some code sets overflow:hidden)
+  document.body.style.overflow = "auto";
+  document.documentElement.style.overflow = "auto";
+
+  // if you use VIP panel, ensure it's closed when entering
+  if (typeof toggleVIP === "function") toggleVIP(false);
+
+  // mobile nav close if open
+  const nav = document.getElementById("navLinks");
+  if (nav) nav.classList.remove("open");
+}
+
 
     function playInlineVideo() {
-      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
-      const frame = getMediaFrame();
-      if (!cfg || !frame) return;
+      const video = document.getElementById("aboutVideo");
+      const overlay = document.getElementById("playOverlay");
+      if (!video) return;
 
       userStartedInlineVideo = true;
+      if (overlay) overlay.classList.add("hidden");
 
-      frame.src = buildStreamIframeSrc(cfg.uid, {
-        autoplay: true,
-        muted: false,
-        loop: true,
-        controls: true
+      // unmute only after user click (allowed)
+      video.muted = false;
+
+      video.play().catch(() => {
+        // If autoplay fails for any reason, keep overlay visible
+        if (overlay) overlay.classList.remove("hidden");
       });
-
-      syncPlayOverlay(false);
     }
 
-    function stopInlineStream() {
-      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
-      const frame = getMediaFrame();
-      if (!cfg || !frame) return;
+    function syncPlayOverlay() {
+      const video = document.getElementById("aboutVideo");
+      const overlay = document.getElementById("playOverlay");
+      if (!video || !overlay) return;
 
-      frame.src = buildStreamIframeSrc(cfg.uid, {
-        autoplay: false,
-        muted: false,
-        loop: true,
-        controls: true
-      });
-
-      syncPlayOverlay(true);
+      if (video.paused || video.ended) overlay.classList.remove("hidden");
+      else overlay.classList.add("hidden");
     }
 
     function watchAboutVideo() {
-      try { closeProfile(); } catch (e) {}
+      try { closeProfile(); } catch (e) { }
 
       const section = document.getElementById("media");
       const wrap = document.getElementById("mediaPlayerWrap");
@@ -1633,73 +2423,93 @@
       setTimeout(() => playInlineVideo(), 600);
     }
 
-    /* Fullscreen modal (Stream iframe) */
-    function openVideoModalFromInline() {
+    /* Auto-pause when off screen + keep overlay in sync */
+    (function initAutoPause() {
+      const video = document.getElementById("aboutVideo");
+      const section = document.getElementById("media");
+      if (!video || !section) return;
+
+      video.addEventListener("play", syncPlayOverlay);
+      video.addEventListener("pause", syncPlayOverlay);
+      video.addEventListener("ended", syncPlayOverlay);
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
+            if (!video.paused) video.pause();
+          }
+        });
+      }, { threshold: [0, 0.35, 0.6, 1] });
+
+      obs.observe(section);
+    })();
+
+    /* Fullscreen modal (with real controls incl. fullscreen button on mobile browsers) */
+    function openVideoModal(src) {
       const modal = document.getElementById("videoModal");
-      const frame = document.getElementById("videoModalFrame");
-      if (!modal || !frame) return;
+      const mv = document.getElementById("modalVideo");
+      if (!modal || !mv) return;
 
-      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
-      if (!cfg) return;
-
-      frame.src = buildStreamIframeSrc(cfg.uid, {
-        autoplay: true,
-        muted: false,
-        loop: true,
-        controls: true
-      });
-
-      modal.classList.add("active");
-      modal.setAttribute("aria-hidden", "false");
+      modal.style.display = "block";
       document.body.style.overflow = "hidden";
+
+      mv.pause();
+      mv.src = src;
+      mv.load();
+      mv.play().catch(() => { });
     }
 
     function closeVideoModal() {
       const modal = document.getElementById("videoModal");
-      const frame = document.getElementById("videoModalFrame");
-      if (!modal || !frame) return;
-
-      modal.classList.remove("active");
-      modal.setAttribute("aria-hidden", "true");
-      frame.src = "";
-      document.body.style.overflow = "";
+      const mv = document.getElementById("modalVideo");
+      if (mv) {
+        mv.pause();
+        mv.removeAttribute("src");
+        mv.load();
+      }
+      if (modal) modal.style.display = "none";
+      document.body.style.overflow = "auto";
     }
 
-    /* Auto “pause” when media section leaves view */
-    (function initMediaAutoPause() {
-      function boot() {
-        const section = document.getElementById("media");
-        const frame = getMediaFrame();
-        if (!section || !frame) return;
+    function openVideoModalFromInline() {
+      const video = document.getElementById("aboutVideo");
+      if (!video) return;
+      openVideoModal(video.currentSrc || video.src);
+    }
 
-        const obs = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
-                if (userStartedInlineVideo) stopInlineStream();
-              }
-            });
-          },
-          { threshold: [0, 0.35, 0.6, 1] }
+    /* ===========================
+       REVIEWS: fancy stars + submit (no fake reviews shown)
+       =========================== */
+    function setStars(n) {
+      const input = document.getElementById("ratingInput");
+      const text = document.getElementById("ratingText");
+      if (input) input.value = String(n);
+      if (text) text.textContent = String(n);
+
+      document.querySelectorAll(".star-btn").forEach(btn => {
+        const v = Number(btn.dataset.val || "0");
+        btn.classList.toggle("active", v <= n);
+
+        // tiny "pop" animation
+        btn.animate(
+          [{ transform: "translateY(0) scale(1)" }, { transform: "translateY(-2px) scale(1.04)" }, { transform: "translateY(0) scale(1)" }],
+          { duration: 220, easing: "ease-out" }
         );
-
-        obs.observe(section);
-      }
-
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", boot);
-      } else {
-        boot();
-      }
-    })();
-
-    /* NAV */
-    function toggleNav() {
-      const nav = document.getElementById("navLinks");
-      if (nav) nav.classList.toggle("open");
+      });
     }
 
-    /* WIZARD */
+    function scrollToBooking() {
+      const booking = document.getElementById("booking");
+      if (booking) booking.scrollIntoView({ behavior: "smooth" });
+    }
+
+    /* ===========================
+       NAV (mobile + wizard)
+       =========================== */
+    function toggleNav() {
+      document.getElementById("navLinks").classList.toggle("open");
+    }
+
     function selectEvent(type) {
       closeWizard();
       setTimeout(() => {
@@ -1713,11 +2523,21 @@
       if (w) w.classList.add("hidden");
     }
 
-    function enterWebsite() {
-      closeWizard();
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      const isFile = location.protocol === "file:";
 
-    /* VIP PANEL */
+      // Disable OSM autocomplete when opened as file:// (prevents CORS/403 errors)
+      if (!isFile) {
+        initOSMAutocomplete("#vipVenue", "Venue name, city, or address...");
+        initOSMAutocomplete("#clientLocation", "Venue name, city, or address...");
+      }
+
+      syncPlayOverlay();
+    });
+
+    /* ===========================
+       VIP PANEL
+       =========================== */
     function toggleVIP(open) {
       const panel = document.getElementById("vipPanel");
       if (!panel) return;
@@ -1728,41 +2548,54 @@
       }
     }
 
-    /* PROFILE MODAL */
+    function goToBooking() {
+      toggleVIP(false);
+      closeWizard();
+      const booking = document.getElementById("booking");
+      if (booking) booking.scrollIntoView({ behavior: "smooth" });
+    }
+
+    /* ===========================
+       PROFILE MODAL
+       =========================== */
     function openProfile() {
       closeWizard();
-      const m = document.getElementById("profileModal");
-      if (m) m.style.display = "block";
+      document.getElementById("profileModal").style.display = "block";
     }
-
     function closeProfile() {
-      const m = document.getElementById("profileModal");
-      if (m) m.style.display = "none";
+      document.getElementById("profileModal").style.display = "none";
     }
 
-    /* CLIENT ACCESS MODAL */
+    /* ===========================
+       CLIENT ACCESS MODAL
+       =========================== */
     function openClientAccess() {
       closeWizard();
       toggleVIP(false);
-
-      const m = document.getElementById("clientAccessModal");
-      if (m) m.style.display = "block";
-
+      document.getElementById("clientAccessModal").style.display = "block";
       document.body.style.overflow = "hidden";
-      const nav = document.getElementById("navLinks");
-      if (nav) nav.classList.remove("open");
-
+      document.getElementById("navLinks").classList.remove("open");
       const first = document.querySelector("#clientAccessForm input[name='clientName']");
       if (first) first.focus();
     }
 
     function closeClientAccess() {
-      const m = document.getElementById("clientAccessModal");
-      if (m) m.style.display = "none";
+      document.getElementById("clientAccessModal").style.display = "none";
       document.body.style.overflow = "auto";
     }
 
-    /* VIP DATE DROPDOWNS */
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        toggleVIP(false);
+        closeClientAccess();
+        closeProfile();
+        closeVideoModal();
+      }
+    });
+
+    /* ===========================
+       VIP DATE DROPDOWNS
+       =========================== */
     (function initDateDropdowns() {
       const form = document.getElementById("vipForm");
       if (!form) return;
@@ -1770,9 +2603,8 @@
       const mm = form.elements.mm;
       const dd = form.elements.dd;
       const yyyy = form.elements.yyyy;
-      if (!mm || !dd || !yyyy) return;
 
-      const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       months.forEach((m, i) => {
         const opt = document.createElement("option");
         opt.value = String(i + 1).padStart(2, "0");
@@ -1799,15 +2631,17 @@
     function isValidYMD(yyyy, mm, dd) {
       if (!yyyy || !mm || !dd) return false;
       const test = new Date(`${yyyy}-${mm}-${dd}T00:00:00`);
-      return (
+      const ok =
         test &&
         (String(test.getFullYear()) === String(yyyy)) &&
         (String(test.getMonth() + 1).padStart(2, "0") === String(mm).padStart(2, "0")) &&
-        (String(test.getDate()).padStart(2, "0") === String(dd).padStart(2, "0"))
-      );
+        (String(test.getDate()).padStart(2, "0") === String(dd).padStart(2, "0"));
+      return ok;
     }
 
-    /* POST helper */
+    /* ===========================
+       POST helper
+       =========================== */
     async function postFormData(url, formData) {
       const res = await fetch(url, {
         method: "POST",
@@ -1817,19 +2651,21 @@
 
       const text = await res.text();
       let data = {};
-      try { data = JSON.parse(text); } catch (e) {}
+      try { data = JSON.parse(text); } catch (e) { }
 
       if (!res.ok) throw new Error(data?.error || `Request failed (${res.status})`);
       if (data?.ok === false) throw new Error(data?.error || "Request failed");
       return data;
     }
 
+    /* ===========================
+       VIP submit
+       =========================== */
     async function submitVIP(e) {
       e.preventDefault();
       const form = e.target;
       const btn = document.getElementById("vipSubmitBtn");
       const note = document.getElementById("vipNote");
-      if (!btn || !note) return;
 
       btn.innerText = "Sending...";
       btn.disabled = true;
@@ -1864,12 +2700,14 @@
       }
     }
 
+    /* ===========================
+       Client Access submit
+       =========================== */
     async function submitClientAccess(e) {
       e.preventDefault();
       const form = e.target;
       const btn = document.getElementById("clientSubmitBtn");
       const note = document.getElementById("clientNote");
-      if (!btn || !note) return;
 
       btn.innerText = "Sending...";
       btn.disabled = true;
@@ -1884,20 +2722,22 @@
         form.reset();
 
         btn.innerText = "Sent!";
-        setTimeout(() => { btn.innerText = "Send Request"; btn.disabled = false; }, 2500);
+        setTimeout(() => { btn.innerText = "Send"; btn.disabled = false; }, 2500);
       } catch (err) {
         note.innerHTML = `<div class="vip-error">Error: ${String(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
-        btn.innerText = "Send Request";
+        btn.innerText = "Send";
         btn.disabled = false;
       }
     }
 
+    /* ===========================
+       Review submit
+       =========================== */
     async function submitReview(e) {
       e.preventDefault();
       const form = e.target;
       const btn = document.getElementById("reviewSubmitBtn");
       const note = document.getElementById("reviewNote");
-      if (!btn || !note) return;
 
       const rating = Number(document.getElementById("ratingInput")?.value || "0");
       if (!rating || rating < 1) {
@@ -1926,27 +2766,236 @@
         btn.disabled = false;
       }
     }
+      /* ===========================
+     OSM AUTOCOMPLETE (Nominatim)
+     =========================== */
+  function initOSMAutocomplete(selector, placeholder) {
+    const el = document.querySelector(selector);
+    if (!el) return null;
 
-    function setStars(n) {
-      const input = document.getElementById("ratingInput");
-      const text = document.getElementById("ratingText");
-      if (input) input.value = String(n);
-      if (text) text.textContent = String(n);
+    el.setAttribute("autocomplete", "off");
+    el.setAttribute("spellcheck", "false");
 
-      document.querySelectorAll(".star-btn").forEach(btn => {
-        const v = Number(btn.dataset.val || "0");
-        btn.classList.toggle("active", v <= n);
+    return new autoComplete({
+      selector,
+      placeHolder: placeholder || "Search city or address...",
+      threshold: 3,
+      debounce: 350,
+      data: {
+        src: async (query) => {
+          try {
+            const url =
+              `https://nominatim.openstreetmap.org/search` +
+              `?format=json&addressdetails=1&limit=6&countrycodes=us&accept-language=en` +
+              `&q=${encodeURIComponent(query)}`;
+
+            const res = await fetch(url);
+            const data = await res.json();
+            return Array.isArray(data) ? data : [];
+          } catch (e) {
+            return [];
+          }
+        },
+        keys: ["display_name"],
+      },
+      resultItem: { highlight: true },
+      resultsList: { noResults: true },
+      events: {
+        input: {
+          selection: (event) => {
+            const selection = event.detail.selection.value.display_name;
+            if (event?.detail?.input) {
+              event.detail.input.value = selection;
+            }
+          },
+        },
+      },
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const isFile = location.protocol === "file:";
+
+    // Disable OSM autocomplete when opened as file:// (prevents CORS/403 errors)
+    if (!isFile) {
+      initOSMAutocomplete("#vipVenue", "Venue name, city, or address...");
+      initOSMAutocomplete("#clientLocation", "Venue name, city, or address...");
+    }
+
+    // Ensure play overlay is correct on load (only if your function exists)
+    if (typeof syncPlayOverlay === "function") syncPlayOverlay();
+  });
+
+  /* ================================
+     EVENT PROMOTION SYSTEM: JS ADDITIONS
+     Google Calendar powered upcoming events + one-time event popup.
+     ================================ */
+  (() => {
+    const EVENT_DATE = "2026-05-16T23:59:59";
+    const EVENT_TITLE = "DJ SARIF LIVE";
+    const EVENT_DISPLAY_DATE = "May 16";
+    const EVENT_IMAGE = "event-promo-may16.png";
+    const EVENT_TICKET_URL = "https://www.eventbrite.com/e/one-bottle-down-neon-may-tickets-1988322436933?keep_tld=true";
+    const EVENT_LEARN_MORE_URL = EVENT_TICKET_URL;
+
+    const CALENDAR_ID = "e9dd4be6ec069d0e0d06489b2b39c6e731f968bbabc86dd05197f5ff4bfba32f@group.calendar.google.com";
+    const API_KEY = "AIzaSyAQ6LSVYg3IbsqDL3enpNX_NkehpdXgXcY";
+    const MAX_EVENTS = 50;
+
+    const EVENT_POPUP_STORAGE_KEY = `djSarifEventPopupSeen:${EVENT_DATE}`;
+    const PRIVATE_KEYWORDS = ["private", "wedding", "corporate"];
+
+    let eventPromoPreviousOverflow = "";
+
+    function isEventExpired(dateString) {
+      return Date.now() > new Date(dateString).getTime();
+    }
+
+    function shouldShowPopup() {
+      if (isEventExpired(EVENT_DATE)) return false;
+      return true;
+    }
+
+    function markPopupSeen() {
+      // Intentionally empty: this event popup should show on every page refresh.
+    }
+
+    function closeEventPopup() {
+      const popup = document.getElementById("eventPromoPopup");
+      if (!popup) return;
+
+      markPopupSeen();
+      popup.classList.remove("is-visible");
+      document.body.style.overflow = eventPromoPreviousOverflow;
+
+      setTimeout(() => {
+        popup.remove();
+      }, 280);
+    }
+
+    function renderPopup() {
+      const root = document.getElementById("eventPromoPopupRoot");
+      if (!root || !shouldShowPopup()) return;
+
+      root.innerHTML = `
+        <div class="event-promo-popup" id="eventPromoPopup" role="dialog" aria-modal="true" aria-label="${EVENT_TITLE}">
+          <div class="event-promo-modal">
+            <button class="event-promo-close" type="button" aria-label="Close event popup" data-event-promo-close>&times;</button>
+            <div class="event-promo-modal-grid">
+              <div class="event-promo-copy">
+                <div class="event-promo-kicker">Live Event</div>
+                <h2 class="event-promo-title">${EVENT_TITLE}</h2>
+                <div class="event-promo-date">${EVENT_DISPLAY_DATE}</div>
+                <p class="event-promo-text">A night of pure energy, clean mixes, and a dance floor built for the moment.</p>
+                <div class="event-promo-actions">
+                  <a class="event-promo-button event-promo-button-primary" href="${EVENT_TICKET_URL}" target="_blank" rel="noopener">Get Tickets</a>
+                  <a class="event-promo-button" href="${EVENT_LEARN_MORE_URL}" data-event-promo-learn>Learn More</a>
+                </div>
+              </div>
+              <div class="event-promo-image-wrap">
+                <img class="event-promo-image" src="${EVENT_IMAGE}" alt="${EVENT_TITLE} event poster">
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const popup = document.getElementById("eventPromoPopup");
+      if (!popup) return;
+
+      eventPromoPreviousOverflow = document.body.style.overflow || "";
+      document.body.style.overflow = "hidden";
+
+      popup.addEventListener("click", (event) => {
+        if (event.target === popup || event.target.closest("[data-event-promo-close]")) {
+          closeEventPopup();
+        }
       });
+
+      const learnMore = popup.querySelector("[data-event-promo-learn]");
+      if (learnMore) {
+        learnMore.addEventListener("click", () => closeEventPopup());
+      }
+
+      requestAnimationFrame(() => popup.classList.add("is-visible"));
     }
 
-    function scrollToBooking() {
-      const booking = document.getElementById("booking");
-      if (booking) booking.scrollIntoView({ behavior: "smooth" });
+    function hasCalendarConfig() {
+      return (
+        CALENDAR_ID &&
+        API_KEY &&
+        CALENDAR_ID !== "YOUR_CALENDAR_ID" &&
+        API_KEY !== "YOUR_API_KEY"
+      );
     }
 
-    /* Approved Reviews loader */
-    function escapeHtml(str) {
-      return String(str ?? "")
+    function isPrivateEvent(title, location, description) {
+      const haystack = `${title || ""} ${location || ""} ${description || ""}`.toLowerCase();
+      return PRIVATE_KEYWORDS.some((word) => haystack.includes(word));
+    }
+
+    function stripEventHtml(value) {
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = String(value || "");
+      return wrapper.textContent || wrapper.innerText || "";
+    }
+
+    function findEventbriteUrl(item) {
+      const fields = [
+        item?.description || "",
+        item?.location || "",
+        item?.summary || "",
+        item?.htmlLink || ""
+      ];
+
+      for (const field of fields) {
+        const text = `${field} ${stripEventHtml(field)}`;
+        const match = text.match(/https?:\/\/[^\s"'<>]*eventbrite[^\s"'<>]*/i);
+        if (match) return match[0].replace(/[),.;]+$/, "");
+      }
+
+      return "";
+    }
+
+    function normalizeCalendarEvent(item) {
+      const startValue = item?.start?.dateTime || item?.start?.date;
+      const eventDate = startValue ? new Date(startValue) : new Date(EVENT_DATE);
+      const rawTitle = item?.summary || EVENT_TITLE;
+      const rawLocation = item?.location || "";
+      const rawDescription = item?.description || "";
+      const eventbriteUrl = findEventbriteUrl(item);
+      const privateEvent = !eventbriteUrl || isPrivateEvent(rawTitle, rawLocation, rawDescription);
+
+      return {
+        date: eventDate,
+        title: privateEvent ? "PRIVATE EVENT" : rawTitle,
+        location: rawLocation || (privateEvent ? "Booked" : "Location TBA"),
+        url: privateEvent ? "" : eventbriteUrl,
+        privateEvent
+      };
+    }
+
+    function getFallbackEvents() {
+      if (isEventExpired(EVENT_DATE)) return [];
+
+      return [{
+        date: new Date(EVENT_DATE),
+        title: "One Bottle Down - Neon May",
+        location: "Boozemandu, Pickerington, OH • 9 PM - 11:59 PM",
+        url: EVENT_LEARN_MORE_URL,
+        privateEvent: false
+      }];
+    }
+
+    function formatEventDate(date) {
+      return {
+        month: date.toLocaleString("en-US", { month: "short" }),
+        day: date.toLocaleString("en-US", { day: "2-digit" })
+      };
+    }
+
+    function escapeEventHtml(value) {
+      return String(value ?? "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -1954,184 +3003,101 @@
         .replaceAll("'", "&#039;");
     }
 
-    async function loadApprovedReviews() {
-      const grid = document.getElementById("approvedReviews");
-      const empty = document.getElementById("approvedReviewsEmpty");
-      if (!grid) return;
-
-      grid.innerHTML = "";
-
-      const existingToggle = document.getElementById("approvedReviewsToggle");
-      if (existingToggle) existingToggle.remove();
+    function sanitizeEventUrl(value) {
+      const url = String(value || EVENT_LEARN_MORE_URL);
+      if (url.startsWith("#")) return url;
 
       try {
-        const res = await fetch(`${SCRIPT_URL}?action=approved_reviews`, { method: "GET" });
-        const data = await res.json();
+        const parsed = new URL(url, window.location.href);
+        if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+          return parsed.href;
+        }
+      } catch (error) {}
 
-        const reviews = Array.isArray(data?.reviews) ? data.reviews : [];
-        if (!reviews.length) {
-          if (empty) empty.style.display = "block";
+      return EVENT_LEARN_MORE_URL;
+    }
+
+    function renderEvents(events) {
+      const list = document.getElementById("eventPromoList");
+      if (!list) return;
+
+      if (!events.length) {
+        list.innerHTML = '<p class="event-promo-empty">No public upcoming dates posted yet. Check back soon.</p>';
+        return;
+      }
+
+      list.innerHTML = events.map((eventItem) => {
+        const dateParts = formatEventDate(eventItem.date);
+        const safeTitle = escapeEventHtml(eventItem.title);
+        const safeLocation = escapeEventHtml(eventItem.location);
+        const safeUrl = sanitizeEventUrl(eventItem.url);
+        const action = eventItem.privateEvent
+          ? '<span class="event-promo-booked-tag">Booked</span>'
+          : `<a class="event-promo-card-link" href="${safeUrl}" target="_blank" rel="noopener">Details &rarr;</a>`;
+
+        return `
+          <article class="event-promo-card">
+            <div class="event-promo-date-badge" aria-label="${dateParts.month} ${dateParts.day}">
+              <span class="event-promo-month">${dateParts.month}</span>
+              <span class="event-promo-day">${dateParts.day}</span>
+            </div>
+            <div>
+              <h3 class="event-promo-card-title">${safeTitle}</h3>
+              <p class="event-promo-card-location">${safeLocation}</p>
+              ${action}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    async function loadEvents() {
+      try {
+        if (!hasCalendarConfig()) {
+          renderEvents(getFallbackEvents());
           return;
         }
-        if (empty) empty.style.display = "none";
 
-        const cards = [];
+        const now = new Date().toISOString();
+        const url =
+          `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events` +
+          `?key=${encodeURIComponent(API_KEY)}` +
+          `&timeMin=${encodeURIComponent(now)}` +
+          `&singleEvents=true&orderBy=startTime&maxResults=${MAX_EVENTS}`;
 
-        reviews.forEach((r, idx) => {
-          const stars = Math.max(1, Math.min(5, Number(r.rating || 5)));
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Calendar request failed: ${response.status}`);
 
-          const card = document.createElement("div");
-          card.style.background = "rgba(0,0,0,0.35)";
-          card.style.border = "1px solid rgba(255,255,255,0.12)";
-          card.style.borderRadius = "16px";
-          card.style.padding = "12px";
-          card.style.boxShadow = "0 0 18px rgba(0,229,255,0.10)";
-          card.style.marginBottom = "12px";
+        const data = await response.json();
+        const events = (data.items || [])
+          .filter((item) => item?.status !== "cancelled")
+          .map(normalizeCalendarEvent)
+          .filter((eventItem) => eventItem.date.getTime() >= Date.now())
+          .sort((a, b) => a.date - b.date)
+          .slice(0, MAX_EVENTS);
 
-          if (idx >= 3) card.style.display = "none";
-
-          card.innerHTML = `
-            <div style="font-weight:900; letter-spacing:2px; color:#ffd54a; margin-bottom:8px;">${"★".repeat(stars)}</div>
-            <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(r.text || "")}</div>
-            <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">— ${escapeHtml(r.name || "Client")}</div>
-            <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(r.eventType || "")}</div>
-          `;
-
-          grid.appendChild(card);
-          cards.push(card);
-        });
-
-        if (cards.length > 3) {
-          const btn = document.createElement("button");
-          btn.id = "approvedReviewsToggle";
-          btn.type = "button";
-          btn.className = "btn-primary";
-          btn.style.marginTop = "10px";
-          btn.textContent = "Show all reviews";
-
-          let expanded = false;
-          btn.addEventListener("click", () => {
-            expanded = !expanded;
-            cards.forEach((c, i) => {
-              if (i >= 3) c.style.display = expanded ? "block" : "none";
-            });
-            btn.textContent = expanded ? "Show less" : "Show all reviews";
-          });
-
-          grid.parentElement?.appendChild(btn);
-        }
-      } catch (e) {
-        if (empty) {
-          empty.style.display = "block";
-          empty.textContent = "Unable to load reviews right now.";
-        }
+        renderEvents(events);
+      } catch (error) {
+        console.warn("Unable to load upcoming events.", error);
+        renderEvents(getFallbackEvents());
       }
-    }
-
-    /* Autocomplete (guarded) */
-    function initOSMAutocomplete(selector, placeholder) {
-      const el = document.querySelector(selector);
-      if (!el) return null;
-
-      if (typeof autoComplete === "undefined") {
-        console.warn("Autocomplete disabled: autoComplete library not loaded.");
-        return null;
-      }
-
-      el.setAttribute("autocomplete", "off");
-      el.setAttribute("spellcheck", "false");
-
-      return new autoComplete({
-        selector,
-        placeHolder: placeholder || "Search city or address...",
-        threshold: 3,
-        debounce: 350,
-        data: {
-          src: async (query) => {
-            try {
-              const url =
-                `https://nominatim.openstreetmap.org/search` +
-                `?format=json&addressdetails=1&limit=6&countrycodes=us&accept-language=en` +
-                `&q=${encodeURIComponent(query)}`;
-
-              const res = await fetch(url, { headers: { "Accept": "application/json" } });
-              if (!res.ok) return [];
-
-              const data = await res.json();
-              return Array.isArray(data) ? data : [];
-            } catch (e) {
-              return [];
-            }
-          },
-          keys: ["display_name"],
-        },
-        resultItem: { highlight: true },
-        resultsList: { noResults: true },
-        events: {
-          input: {
-            selection: (event) => {
-              const name = event?.detail?.selection?.value?.display_name;
-              if (name) el.value = name;
-            },
-          },
-        },
-      });
-    }
-
-    function scrollToAvailability() {
-      try { closeClientAccess(); } catch (e) {}
-      const el = document.getElementById("calendar");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      if (getMediaFrame()) setMediaVideo(currentMediaKey);
-      syncPlayOverlay(true);
-
-      try { loadApprovedReviews(); } catch (e) {}
-
-      try {
-        const proto = location.protocol;
-        const host = location.hostname || "";
-        const isFile = proto === "file:";
-        const isLocalhost = host === "localhost" || host === "127.0.0.1" || host === "::1";
-
-        if (!isFile && !isLocalhost) {
-          initOSMAutocomplete("#vipVenue", "Venue name, city, or address...");
-          initOSMAutocomplete("#clientLocation", "Venue name, city, or address...");
-        }
-      } catch (e) {}
+      renderPopup();
+      loadEvents();
     });
 
-    /* Expose for inline onclick */
-    window.toggleNav = toggleNav;
-    window.selectEvent = selectEvent;
-    window.closeWizard = closeWizard;
-    window.enterWebsite = enterWebsite;
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeEventPopup();
+    });
 
-    window.toggleVIP = toggleVIP;
-
-    window.openProfile = openProfile;
-    window.closeProfile = closeProfile;
-
-    window.openClientAccess = openClientAccess;
-    window.closeClientAccess = closeClientAccess;
-
-    window.setMediaVideo = setMediaVideo;
-    window.playInlineVideo = playInlineVideo;
-    window.watchAboutVideo = watchAboutVideo;
-
-    window.openVideoModalFromInline = openVideoModalFromInline;
-    window.closeVideoModal = closeVideoModal;
-
-    window.submitVIP = submitVIP;
-    window.submitClientAccess = submitClientAccess;
-    window.submitReview = submitReview;
-    window.setStars = setStars;
-    window.scrollToBooking = scrollToBooking;
-    window.scrollToAvailability = scrollToAvailability;
+    window.shouldShowPopup = shouldShowPopup;
+    window.renderPopup = renderPopup;
+    window.loadEvents = loadEvents;
+  })();
   </script>
-
 </body>
 </html>
 
+    
