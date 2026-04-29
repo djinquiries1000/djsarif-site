@@ -1236,6 +1236,26 @@
       background: #000;
     }
 
+    .stream-shell {
+      width: 100%;
+      border-radius: 16px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+    }
+
+    .stream-shell iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #000;
+      border-radius: 16px;
+    }
+
     /* Logo overlay on video */
     .media-logo {
       position: absolute;
@@ -1386,6 +1406,15 @@
     .video-modal-player video {
       width: 100%;
       height: auto;
+      display: block;
+      background: #000;
+    }
+
+    .video-modal-player iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      min-height: 260px;
+      border: 0;
       display: block;
       background: #000;
     }
@@ -1958,7 +1987,17 @@
       <div class="media-player" id="mediaPlayerWrap">
         <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" class="media-logo" />
 
-        <video id="aboutVideo" src="dj-sarif-highlight.mp4" controls loop playsinline preload="metadata"></video>
+        <div class="stream-shell" aria-label="Performance video player">
+          <iframe
+            id="aboutVideoFrame"
+            title="DJ Sarif video"
+            src="about:blank"
+            loading="lazy"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+        </div>
 
         <!-- Big Play Overlay -->
         <div class="play-overlay" id="playOverlay" aria-label="Play video">
@@ -2015,9 +2054,18 @@
 
     <!-- REVIEWS (no fake reviews displayed) -->
     <section class="card" id="reviews">
-      <h2>Leave a Review</h2>
+      <h2>Reviews</h2>
+
+      <div class="review-wrap" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 8px;">Client Reviews</h3>
+        <div id="approvedReviews" style="display:grid; gap:12px;"></div>
+        <div id="approvedReviewsEmpty" style="opacity:.85; font-size:14px; margin-top:8px;">
+          Loading approved reviews...
+        </div>
+      </div>
 
       <div class="review-wrap">
+        <h3 style="margin:0 0 8px;">Leave a Review</h3>
         <p style="margin:0; opacity:.88; font-size:14px;">
           If you booked DJ Sarif, please leave an honest review. Your feedback helps new clients.
         </p>
@@ -2307,9 +2355,17 @@
         <button class="video-modal-close" type="button" onclick="closeVideoModal()">✕</button>
       </div>
 
-      <div class="video-modal-player">
-        <video id="modalVideo" controls playsinline></video>
-      </div>
+        <div class="video-modal-player">
+          <iframe
+            id="videoModalFrame"
+            title="DJ Sarif full screen video"
+            src="about:blank"
+            loading="lazy"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+        </div>
     </div>
   </div>
 
@@ -2320,42 +2376,64 @@
     /* ===========================
        IMPORTANT: Your Apps Script URL
        =========================== */
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymsCM8DIxlUw4gvTJsXJMc4Flc7-o8DlDQqmcY2CMHiaXPh4L2FmmF2Pa-Z2MdJOAO/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyFdjV0zjHtGDSF2g_0UkBIjNo5jzc8htWFn590tT0fL_oXdVRbdPvYOJyf92MNTJJE/exec";
 
     /* ===========================
-       MEDIA VIDEO CONFIG (TABS)
+       MEDIA VIDEO CONFIG (CLOUDFLARE STREAM TABS)
        =========================== */
+    const STREAM_CUSTOMER_HOST = "customer-tj8nsrtq4n6pjvgm.cloudflarestream.com";
+
     const MEDIA_VIDEOS = {
-      highlight: { src: "dj-sarif-highlight.mp4", label: "Highlights" },
-      wedding: { src: "dj-sarif-highlight.mp4", label: "Weddings" },
-      club: { src: "dj-sarif-highlight.mp4", label: "Clubs" },
-      corporate: { src: "dj-sarif-highlight.mp4", label: "Corporate" }
+      highlight: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Highlights" },
+      wedding: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Weddings" },
+      club: { uid: "9edf078f3801e17ffda7b0e73fc78e57", label: "Clubs" },
+      corporate: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Corporate" }
     };
 
+    let currentMediaKey = "highlight";
     let userStartedInlineVideo = false;
 
+    function buildStreamIframeSrc(uid, opts) {
+      const options = Object.assign(
+        { autoplay: false, muted: false, loop: true, controls: true },
+        opts || {}
+      );
+
+      const params = new URLSearchParams();
+      if (options.autoplay) params.set("autoplay", "true");
+      if (options.muted) params.set("muted", "true");
+      if (options.loop) params.set("loop", "true");
+      if (options.controls) params.set("controls", "true");
+
+      const qs = params.toString();
+      return `https://${STREAM_CUSTOMER_HOST}/${uid}/iframe${qs ? "?" + qs : ""}`;
+    }
+
+    function getMediaFrame() {
+      return document.getElementById("aboutVideoFrame");
+    }
+
     function setMediaVideo(key) {
-      const video = document.getElementById("aboutVideo");
+      const frame = getMediaFrame();
       const wrap = document.getElementById("mediaPlayerWrap");
       const overlay = document.getElementById("playOverlay");
-      if (!video || !MEDIA_VIDEOS[key]) return;
+      if (!frame || !MEDIA_VIDEOS[key]) return;
+
+      currentMediaKey = key;
+      userStartedInlineVideo = false;
 
       document.querySelectorAll(".media-tab").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.key === key);
       });
 
-      const wasPlaying = !video.paused && !video.ended;
+      frame.src = buildStreamIframeSrc(MEDIA_VIDEOS[key].uid, {
+        autoplay: false,
+        muted: false,
+        loop: true,
+        controls: true
+      });
 
-      video.pause();
-      video.src = MEDIA_VIDEOS[key].src;
-      video.load();
-
-      // show overlay again when switching videos
       if (overlay) overlay.classList.remove("hidden");
-
-      if (userStartedInlineVideo && wasPlaying) {
-        video.play().catch(() => { });
-      }
 
       if (wrap) {
         wrap.classList.remove("media-glow");
@@ -2363,47 +2441,43 @@
         wrap.classList.add("media-glow");
       }
     }
+
     function enterWebsite() {
-  const w = document.getElementById("djWizard");
-  if (w) w.classList.add("hidden");
+      const w = document.getElementById("djWizard");
+      if (w) w.classList.add("hidden");
 
-  // always re-enable scroll (some code sets overflow:hidden)
-  document.body.style.overflow = "auto";
-  document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
 
-  // if you use VIP panel, ensure it's closed when entering
-  if (typeof toggleVIP === "function") toggleVIP(false);
+      if (typeof toggleVIP === "function") toggleVIP(false);
 
-  // mobile nav close if open
-  const nav = document.getElementById("navLinks");
-  if (nav) nav.classList.remove("open");
-}
-
+      const nav = document.getElementById("navLinks");
+      if (nav) nav.classList.remove("open");
+    }
 
     function playInlineVideo() {
-      const video = document.getElementById("aboutVideo");
+      const frame = getMediaFrame();
       const overlay = document.getElementById("playOverlay");
-      if (!video) return;
+      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
+      if (!frame || !cfg) return;
 
       userStartedInlineVideo = true;
       if (overlay) overlay.classList.add("hidden");
 
-      // unmute only after user click (allowed)
-      video.muted = false;
-
-      video.play().catch(() => {
-        // If autoplay fails for any reason, keep overlay visible
-        if (overlay) overlay.classList.remove("hidden");
+      frame.src = buildStreamIframeSrc(cfg.uid, {
+        autoplay: true,
+        muted: false,
+        loop: true,
+        controls: true
       });
     }
 
     function syncPlayOverlay() {
-      const video = document.getElementById("aboutVideo");
       const overlay = document.getElementById("playOverlay");
-      if (!video || !overlay) return;
+      if (!overlay) return;
 
-      if (video.paused || video.ended) overlay.classList.remove("hidden");
-      else overlay.classList.add("hidden");
+      if (userStartedInlineVideo) overlay.classList.add("hidden");
+      else overlay.classList.remove("hidden");
     }
 
     function watchAboutVideo() {
@@ -2423,20 +2497,24 @@
       setTimeout(() => playInlineVideo(), 600);
     }
 
-    /* Auto-pause when off screen + keep overlay in sync */
+    /* Auto-stop cloud stream when media section leaves view */
     (function initAutoPause() {
-      const video = document.getElementById("aboutVideo");
       const section = document.getElementById("media");
-      if (!video || !section) return;
-
-      video.addEventListener("play", syncPlayOverlay);
-      video.addEventListener("pause", syncPlayOverlay);
-      video.addEventListener("ended", syncPlayOverlay);
+      const frame = getMediaFrame();
+      if (!frame || !section) return;
 
       const obs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
-            if (!video.paused) video.pause();
+            const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
+            frame.src = buildStreamIframeSrc(cfg.uid, {
+              autoplay: false,
+              muted: false,
+              loop: true,
+              controls: true
+            });
+            userStartedInlineVideo = false;
+            syncPlayOverlay();
           }
         });
       }, { threshold: [0, 0.35, 0.6, 1] });
@@ -2444,37 +2522,34 @@
       obs.observe(section);
     })();
 
-    /* Fullscreen modal (with real controls incl. fullscreen button on mobile browsers) */
-    function openVideoModal(src) {
+    /* Fullscreen modal using Cloudflare Stream */
+    function openVideoModal() {
       const modal = document.getElementById("videoModal");
-      const mv = document.getElementById("modalVideo");
-      if (!modal || !mv) return;
+      const frame = document.getElementById("videoModalFrame");
+      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
+      if (!modal || !frame || !cfg) return;
 
       modal.style.display = "block";
       document.body.style.overflow = "hidden";
 
-      mv.pause();
-      mv.src = src;
-      mv.load();
-      mv.play().catch(() => { });
+      frame.src = buildStreamIframeSrc(cfg.uid, {
+        autoplay: true,
+        muted: false,
+        loop: true,
+        controls: true
+      });
     }
 
     function closeVideoModal() {
       const modal = document.getElementById("videoModal");
-      const mv = document.getElementById("modalVideo");
-      if (mv) {
-        mv.pause();
-        mv.removeAttribute("src");
-        mv.load();
-      }
+      const frame = document.getElementById("videoModalFrame");
+      if (frame) frame.src = "";
       if (modal) modal.style.display = "none";
       document.body.style.overflow = "auto";
     }
 
     function openVideoModalFromInline() {
-      const video = document.getElementById("aboutVideo");
-      if (!video) return;
-      openVideoModal(video.currentSrc || video.src);
+      openVideoModal();
     }
 
     /* ===========================
@@ -2766,6 +2841,116 @@
         btn.disabled = false;
       }
     }
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function fetchJsonp(url) {
+      return new Promise((resolve, reject) => {
+        const callbackName = `djSarifJsonp_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+        const script = document.createElement("script");
+        const separator = url.includes("?") ? "&" : "?";
+
+        const cleanup = () => {
+          delete window[callbackName];
+          script.remove();
+        };
+
+        window[callbackName] = (data) => {
+          cleanup();
+          resolve(data);
+        };
+
+        script.onerror = () => {
+          cleanup();
+          reject(new Error("Apps Script JSONP request failed."));
+        };
+
+        script.src = `${url}${separator}callback=${encodeURIComponent(callbackName)}`;
+        document.body.appendChild(script);
+      });
+    }
+
+    async function loadApprovedReviews() {
+      const grid = document.getElementById("approvedReviews");
+      const empty = document.getElementById("approvedReviewsEmpty");
+      if (!grid) return;
+
+      grid.innerHTML = "";
+      const existingToggle = document.getElementById("approvedReviewsToggle");
+      if (existingToggle) existingToggle.remove();
+
+      try {
+        const data = await fetchJsonp(`${SCRIPT_URL}?action=approved_reviews`);
+        const reviews = Array.isArray(data?.reviews) ? data.reviews : [];
+
+        if (!reviews.length) {
+          if (empty) {
+            empty.style.display = "block";
+            empty.textContent = "No approved reviews posted yet.";
+          }
+          return;
+        }
+
+        if (empty) empty.style.display = "none";
+
+        const cards = [];
+        reviews.forEach((r, idx) => {
+          const stars = Math.max(1, Math.min(5, Number(r.rating || 5)));
+          const card = document.createElement("div");
+          card.style.background = "rgba(0,0,0,0.35)";
+          card.style.border = "1px solid rgba(255,255,255,0.12)";
+          card.style.borderRadius = "16px";
+          card.style.padding = "12px";
+          card.style.boxShadow = "0 0 18px rgba(0,229,255,0.10)";
+          card.style.marginBottom = "12px";
+
+          if (idx >= 3) card.style.display = "none";
+
+          card.innerHTML = `
+            <div style="font-weight:900; letter-spacing:2px; color:#ffd54a; margin-bottom:8px;">${"★".repeat(stars)}</div>
+            <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(r.text || "")}</div>
+            <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">— ${escapeHtml(r.name || "Client")}</div>
+            <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(r.eventType || "")}</div>
+          `;
+
+          grid.appendChild(card);
+          cards.push(card);
+        });
+
+        if (cards.length > 3) {
+          const btn = document.createElement("button");
+          btn.id = "approvedReviewsToggle";
+          btn.type = "button";
+          btn.className = "btn-primary";
+          btn.style.marginTop = "10px";
+          btn.textContent = "Show all reviews";
+
+          let expanded = false;
+          btn.addEventListener("click", () => {
+            expanded = !expanded;
+            cards.forEach((card, index) => {
+              if (index >= 3) card.style.display = expanded ? "block" : "none";
+            });
+            btn.textContent = expanded ? "Show less" : "Show all reviews";
+          });
+
+          grid.parentElement?.appendChild(btn);
+        }
+      } catch (err) {
+        if (empty) {
+          empty.style.display = "block";
+          empty.textContent = "Unable to load approved reviews right now.";
+        }
+        console.warn("Unable to load approved reviews.", err);
+      }
+    }
       /* ===========================
      OSM AUTOCOMPLETE (Nominatim)
      =========================== */
@@ -2824,6 +3009,7 @@
 
     // Ensure play overlay is correct on load (only if your function exists)
     if (typeof syncPlayOverlay === "function") syncPlayOverlay();
+    loadApprovedReviews();
   });
 
   /* ================================
@@ -2839,8 +3025,15 @@
     const EVENT_LEARN_MORE_URL = EVENT_TICKET_URL;
 
     const CALENDAR_ID = "e9dd4be6ec069d0e0d06489b2b39c6e731f968bbabc86dd05197f5ff4bfba32f@group.calendar.google.com";
-    const API_KEY = "AIzaSyAQ6LSVYg3IbsqDL3enpNX_NkehpdXgXcY";
     const MAX_EVENTS = 50;
+    const PUBLIC_EVENT_OVERRIDES = [
+      {
+        date: "2026-05-16",
+        title: "One Bottle Down - Neon May",
+        location: "Boozemandu, Pickerington, OH • 9 PM - 11:59 PM",
+        url: EVENT_TICKET_URL
+      }
+    ];
 
     const EVENT_POPUP_STORAGE_KEY = `djSarifEventPopupSeen:${EVENT_DATE}`;
     const PRIVATE_KEYWORDS = ["private", "wedding", "corporate"];
@@ -2922,10 +3115,8 @@
 
     function hasCalendarConfig() {
       return (
-        CALENDAR_ID &&
-        API_KEY &&
-        CALENDAR_ID !== "YOUR_CALENDAR_ID" &&
-        API_KEY !== "YOUR_API_KEY"
+        typeof SCRIPT_URL === "string" &&
+        SCRIPT_URL.includes("script.google.com")
       );
     }
 
@@ -2945,6 +3136,7 @@
         item?.description || "",
         item?.location || "",
         item?.summary || "",
+        item?.title || "",
         item?.htmlLink || ""
       ];
 
@@ -2957,20 +3149,57 @@
       return "";
     }
 
+    function getPublicEventOverride(date, title, location) {
+      const eventDate = new Date(date);
+      const ymd = Number.isNaN(eventDate.getTime())
+        ? ""
+        : eventDate.toISOString().slice(0, 10);
+      const haystack = `${title || ""} ${location || ""}`.toLowerCase();
+
+      return PUBLIC_EVENT_OVERRIDES.find((eventItem) => {
+        if (eventItem.date && eventItem.date === ymd) return true;
+        if (eventItem.title && haystack.includes(eventItem.title.toLowerCase())) return true;
+        return false;
+      });
+    }
+
     function normalizeCalendarEvent(item) {
+      if (item?.date && item?.title) {
+        const override = getPublicEventOverride(item.date, item.title, item.location);
+        if (override) {
+          return {
+            date: new Date(item.date),
+            title: override.title,
+            location: override.location || item.location || "Location TBA",
+            url: override.url,
+            privateEvent: false
+          };
+        }
+
+        return {
+          date: new Date(item.date),
+          title: item.privateEvent ? "PRIVATE EVENT" : item.title,
+          location: item.location || "Booked",
+          url: item.privateEvent ? "" : item.url,
+          privateEvent: !!item.privateEvent
+        };
+      }
+
       const startValue = item?.start?.dateTime || item?.start?.date;
       const eventDate = startValue ? new Date(startValue) : new Date(EVENT_DATE);
       const rawTitle = item?.summary || EVENT_TITLE;
       const rawLocation = item?.location || "";
       const rawDescription = item?.description || "";
       const eventbriteUrl = findEventbriteUrl(item);
-      const privateEvent = !eventbriteUrl || isPrivateEvent(rawTitle, rawLocation, rawDescription);
+      const override = getPublicEventOverride(eventDate, rawTitle, rawLocation);
+      const publicUrl = override?.url || eventbriteUrl;
+      const privateEvent = !publicUrl || isPrivateEvent(rawTitle, rawLocation, rawDescription);
 
       return {
         date: eventDate,
-        title: privateEvent ? "PRIVATE EVENT" : rawTitle,
-        location: rawLocation || (privateEvent ? "Booked" : "Location TBA"),
-        url: privateEvent ? "" : eventbriteUrl,
+        title: privateEvent ? "PRIVATE EVENT" : (override?.title || rawTitle),
+        location: override?.location || rawLocation || (privateEvent ? "Booked" : "Location TBA"),
+        url: privateEvent ? "" : publicUrl,
         privateEvent
       };
     }
@@ -3058,18 +3287,14 @@
           return;
         }
 
-        const now = new Date().toISOString();
-        const url =
-          `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events` +
-          `?key=${encodeURIComponent(API_KEY)}` +
-          `&timeMin=${encodeURIComponent(now)}` +
-          `&singleEvents=true&orderBy=startTime&maxResults=${MAX_EVENTS}`;
+        const data = await fetchJsonp(`${SCRIPT_URL}?action=calendar_events&limit=${MAX_EVENTS}`);
+        if (data?.ok === false) throw new Error(data.error || "Calendar request failed.");
 
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Calendar request failed: ${response.status}`);
+        const sourceEvents = Array.isArray(data?.events)
+          ? data.events
+          : (Array.isArray(data?.items) ? data.items : []);
 
-        const data = await response.json();
-        const events = (data.items || [])
+        const events = sourceEvents
           .filter((item) => item?.status !== "cancelled")
           .map(normalizeCalendarEvent)
           .filter((eventItem) => eventItem.date.getTime() >= Date.now())
