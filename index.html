@@ -1710,6 +1710,204 @@
       box-shadow: 0 0 18px rgba(255, 0, 255, .18);
     }
 
+    .event-promo-featured {
+      border: 1px solid rgba(0, 229, 255, .28);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .055);
+      overflow: hidden;
+      box-shadow: inset 0 0 24px rgba(255, 0, 255, .08);
+    }
+
+    .event-promo-featured-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      object-fit: cover;
+      background: #05010a;
+    }
+
+    .event-promo-featured-body {
+      padding: 16px;
+    }
+
+    .event-promo-status {
+      display: inline-flex;
+      width: max-content;
+      max-width: 100%;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, rgba(255, 0, 255, .55), rgba(0, 229, 255, .45));
+      box-shadow: 0 0 18px rgba(255, 0, 255, .18);
+    }
+
+    .event-promo-featured-title {
+      margin: 12px 0 6px;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 1;
+      text-shadow: 0 0 18px rgba(255, 0, 255, .36);
+    }
+
+    .event-promo-meta {
+      margin: 0;
+      color: rgba(255, 255, 255, .82);
+      font-weight: 800;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .event-promo-featured-text {
+      margin: 12px 0 0;
+      color: rgba(255, 255, 255, .86);
+      line-height: 1.55;
+    }
+
+    .event-promo-modal-events {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0 18px 18px;
+      max-height: 38vh;
+      overflow-y: auto;
+    }
+
+    .event-promo-mini-card {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(255, 255, 255, .05);
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+    }
+
+    .event-promo-mini-card.is-highlighted {
+      border-color: rgba(0, 229, 255, .55);
+      box-shadow: 0 0 22px rgba(0, 229, 255, .12);
+    }
+
+    .event-promo-mini-image {
+      width: 74px;
+      height: 74px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #05010a;
+    }
+
+    .event-promo-mini-title {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .event-promo-mini-meta {
+      margin: 5px 0 8px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 11px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .event-promo-selector {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      z-index: 9997;
+      width: min(760px, calc(100vw - 32px));
+      padding: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 229, 255, .24);
+      background: rgba(0, 0, 0, .82);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 28px rgba(255, 0, 255, .18), 0 0 26px rgba(0, 229, 255, .10);
+    }
+
+    .event-promo-selector-label {
+      margin: 0 0 8px;
+      color: var(--neon1);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .event-promo-selector-list {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+    }
+
+    .event-promo-pill {
+      flex: 0 0 auto;
+      min-width: 150px;
+      max-width: 220px;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(255, 255, 255, .055);
+      color: #fff;
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .event-promo-pill:hover,
+    .event-promo-pill.is-active {
+      border-color: rgba(0, 229, 255, .48);
+      box-shadow: 0 0 18px rgba(0, 229, 255, .12);
+    }
+
+    .event-promo-pill-date {
+      display: grid;
+      place-items: center;
+      min-height: 42px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 0, 255, .38);
+      color: var(--neon1);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .event-promo-pill-title {
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .event-promo-pill-sub {
+      display: block;
+      margin-top: 2px;
+      color: rgba(255, 255, 255, .68);
+      font-size: 11px;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
     .event-promo-sidebar {
       position: fixed;
       top: 120px;
@@ -1869,11 +2067,11 @@
     @media (max-width: 768px) {
       body {
         font-size: 15px;
-        padding-bottom: 112px;
+        padding-bottom: 188px;
       }
 
       .overlay {
-        padding-bottom: 112px;
+        padding-bottom: 188px;
       }
 
       header {
@@ -2026,10 +2224,84 @@
         width: 100%;
         margin: 12px 0;
         border-radius: 18px;
+        max-height: calc(100dvh - 24px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
 
       .event-promo-title {
         font-size: 42px;
+      }
+
+      .event-promo-featured {
+        grid-template-columns: 1fr;
+      }
+
+      .event-promo-featured-image {
+        min-height: 240px;
+        order: -1;
+      }
+
+      .event-promo-featured-body {
+        padding: 20px 16px;
+      }
+
+      .event-promo-featured-title {
+        font-size: 32px;
+        line-height: 1.05;
+        overflow-wrap: anywhere;
+      }
+
+      .event-promo-meta,
+      .event-promo-featured-text {
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+
+      .event-promo-modal-events {
+        grid-template-columns: 1fr;
+        max-height: none;
+        overflow: visible;
+        padding: 0 12px 14px;
+      }
+
+      .event-promo-mini-card {
+        grid-template-columns: 64px minmax(0, 1fr);
+        width: 100%;
+      }
+
+      .event-promo-mini-image {
+        width: 64px;
+        height: 64px;
+      }
+
+      .event-promo-selector {
+        bottom: calc(62px + env(safe-area-inset-bottom));
+        width: calc(100vw - 18px);
+        max-height: 112px;
+        padding: 8px;
+        border-radius: 16px;
+      }
+
+      .event-promo-selector-label {
+        margin-bottom: 6px;
+        font-size: 10px;
+      }
+
+      .event-promo-selector-list {
+        gap: 7px;
+      }
+
+      .event-promo-pill {
+        min-width: 138px;
+        max-width: 170px;
+        grid-template-columns: 38px minmax(0, 1fr);
+        padding: 7px;
+      }
+
+      .event-promo-pill-date {
+        min-height: 38px;
+        font-size: 10px;
       }
 
       .event-promo-date {
@@ -2469,6 +2741,7 @@
 
   <!-- EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
   <div id="eventPromoPopupRoot" aria-live="polite"></div>
+  <div id="eventPromoSelectorRoot" aria-live="polite"></div>
 
   <!-- END EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
 
@@ -3408,14 +3681,30 @@
 
   /* ================================
      EVENT PROMOTION SYSTEM: JS ADDITIONS
-     Google Calendar powered upcoming events + one-time event popup.
+     Google Calendar powered upcoming events + reusable multi-event popup.
      ================================ */
   (() => {
-    const EVENT_DATE = "2026-05-16T23:59:59";
-    const EVENT_TITLE = "DJ SARIF LIVE";
-    const EVENT_DISPLAY_DATE = "May 16";
-    const EVENT_IMAGE = "event-promo-may16.png";
-    const EVENT_TICKET_URL = "https://www.eventbrite.com/e/one-bottle-down-neon-may-tickets-1988322436933?keep_tld=true";
+    const PROMO_EVENTS = [
+      {
+        id: "one-bottle-down-neon-may",
+        title: "One Bottle Down - Neon May",
+        date: "2026-05-16",
+        time: "9 PM - 11:59 PM",
+        location: "Boozemandu, Pickerington, OH",
+        image: "event-promo-may16.png",
+        description: "Neon night energy with DJ Sarif. Pure energy, clean mixes, and a dance floor built for the moment.",
+        ticketUrl: "https://www.eventbrite.com/e/one-bottle-down-neon-may-tickets-1988322436933?keep_tld=true",
+        detailsUrl: "",
+        statusLabel: "Tickets Available",
+        showUntil: "2026-05-16T23:59:59"
+      }
+    ];
+
+    const PRIMARY_PROMO_EVENT = PROMO_EVENTS[0] || {};
+    const EVENT_DATE = PRIMARY_PROMO_EVENT.showUntil || "2026-05-16T23:59:59";
+    const EVENT_TITLE = PRIMARY_PROMO_EVENT.title || "DJ SARIF LIVE";
+    const EVENT_IMAGE = PRIMARY_PROMO_EVENT.image || "event-promo-may16.png";
+    const EVENT_TICKET_URL = PRIMARY_PROMO_EVENT.ticketUrl || PRIMARY_PROMO_EVENT.detailsUrl || "#booking";
     const EVENT_LEARN_MORE_URL = EVENT_TICKET_URL;
 
     const CALENDAR_ID = "e9dd4be6ec069d0e0d06489b2b39c6e731f968bbabc86dd05197f5ff4bfba32f@group.calendar.google.com";
@@ -3429,7 +3718,6 @@
       }
     ];
 
-    const EVENT_POPUP_STORAGE_KEY = `djSarifEventPopupSeen:${EVENT_DATE}`;
     const PRIVATE_KEYWORDS = ["private", "wedding", "corporate"];
 
     let eventPromoPreviousOverflow = "";
@@ -3438,21 +3726,83 @@
       return Date.now() > new Date(dateString).getTime();
     }
 
-    function shouldShowPopup() {
-      return false;
-      if (isEventExpired(EVENT_DATE)) return false;
-      return true;
+    function getPromoExpiration(eventItem) {
+      const fallback = eventItem?.date ? `${eventItem.date}T23:59:59` : EVENT_DATE;
+      return new Date(eventItem?.showUntil || fallback);
     }
 
-    function markPopupSeen() {
-      // Intentionally empty: this event popup should show on every page refresh.
+    function getPromoDate(eventItem) {
+      const date = new Date(`${eventItem?.date || ""}T12:00:00`);
+      return Number.isNaN(date.getTime()) ? getPromoExpiration(eventItem) : date;
+    }
+
+    function isActivePromoEvent(eventItem) {
+      const expires = getPromoExpiration(eventItem);
+      return eventItem && !Number.isNaN(expires.getTime()) && expires.getTime() >= Date.now();
+    }
+
+    function getActivePromoEvents() {
+      return PROMO_EVENTS
+        .filter(isActivePromoEvent)
+        .sort((a, b) => getPromoDate(a) - getPromoDate(b));
+    }
+
+    function shouldShowPopup() {
+      return getActivePromoEvents().length > 0;
+    }
+
+    function formatPromoDate(eventItem) {
+      const date = getPromoDate(eventItem);
+      if (Number.isNaN(date.getTime())) return "Date TBA";
+      return date.toLocaleString("en-US", { month: "short", day: "numeric" });
+    }
+
+    function formatPromoFullDate(eventItem) {
+      const date = getPromoDate(eventItem);
+      if (Number.isNaN(date.getTime())) return "Date TBA";
+      return date.toLocaleString("en-US", { weekday: "short", month: "long", day: "numeric" });
+    }
+
+    function getPromoUrl(eventItem) {
+      return eventItem?.ticketUrl || eventItem?.detailsUrl || "";
+    }
+
+    function getPromoButtonLabel(eventItem) {
+      if (eventItem?.ticketUrl) return "Get Tickets";
+      if (eventItem?.detailsUrl) return "View Details";
+      return "Message DJ Sarif";
+    }
+
+    function sanitizePromoUrl(value) {
+      const url = String(value || "");
+      if (!url) return "";
+      if (url.startsWith("#")) return url;
+
+      try {
+        const parsed = new URL(url, window.location.href);
+        if (parsed.protocol === "http:" || parsed.protocol === "https:" || parsed.protocol === "sms:" || parsed.protocol === "mailto:" || parsed.protocol === "tel:") {
+          return parsed.href;
+        }
+      } catch (error) {}
+
+      return "";
+    }
+
+    function renderPromoAction(eventItem, extraClass = "") {
+      const url = sanitizePromoUrl(getPromoUrl(eventItem));
+      const label = getPromoButtonLabel(eventItem);
+      if (url) {
+        const target = url.startsWith("http") ? ' target="_blank" rel="noopener"' : "";
+        return `<a class="event-promo-button ${extraClass}" href="${escapeEventHtml(url)}"${target}>${escapeEventHtml(label)}</a>`;
+      }
+
+      return `<a class="event-promo-button ${extraClass}" href="sms:+16147726549">Message DJ Sarif</a>`;
     }
 
     function closeEventPopup() {
       const popup = document.getElementById("eventPromoPopup");
       if (!popup) return;
 
-      markPopupSeen();
       popup.classList.remove("is-visible");
       document.body.style.overflow = eventPromoPreviousOverflow;
 
@@ -3461,29 +3811,53 @@
       }, 280);
     }
 
-    function renderPopup() {
+    function renderPopup(selectedEventId) {
       const root = document.getElementById("eventPromoPopupRoot");
-      if (!root || !shouldShowPopup()) return;
+      const activeEvents = getActivePromoEvents();
+      if (!root || !activeEvents.length) {
+        if (root) root.innerHTML = "";
+        return;
+      }
+
+      const featuredEvent = activeEvents.find((eventItem) => eventItem.id === selectedEventId) || activeEvents[0];
+      const extraCards = activeEvents.length > 1
+        ? `
+          <div class="event-promo-modal-events" aria-label="More upcoming promoted events">
+            ${activeEvents.map((eventItem) => {
+              const highlighted = eventItem.id === featuredEvent.id ? " is-highlighted" : "";
+              return `
+                <button class="event-promo-mini-card${highlighted}" type="button" data-event-promo-select="${escapeEventHtml(eventItem.id)}">
+                  <img class="event-promo-mini-image" src="${escapeEventHtml(eventItem.image || EVENT_IMAGE)}" alt="">
+                  <span class="event-promo-mini-title">${escapeEventHtml(eventItem.title)}</span>
+                  <span class="event-promo-mini-meta">${escapeEventHtml(formatPromoDate(eventItem))}${eventItem.time ? ` • ${escapeEventHtml(eventItem.time)}` : ""}</span>
+                </button>
+              `;
+            }).join("")}
+          </div>
+        `
+        : "";
 
       root.innerHTML = `
-        <div class="event-promo-popup" id="eventPromoPopup" role="dialog" aria-modal="true" aria-label="${EVENT_TITLE}">
+        <div class="event-promo-popup" id="eventPromoPopup" role="dialog" aria-modal="true" aria-label="${escapeEventHtml(featuredEvent.title)}">
           <div class="event-promo-modal">
             <button class="event-promo-close" type="button" aria-label="Close event popup" data-event-promo-close>&times;</button>
-            <div class="event-promo-modal-grid">
-              <div class="event-promo-copy">
-                <div class="event-promo-kicker">Live Event</div>
-                <h2 class="event-promo-title">${EVENT_TITLE}</h2>
-                <div class="event-promo-date">${EVENT_DISPLAY_DATE}</div>
-                <p class="event-promo-text">A night of pure energy, clean mixes, and a dance floor built for the moment.</p>
+            <div class="event-promo-featured">
+              <div class="event-promo-featured-image">
+                <img class="event-promo-image" src="${escapeEventHtml(featuredEvent.image || EVENT_IMAGE)}" alt="${escapeEventHtml(featuredEvent.title)} event poster">
+              </div>
+              <div class="event-promo-featured-body">
+                <div class="event-promo-status">${escapeEventHtml(featuredEvent.statusLabel || "Upcoming")}</div>
+                <h2 class="event-promo-featured-title">${escapeEventHtml(featuredEvent.title)}</h2>
+                <div class="event-promo-meta">${escapeEventHtml(formatPromoFullDate(featuredEvent))}${featuredEvent.time ? ` • ${escapeEventHtml(featuredEvent.time)}` : ""}</div>
+                <div class="event-promo-meta">${escapeEventHtml(featuredEvent.location || "Location TBA")}</div>
+                <p class="event-promo-featured-text">${escapeEventHtml(featuredEvent.description || "A premium DJ Sarif event with clean mixes and high energy.")}</p>
                 <div class="event-promo-actions">
-                  <a class="event-promo-button event-promo-button-primary" href="${EVENT_TICKET_URL}" target="_blank" rel="noopener">Get Tickets</a>
-                  <a class="event-promo-button" href="${EVENT_LEARN_MORE_URL}" data-event-promo-learn>Learn More</a>
+                  ${renderPromoAction(featuredEvent, "event-promo-button-primary")}
+                  <a class="event-promo-button" href="#contact" data-event-promo-close>Contact</a>
                 </div>
               </div>
-              <div class="event-promo-image-wrap">
-                <img class="event-promo-image" src="${EVENT_IMAGE}" alt="${EVENT_TITLE} event poster">
-              </div>
             </div>
+            ${extraCards}
           </div>
         </div>
       `;
@@ -3497,15 +3871,51 @@
       popup.addEventListener("click", (event) => {
         if (event.target === popup || event.target.closest("[data-event-promo-close]")) {
           closeEventPopup();
+          return;
+        }
+
+        const selected = event.target.closest("[data-event-promo-select]");
+        if (selected) {
+          renderPopup(selected.getAttribute("data-event-promo-select"));
         }
       });
 
-      const learnMore = popup.querySelector("[data-event-promo-learn]");
-      if (learnMore) {
-        learnMore.addEventListener("click", () => closeEventPopup());
+      requestAnimationFrame(() => popup.classList.add("is-visible"));
+    }
+
+    function renderPromoSelector(activeEvents = getActivePromoEvents()) {
+      const root = document.getElementById("eventPromoSelectorRoot");
+      if (!root) return;
+
+      if (!activeEvents.length) {
+        root.innerHTML = "";
+        return;
       }
 
-      requestAnimationFrame(() => popup.classList.add("is-visible"));
+      root.innerHTML = `
+        <aside class="event-promo-selector" aria-label="Promoted upcoming events">
+          <div class="event-promo-selector-label">Upcoming Events</div>
+          <div class="event-promo-selector-list">
+            ${activeEvents.map((eventItem, index) => `
+              <button class="event-promo-pill${index === 0 ? " is-active" : ""}" type="button" data-event-promo-open="${escapeEventHtml(eventItem.id)}">
+                <span class="event-promo-pill-date">${escapeEventHtml(formatPromoDate(eventItem))}</span>
+                <span>
+                  <span class="event-promo-pill-title">${escapeEventHtml(eventItem.title)}</span>
+                  <span class="event-promo-pill-sub">${escapeEventHtml(eventItem.statusLabel || "Upcoming")}</span>
+                </span>
+              </button>
+            `).join("")}
+          </div>
+        </aside>
+      `;
+
+      root.querySelectorAll("[data-event-promo-open]").forEach((button) => {
+        button.addEventListener("click", () => {
+          root.querySelectorAll(".event-promo-pill").forEach((pill) => pill.classList.remove("is-active"));
+          button.classList.add("is-active");
+          renderPopup(button.getAttribute("data-event-promo-open"));
+        });
+      });
     }
 
     function hasCalendarConfig() {
@@ -3704,7 +4114,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      renderPopup();
+      const activePromoEvents = getActivePromoEvents();
+      renderPromoSelector(activePromoEvents);
+      renderPopup(activePromoEvents[0]?.id);
       loadEvents();
     });
 
@@ -3714,6 +4126,7 @@
 
     window.shouldShowPopup = shouldShowPopup;
     window.renderPopup = renderPopup;
+    window.renderPromoSelector = renderPromoSelector;
     window.loadEvents = loadEvents;
   })();
 
@@ -3722,6 +4135,10 @@
      Reads local dashboard edits first, then events.json, then optional Google Calendar.
      ================================ */
   (() => {
+    // Disabled: this older dashboard events block overwrote the current
+    // Apps Script calendar events and popup rendering.
+    return;
+
     const EVENTS_KEY = "djSarifEvents";
     const SETTINGS_KEY = "djSarifDashboardSettings";
     const POPUP_SESSION_KEY = "djSarifFeaturedEventPopupSeen";
