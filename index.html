@@ -1869,7 +1869,11 @@
     @media (max-width: 768px) {
       body {
         font-size: 15px;
-        padding-bottom: 64px;
+        padding-bottom: 112px;
+      }
+
+      .overlay {
+        padding-bottom: 112px;
       }
 
       header {
@@ -1968,23 +1972,48 @@
         position: relative;
         inset: auto;
         z-index: 3;
-        width: auto;
+        width: calc(100% - 24px);
         max-width: none;
-        margin: 18px 12px;
+        margin: 18px auto 108px;
         padding: 16px;
         border-radius: 18px;
+        overflow: hidden;
+        pointer-events: auto;
       }
 
       .event-promo-list {
         max-height: none;
         overflow: visible;
         padding-right: 0;
+        width: 100%;
       }
 
       .event-promo-card {
-        grid-template-columns: 58px 1fr;
+        grid-template-columns: 58px minmax(0, 1fr);
         gap: 10px;
         padding: 10px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .event-promo-card>div:last-child {
+        min-width: 0;
+      }
+
+      .event-promo-card-title,
+      .event-promo-card-location {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: normal;
+      }
+
+      .event-promo-card-link,
+      .event-promo-booked-tag {
+        max-width: 100%;
+        white-space: normal;
+        text-align: center;
       }
 
       .event-promo-popup {
@@ -2046,16 +2075,17 @@
       .floating-sms,
       .floating-email,
       .whatsapp-float {
-        right: 10px;
-        width: 44px;
-        height: 44px;
-        font-size: 18px;
+        bottom: 76px;
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+        opacity: .9;
       }
 
-      .floating-call { bottom: 248px; }
-      .floating-sms { bottom: 198px; }
-      .floating-email { bottom: 148px; }
-      .whatsapp-float { bottom: 98px; }
+      .floating-call { right: 146px; }
+      .floating-sms { right: 100px; }
+      .floating-email { right: 54px; }
+      .whatsapp-float { right: 8px; }
 
       .vip-orb {
         left: 12px;
@@ -2064,11 +2094,30 @@
         height: 54px;
       }
 
+      .vip-orb:before,
+      .vip-orb-label {
+        pointer-events: none;
+      }
+
       .vip-panel-wrap {
         left: 10px;
         right: 10px;
         bottom: 144px;
         width: auto;
+      }
+
+      .vip-panel:not(.open) {
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .vip-panel.open {
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .mobile-book-bar {
+        padding-bottom: max(14px, env(safe-area-inset-bottom));
       }
     }
 
@@ -2083,7 +2132,7 @@
       }
 
       .event-promo-card {
-        grid-template-columns: 52px 1fr;
+        grid-template-columns: 52px minmax(0, 1fr);
       }
 
       .event-promo-date-badge {
@@ -2372,6 +2421,18 @@
 
     <div class="neon-divider"></div>
 
+    <!-- EVENT PROMOTION SYSTEM: UPCOMING EVENTS -->
+    <aside class="event-promo-sidebar" id="eventPromoSidebar" aria-label="Upcoming Events">
+      <div class="event-promo-sidebar-kicker">Upcoming Events</div>
+      <h2 class="event-promo-sidebar-title">WHERE I'M PLAYING NEXT</h2>
+      <div class="event-promo-list" id="eventPromoList">
+        <p class="event-promo-empty">Loading upcoming dates...</p>
+      </div>
+    </aside>
+    <!-- END EVENT PROMOTION SYSTEM: UPCOMING EVENTS -->
+
+    <div class="neon-divider"></div>
+
     <!-- BOOKING -->
     <section class="card" id="booking">
       <h2>Book Your Event</h2>
@@ -2409,13 +2470,6 @@
   <!-- EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
   <div id="eventPromoPopupRoot" aria-live="polite"></div>
 
-  <aside class="event-promo-sidebar" id="eventPromoSidebar" aria-label="Upcoming Events">
-    <div class="event-promo-sidebar-kicker">Upcoming Events</div>
-    <h2 class="event-promo-sidebar-title">WHERE I'M PLAYING NEXT</h2>
-    <div class="event-promo-list" id="eventPromoList">
-      <p class="event-promo-empty">Loading upcoming dates...</p>
-    </div>
-  </aside>
   <!-- END EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
 
   <!-- VIP Orb -->
@@ -2967,6 +3021,51 @@
     }
 
     /* ===========================
+       LOCAL DASHBOARD CAPTURE
+       This lets dashboard.html manage submissions made in the same browser.
+       For all visitor submissions on the live site, connect these same fields
+       in Google Apps Script, Firebase, Supabase, or another backend.
+       =========================== */
+    const DASHBOARD_CLIENTS_KEY = "djSarifClients";
+    const DASHBOARD_REVIEWS_KEY = "djSarifReviews";
+
+    function getDashboardCollection(key) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(value) ? value : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveDashboardCollection(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function captureDashboardClient(record) {
+      const clients = getDashboardCollection(DASHBOARD_CLIENTS_KEY);
+      clients.unshift({
+        id: `client-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        status: "new",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        ...record
+      });
+      saveDashboardCollection(DASHBOARD_CLIENTS_KEY, clients);
+    }
+
+    function captureDashboardReview(record) {
+      const reviews = getDashboardCollection(DASHBOARD_REVIEWS_KEY);
+      reviews.unshift({
+        id: `review-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        ...record
+      });
+      saveDashboardCollection(DASHBOARD_REVIEWS_KEY, reviews);
+    }
+
+    /* ===========================
        VIP submit
        =========================== */
     async function submitVIP(e) {
@@ -2993,6 +3092,21 @@
         const fd = new FormData(form);
         fd.append("source", "vip");
         fd.append("eventDate", `${yyyy}-${mm}-${dd}`);
+        captureDashboardClient({
+          name: fd.get("name") || "",
+          email: fd.get("email") || "",
+          phone: fd.get("phone") || "",
+          eventType: fd.get("eventType") || "",
+          eventDate: `${yyyy}-${mm}-${dd}`,
+          location: fd.get("venue") || "",
+          rate: "",
+          notes: [
+            fd.get("specialRequests") || "",
+            fd.get("guests") ? `Guests: ${fd.get("guests")}` : "",
+            fd.get("startTime") ? `Start: ${fd.get("startTime")}` : "",
+            fd.get("duration") ? `Duration: ${fd.get("duration")}` : ""
+          ].filter(Boolean).join("\n")
+        });
 
         await postFormData(SCRIPT_URL, fd);
 
@@ -3023,6 +3137,16 @@
       try {
         const fd = new FormData(form);
         fd.append("source", "client_access");
+        captureDashboardClient({
+          name: fd.get("clientName") || "",
+          email: fd.get("clientEmail") || "",
+          phone: "",
+          eventType: fd.get("eventType") || "",
+          eventDate: fd.get("eventDate") || "",
+          location: fd.get("location") || "",
+          rate: fd.get("rate") || "",
+          notes: fd.get("notes") || ""
+        });
 
         await postFormData(SCRIPT_URL, fd);
 
@@ -3059,6 +3183,13 @@
       try {
         const fd = new FormData(form);
         fd.append("source", "review");
+        captureDashboardReview({
+          name: fd.get("reviewerName") || "",
+          email: fd.get("reviewerEmail") || "",
+          eventType: fd.get("eventType") || "",
+          rating: fd.get("rating") || "",
+          text: fd.get("reviewText") || ""
+        });
 
         await postFormData(SCRIPT_URL, fd);
 
@@ -3121,7 +3252,18 @@
 
       try {
         const data = await fetchJsonp(`${SCRIPT_URL}?action=approved_reviews`);
-        const reviews = Array.isArray(data?.reviews) ? data.reviews : [];
+        const localApprovedReviews = getDashboardCollection(DASHBOARD_REVIEWS_KEY)
+          .filter((review) => review.status === "approved")
+          .map((review) => ({
+            name: review.name,
+            text: review.text,
+            rating: review.rating,
+            eventType: review.eventType
+          }));
+        const reviews = [
+          ...localApprovedReviews,
+          ...(Array.isArray(data?.reviews) ? data.reviews : [])
+        ];
 
         if (!reviews.length) {
           if (empty) {
@@ -3177,6 +3319,25 @@
           grid.parentElement?.appendChild(btn);
         }
       } catch (err) {
+        const localApprovedReviews = getDashboardCollection(DASHBOARD_REVIEWS_KEY)
+          .filter((review) => review.status === "approved");
+
+        if (localApprovedReviews.length) {
+          if (empty) empty.style.display = "none";
+          grid.innerHTML = localApprovedReviews.map((review) => {
+            const stars = Math.max(1, Math.min(5, Number(review.rating || 5)));
+            return `
+              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:12px; box-shadow:0 0 18px rgba(0,229,255,0.10); margin-bottom:12px;">
+                <div style="font-weight:900; letter-spacing:2px; color:#ffd54a; margin-bottom:8px;">${"★".repeat(stars)}</div>
+                <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(review.text || "")}</div>
+                <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">- ${escapeHtml(review.name || "Client")}</div>
+                <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(review.eventType || "")}</div>
+              </div>
+            `;
+          }).join("");
+          return;
+        }
+
         if (empty) {
           empty.style.display = "block";
           empty.textContent = "Unable to load approved reviews right now.";
@@ -3278,6 +3439,7 @@
     }
 
     function shouldShowPopup() {
+      return false;
       if (isEventExpired(EVENT_DATE)) return false;
       return true;
     }
@@ -3553,6 +3715,278 @@
     window.shouldShowPopup = shouldShowPopup;
     window.renderPopup = renderPopup;
     window.loadEvents = loadEvents;
+  })();
+
+  /* ================================
+     DASHBOARD CONNECTED EVENTS
+     Reads local dashboard edits first, then events.json, then optional Google Calendar.
+     ================================ */
+  (() => {
+    const EVENTS_KEY = "djSarifEvents";
+    const SETTINGS_KEY = "djSarifDashboardSettings";
+    const POPUP_SESSION_KEY = "djSarifFeaturedEventPopupSeen";
+    const DEFAULT_SETTINGS = {
+      popupEnabled: true,
+      eventSource: "manual",
+      googleCalendarApiKey: "",
+      googleCalendarId: "",
+      hiddenSections: []
+    };
+
+    let dashboardEventPromoPreviousOverflow = "";
+
+    function getTodayStart() {
+      const now = new Date();
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    }
+
+    function escapeDashboardEventHtml(value) {
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function sanitizeDashboardEventUrl(value) {
+      const url = String(value || "#");
+      if (url.startsWith("#")) return url;
+
+      try {
+        const parsed = new URL(url, window.location.href);
+        if (parsed.protocol === "http:" || parsed.protocol === "https:") return parsed.href;
+      } catch (error) {}
+
+      return "#";
+    }
+
+    function getDashboardSettings() {
+      try {
+        return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}") };
+      } catch (error) {
+        return { ...DEFAULT_SETTINGS };
+      }
+    }
+
+    function getDashboardLocalEvents() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(EVENTS_KEY) || "[]");
+        return Array.isArray(stored) ? stored : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    async function getEventsJsonData() {
+      try {
+        const response = await fetch("events.json", { cache: "no-store" });
+        if (!response.ok) throw new Error(`events.json request failed (${response.status})`);
+        return await response.json();
+      } catch (error) {
+        console.warn("Unable to load events.json.", error);
+        return {};
+      }
+    }
+
+    function normalizeManualEvent(eventItem) {
+      return {
+        id: eventItem.id || `${eventItem.title || "event"}-${eventItem.date || ""}`,
+        title: eventItem.title || "DJ Sarif Live",
+        date: eventItem.date || "",
+        time: eventItem.time || "",
+        venue: eventItem.venue || "Venue TBA",
+        cityState: eventItem.cityState || "",
+        ticketLink: eventItem.ticketLink || eventItem.url || "#",
+        image: eventItem.image || "event-promo-may16.png",
+        status: eventItem.status || "active",
+        featured: !!eventItem.featured
+      };
+    }
+
+    function isActiveFutureEvent(eventItem) {
+      if (!eventItem.date || eventItem.status !== "active") return false;
+      const eventDate = new Date(`${eventItem.date}T23:59:59`);
+      return !Number.isNaN(eventDate.getTime()) && eventDate >= getTodayStart();
+    }
+
+    function sortEvents(a, b) {
+      if (a.featured !== b.featured) return a.featured ? -1 : 1;
+      return new Date(a.date) - new Date(b.date);
+    }
+
+    function formatDashboardDate(dateString) {
+      const date = new Date(`${dateString}T12:00:00`);
+      if (Number.isNaN(date.getTime())) return { month: "TBA", day: "" };
+      return {
+        month: date.toLocaleString("en-US", { month: "short" }),
+        day: date.toLocaleString("en-US", { day: "2-digit" })
+      };
+    }
+
+    async function getGoogleCalendarEvents(settings) {
+      const apiKey = settings.googleCalendarApiKey;
+      const calendarId = settings.googleCalendarId;
+      if (!apiKey || !calendarId) return [];
+
+      const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`);
+      url.searchParams.set("key", apiKey);
+      url.searchParams.set("singleEvents", "true");
+      url.searchParams.set("orderBy", "startTime");
+      url.searchParams.set("timeMin", new Date().toISOString());
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Google Calendar request failed (${response.status})`);
+        const data = await response.json();
+        return (Array.isArray(data.items) ? data.items : []).map((item) => {
+          const startValue = item?.start?.dateTime || item?.start?.date || "";
+          const eventDate = startValue ? new Date(startValue) : null;
+          return normalizeManualEvent({
+            id: item.id,
+            title: item.summary || "DJ Sarif Event",
+            date: eventDate && !Number.isNaN(eventDate.getTime()) ? eventDate.toISOString().slice(0, 10) : "",
+            time: eventDate && item?.start?.dateTime ? eventDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "",
+            venue: item.location || "Venue TBA",
+            cityState: "",
+            ticketLink: item.htmlLink || "#",
+            image: "event-promo-may16.png",
+            status: item.status === "cancelled" ? "expired" : "active",
+            featured: false
+          });
+        });
+      } catch (error) {
+        console.warn("Unable to load Google Calendar events.", error);
+        return [];
+      }
+    }
+
+    async function getHomepageEventsAndSettings() {
+      const localSettings = getDashboardSettings();
+      const localEvents = getDashboardLocalEvents();
+      const jsonData = await getEventsJsonData();
+      const settings = { ...DEFAULT_SETTINGS, ...(jsonData.settings || {}), ...localSettings };
+
+      if (settings.eventSource === "google" && settings.googleCalendarApiKey && settings.googleCalendarId) {
+        const googleEvents = await getGoogleCalendarEvents(settings);
+        if (googleEvents.length) return { settings, events: googleEvents };
+      }
+
+      const sourceEvents = localEvents.length ? localEvents : (Array.isArray(jsonData.events) ? jsonData.events : []);
+      return { settings, events: sourceEvents.map(normalizeManualEvent) };
+    }
+
+    function renderDashboardEvents(events) {
+      const list = document.getElementById("eventPromoList");
+      if (!list) return;
+
+      const activeEvents = events.filter(isActiveFutureEvent).sort(sortEvents);
+      if (!activeEvents.length) {
+        list.innerHTML = '<p class="event-promo-empty">No public upcoming dates posted yet. Check back soon.</p>';
+        return;
+      }
+
+      list.innerHTML = activeEvents.map((eventItem) => {
+        const dateParts = formatDashboardDate(eventItem.date);
+        const location = [eventItem.venue, eventItem.cityState].filter(Boolean).join(", ");
+        const time = eventItem.time ? ` • ${eventItem.time}` : "";
+        const safeUrl = sanitizeDashboardEventUrl(eventItem.ticketLink);
+        const button = safeUrl === "#"
+          ? '<span class="event-promo-booked-tag">Details Soon</span>'
+          : `<a class="event-promo-card-link" href="${safeUrl}" target="_blank" rel="noopener">Get Tickets</a>`;
+
+        return `
+          <article class="event-promo-card">
+            <div class="event-promo-date-badge" aria-label="${dateParts.month} ${dateParts.day}">
+              <span class="event-promo-month">${dateParts.month}</span>
+              <span class="event-promo-day">${dateParts.day}</span>
+            </div>
+            <div>
+              <h3 class="event-promo-card-title">${escapeDashboardEventHtml(eventItem.title)}</h3>
+              <p class="event-promo-card-location">${escapeDashboardEventHtml(location)}${escapeDashboardEventHtml(time)}</p>
+              ${button}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function closeDashboardEventPopup() {
+      const popup = document.getElementById("eventPromoPopup");
+      if (!popup) return;
+
+      sessionStorage.setItem(POPUP_SESSION_KEY, "true");
+      popup.classList.remove("is-visible");
+      document.body.style.overflow = dashboardEventPromoPreviousOverflow;
+
+      setTimeout(() => popup.remove(), 280);
+    }
+
+    function renderDashboardPopup(events, settings) {
+      const root = document.getElementById("eventPromoPopupRoot");
+      if (!root || !settings.popupEnabled || sessionStorage.getItem(POPUP_SESSION_KEY) === "true") return;
+
+      const eventItem = events.filter(isActiveFutureEvent).sort(sortEvents).find((item) => item.featured);
+      if (!eventItem) return;
+
+      const location = [eventItem.venue, eventItem.cityState].filter(Boolean).join(", ");
+      const dateLabel = [eventItem.date, eventItem.time].filter(Boolean).join(" • ");
+      const safeUrl = sanitizeDashboardEventUrl(eventItem.ticketLink);
+      const safeImage = escapeDashboardEventHtml(eventItem.image || "event-promo-may16.png");
+
+      root.innerHTML = `
+        <div class="event-promo-popup" id="eventPromoPopup" role="dialog" aria-modal="true" aria-label="${escapeDashboardEventHtml(eventItem.title)}">
+          <div class="event-promo-modal">
+            <button class="event-promo-close" type="button" aria-label="Close event popup" data-event-promo-close>&times;</button>
+            <div class="event-promo-modal-grid">
+              <div class="event-promo-copy">
+                <div class="event-promo-kicker">Featured Event</div>
+                <h2 class="event-promo-title">${escapeDashboardEventHtml(eventItem.title)}</h2>
+                <div class="event-promo-date">${escapeDashboardEventHtml(dateLabel)}</div>
+                <p class="event-promo-text">${escapeDashboardEventHtml(location)}</p>
+                <div class="event-promo-actions">
+                  ${safeUrl === "#" ? "" : `<a class="event-promo-button event-promo-button-primary" href="${safeUrl}" target="_blank" rel="noopener">Get Tickets</a>`}
+                  <button class="event-promo-button" type="button" data-event-promo-close>Close</button>
+                </div>
+              </div>
+              <div class="event-promo-image-wrap">
+                <img class="event-promo-image" src="${safeImage}" alt="${escapeDashboardEventHtml(eventItem.title)} event image">
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const popup = document.getElementById("eventPromoPopup");
+      if (!popup) return;
+
+      dashboardEventPromoPreviousOverflow = document.body.style.overflow || "";
+      document.body.style.overflow = "hidden";
+      popup.addEventListener("click", (event) => {
+        if (event.target === popup || event.target.closest("[data-event-promo-close]")) {
+          closeDashboardEventPopup();
+        }
+      });
+      requestAnimationFrame(() => popup.classList.add("is-visible"));
+    }
+
+    function applyHomepageSectionControls(settings) {
+      (settings.hiddenSections || []).forEach((sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (section) section.style.display = "none";
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const { settings, events } = await getHomepageEventsAndSettings();
+      applyHomepageSectionControls(settings);
+      renderDashboardEvents(events);
+      renderDashboardPopup(events, settings);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeDashboardEventPopup();
+    });
   })();
   </script>
 </body>
