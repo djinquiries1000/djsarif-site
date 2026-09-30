@@ -34,14 +34,24 @@ async function handleVideo(request, env) {
     } else if (url.pathname.startsWith('/api/videos/file/') && ['GET','HEAD'].includes(request.method)) {
       const id = url.pathname.slice('/api/videos/file/'.length);
       if (!/^[a-f0-9-]{36}\.mp4$/.test(id)) return json({ok:false},404);
-      const object = await env.VIDEOS.get('clips/'+id,{range:request.headers,onlyIf:request.headers});
-      if (!object) response = new Response('Video not found',{status:404});
-      else if (!object.body) response = new Response(null,{status:304,headers:{ETag:object.httpEtag}});
-      else {
-        const headers = new Headers({'Content-Type':'video/mp4','X-Content-Type-Options':'nosniff','Accept-Ranges':'bytes','ETag':object.httpEtag,'Cache-Control':'public, max-age=31536000, immutable'});
-        if (object.range) {headers.set('Content-Range',`bytes ${object.range.offset}-${object.range.offset+object.range.length-1}/${object.size}`);headers.set('Content-Length',String(object.range.length))} else headers.set('Content-Length',String(object.size));
-        response = new Response(request.method === 'HEAD' ? null : object.body,{status:object.range?206:200,headers});
+      const metadata = await env.VIDEOS.head('clips/'+id);
+      if (!metadata) return new Response('Video not found',{status:404});
+      if (request.headers.get('If-None-Match') === metadata.httpEtag) return new Response(null,{status:304,headers:{ETag:metadata.httpEtag}});
+      let range;
+      const rawRange=request.headers.get('Range'),ifRange=request.headers.get('If-Range');
+      if (rawRange && (!ifRange || ifRange===metadata.httpEtag)) {
+        const match=/^bytes=(\d*)-(\d*)$/.exec(rawRange);
+        if(!match || (!match[1]&&!match[2])) return new Response(null,{status:416,headers:{'Content-Range':'bytes */'+metadata.size}});
+        const start=match[1]?Number(match[1]):Math.max(0,metadata.size-Number(match[2]));
+        const end=match[1]&&match[2]?Math.min(Number(match[2]),metadata.size-1):metadata.size-1;
+        if(!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start>end||start>=metadata.size) return new Response(null,{status:416,headers:{'Content-Range':'bytes */'+metadata.size}});
+        range={offset:start,length:end-start+1};
       }
+      const object=request.method==='HEAD'?null:await env.VIDEOS.get('clips/'+id,range?{range}:{});
+      const headers = new Headers({'Content-Type':'video/mp4','X-Content-Type-Options':'nosniff','Accept-Ranges':'bytes','ETag':metadata.httpEtag,'Cache-Control':'public, max-age=31536000, immutable'});
+      if(range)headers.set('Content-Range',`bytes ${range.offset}-${range.offset+range.length-1}/${metadata.size}`);
+      headers.set('Content-Length',String(range?range.length:metadata.size));
+      response=new Response(object?object.body:null,{status:range?206:200,headers});
     } else if (url.pathname === '/api/videos/upload' && request.method === 'PUT') {
       const p = await claims(request,env,'upload');
       if (request.headers.get('Content-Type') !== 'video/mp4' || Number(request.headers.get('Content-Length')) !== p.size) return json({ok:false,error:'Choose an MP4 under 100 MB.'},400);
