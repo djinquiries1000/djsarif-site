@@ -1,0 +1,3545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DJ Sarif — Stage Layout</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+
+  <style>
+    :root {
+      --bg1: #05010a;
+      --neon1: #ff00ff;
+      --neon2: #00e5ff;
+      --text: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--bg1);
+      color: var(--text);
+      overflow-x: hidden;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    h1 {
+      font-size: 50px;
+      text-shadow: 0 0 20px var(--neon1);
+      margin: 0 0 10px;
+    }
+
+    h2 {
+      font-size: 24px;
+      text-shadow: 0 0 10px var(--neon2);
+      margin: 0 0 10px;
+    }
+
+    h3 {
+      font-size: 22px;
+      margin: 0 0 10px;
+    }
+
+    h4 {
+      font-size: 18px;
+      margin: 0 0 10px;
+    }
+
+    /* anchor offset for sticky nav */
+    #about,
+    #media,
+    #services,
+    #reviews,
+    #calendar,
+    #booking,
+    #contact {
+      scroll-margin-top: 90px;
+    }
+
+    /* ================================
+        CLUB BACKGROUND (SPEAKER + DJ)
+       ================================ */
+    .bg-wave {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.14;
+      mix-blend-mode: screen;
+      filter: blur(.6px) saturate(120%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-controller {
+      position: fixed;
+      left: 50%;
+      top: 180px;
+      transform: translateX(-50%);
+      width: min(980px, 95vw);
+      height: auto;
+      opacity: 0.16;
+      filter:
+        drop-shadow(0 0 40px rgba(255, 0, 255, .35)) drop-shadow(0 0 50px rgba(0, 229, 255, .30));
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @media (max-width:768px) {
+      .bg-controller {
+        display: none;
+      }
+
+      .bg-wave {
+        opacity: 0.10;
+      }
+    }
+
+    /* Main site overlay */
+    .overlay {
+      position: relative;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.72);
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    .image-row {
+      display: flex;
+      justify-content: center;
+      gap: 22px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .cover-img {
+      width: 280px;
+      height: 280px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 3px solid var(--neon1);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+      transition: .3s;
+    }
+
+    .cover-img:hover {
+      transform: scale(1.05);
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.75);
+      margin: 30px;
+      padding: 30px;
+      border-radius: 25px;
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      text-decoration: none;
+      transition: .3s;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.08);
+    }
+
+    .socials a {
+      color: var(--neon2);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 0;
+      font-size: 14px;
+      opacity: .9;
+    }
+
+    .neon-divider {
+      width: 70%;
+      height: 2px;
+      margin: 50px auto;
+      background: linear-gradient(90deg, transparent, var(--neon1), var(--neon2), transparent);
+      box-shadow: 0 0 12px var(--neon1), 0 0 22px var(--neon2);
+      border-radius: 10px;
+    }
+
+    /* === TOP NAV + DROPDOWNS === */
+    .topnav {
+      position: sticky;
+      top: 0;
+      z-index: 9998;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      position: relative;
+    }
+
+    .brand {
+      font-weight: 900;
+      letter-spacing: .6px;
+      text-decoration: none;
+      color: #fff;
+      text-shadow: 0 0 18px var(--neon1);
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link,
+    .nav-btn {
+      color: #fff;
+      font-weight: 900;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 999px;
+      transition: .25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: inherit;
+    }
+
+    .nav-link:hover,
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 46px;
+      right: 0;
+      min-width: 230px;
+      background: rgba(0, 0, 0, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      box-shadow: 0 0 22px rgba(0, 229, 255, 0.18);
+      border-radius: 16px;
+      padding: 10px;
+      display: none;
+      transform-origin: top right;
+      animation: ddIn .18s ease-out;
+      z-index: 9999;
+    }
+
+    @keyframes ddIn {
+      from {
+        opacity: 0;
+        transform: translateY(-6px) scale(.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .nav-item:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .dropdown a:hover {
+      background: rgba(255, 0, 255, 0.14);
+      box-shadow: 0 0 10px rgba(255, 0, 255, 0.25);
+    }
+
+    .hamburger {
+      display: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 900;
+      font-family: inherit;
+    }
+
+    @media (max-width:900px) {
+      .hamburger {
+        display: inline-flex;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 60px;
+        margin: 0 12px;
+        padding: 14px;
+        flex-direction: column;
+        align-items: stretch;
+        background: rgba(0, 0, 0, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 18px;
+        box-shadow: 0 0 28px rgba(0, 0, 0, 0.55);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .dropdown {
+        position: static;
+        display: none;
+        margin-top: 8px;
+      }
+
+      .nav-item.open .dropdown {
+        display: block;
+      }
+
+      .nav-item:hover .dropdown {
+        display: none;
+      }
+    }
+
+    /* Client Access button styling (nav) */
+    .client-btn {
+      border: 2px solid rgba(255, 0, 255, 0.85);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 0 18px rgba(255, 0, 255, 0.18);
+    }
+
+    .client-btn:hover {
+      background: rgba(255, 0, 255, 0.20);
+      box-shadow: 0 0 24px rgba(255, 0, 255, 0.30);
+    }
+
+    /* === WIZARD === */
+    .pre-wizard {
+      position: fixed;
+      inset: 0;
+      z-index: 20000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: auto;
+    }
+
+    .pre-wizard.hidden {
+      display: none;
+    }
+
+    .pre-wizard-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      pointer-events: auto;
+    }
+
+    .pre-wizard-content {
+      position: relative;
+      z-index: 20001;
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.95);
+      padding: 30px;
+      border-radius: 24px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 40px var(--neon1);
+    }
+
+    .wizard-option-btn {
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 16px;
+    }
+
+    .wizard-skip-btn {
+      margin-top: 14px;
+      padding: 12px 26px;
+      border-radius: 30px;
+      border: 2px solid var(--neon2);
+      background: transparent;
+      color: var(--neon2);
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* === FLOATING CONTACT BUTTONS (RIGHT) === */
+    .floating-call,
+    .floating-sms,
+    .floating-email,
+    .whatsapp-float {
+      position: fixed;
+      right: 20px;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      color: white;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      z-index: 999;
+    }
+
+    .floating-call {
+      bottom: 260px;
+      background: linear-gradient(90deg, var(--neon2), #00bcd4);
+    }
+
+    .floating-sms {
+      bottom: 200px;
+      background: linear-gradient(90deg, var(--neon1), #ff6aff);
+    }
+
+    .floating-email {
+      bottom: 140px;
+      background: linear-gradient(90deg, #ff9800, #ffc107);
+    }
+
+    .whatsapp-float {
+      bottom: 80px;
+      background: #25d366;
+    }
+
+    /* === MOBILE STICKY BOOK BAR === */
+    .mobile-book-bar {
+      display: none;
+    }
+
+    @media (max-width:768px) {
+      .mobile-book-bar {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(90deg, var(--neon1), var(--neon2));
+        padding: 14px 0;
+        text-align: center;
+        z-index: 9999;
+      }
+
+      .mobile-book-bar a {
+        color: white;
+        font-size: 18px;
+        font-weight: 900;
+        text-decoration: none;
+      }
+    }
+
+    /* ===========================
+        SERVICES SECTION
+       =========================== */
+    .services-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 20px;
+    }
+
+    .services-head {
+      margin: 0 0 18px;
+      text-align: left;
+    }
+
+    .services-head h2 {
+      font-size: 28px;
+      margin: 0 0 6px;
+      text-shadow: 0 0 12px rgba(255, 0, 255, .55);
+    }
+
+    .services-head p {
+      margin: 0;
+      opacity: .88;
+      font-size: 14px;
+      max-width: 760px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1050px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .service-card {
+      border-radius: 18px;
+      padding: 16px 16px 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+        0 0 26px rgba(0, 0, 0, 0.55);
+      position: relative;
+      overflow: hidden;
+      min-height: 140px;
+    }
+
+    .service-card:before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 30% 20%, rgba(255, 0, 255, .25), rgba(0, 229, 255, .12), transparent 55%);
+      transform: rotate(8deg);
+      opacity: .9;
+      pointer-events: none;
+    }
+
+    .service-title {
+      position: relative;
+      z-index: 2;
+      font-weight: 900;
+      font-size: 14px;
+      margin: 0 0 8px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 0, 255, .35);
+    }
+
+    .service-text {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      font-size: 12.5px;
+      opacity: .90;
+      line-height: 1.55;
+      max-width: 320px;
+    }
+
+    /* =================================================
+       SERVICES POP EFFECT — ADDED (HOVER ANIMATION)
+    ================================================== */
+
+    /* Base */
+    #services .service-card {
+      transform: translateY(0) scale(1);
+      transition:
+        transform .35s cubic-bezier(.2, .8, .2, 1),
+        box-shadow .35s cubic-bezier(.2, .8, .2, 1),
+        border-color .35s cubic-bezier(.2, .8, .2, 1),
+        filter .35s cubic-bezier(.2, .8, .2, 1);
+      will-change: transform;
+    }
+
+    /* Hover anywhere in Services section */
+    #services:hover .service-card {
+      transform: translateY(-8px) scale(1.035);
+      border-color: rgba(0, 229, 255, 0.22);
+      box-shadow:
+        0 18px 60px rgba(0, 0, 0, .65),
+        0 0 0 1px rgba(255, 255, 255, .06) inset,
+        0 0 40px rgba(255, 0, 255, .15),
+        0 0 36px rgba(0, 229, 255, .12);
+      filter: saturate(1.06) brightness(1.03);
+    }
+
+    /* Cascade */
+    #services:hover .service-card:nth-child(1) {
+      transition-delay: 0ms;
+    }
+
+    #services:hover .service-card:nth-child(2) {
+      transition-delay: 60ms;
+    }
+
+    #services:hover .service-card:nth-child(3) {
+      transition-delay: 120ms;
+    }
+
+    #services:hover .service-card:nth-child(4) {
+      transition-delay: 180ms;
+    }
+
+    /* Extra lift on direct hover */
+    #services .service-card:hover {
+      transform: translateY(-12px) scale(1.055);
+      border-color: rgba(255, 0, 255, 0.35);
+      transition-delay: 0ms;
+    }
+
+    /* Reduced motion */
+    @media(prefers-reduced-motion:reduce) {
+
+      #services .service-card,
+      #services:hover .service-card {
+        transition: none !important;
+        transform: none !important;
+      }
+    }
+
+    /* ===========================
+        VIP FLOATING SIGNUP
+       =========================== */
+    .vip-orb {
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: radial-gradient(circle at 30% 30%, rgba(255, 0, 255, .95), rgba(0, 229, 255, .78), rgba(0, 0, 0, .2));
+      box-shadow: 0 0 18px rgba(255, 0, 255, .55), 0 0 26px rgba(0, 229, 255, .45);
+      cursor: pointer;
+      z-index: 10000;
+      display: grid;
+      place-items: center;
+      animation: orbFloat 2.6s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .vip-orb:before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 90deg, rgba(255, 0, 255, 0), rgba(255, 0, 255, .45), rgba(0, 229, 255, .45), rgba(255, 0, 255, 0));
+      filter: blur(1px);
+      animation: spin 2.3s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes orbFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-6px);
+      }
+    }
+
+    .vip-orb-label {
+      position: relative;
+      z-index: 2;
+      font-weight: 900;
+      letter-spacing: .6px;
+      font-size: 14px;
+      color: #fff;
+      text-shadow: 0 0 12px rgba(0, 229, 255, .8);
+      user-select: none;
+    }
+
+    .vip-panel-wrap {
+      position: fixed;
+      left: 18px;
+      bottom: 92px;
+      width: min(420px, calc(100vw - 36px));
+      z-index: 10001;
+      pointer-events: none;
+    }
+
+    .vip-panel {
+      pointer-events: auto;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .08), rgba(0, 0, 0, .62));
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 22px;
+      box-shadow:
+        0 0 0 1px rgba(0, 229, 255, .18) inset,
+        0 0 28px rgba(0, 229, 255, .14),
+        0 0 38px rgba(255, 0, 255, .12);
+      overflow: hidden;
+      opacity: 0;
+      transition: .22s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .vip-panel.open {
+      opacity: 1;
+    }
+
+    .vip-head {
+      padding: 18px 18px 10px;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .vip-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 900;
+      text-shadow: 0 0 14px rgba(255, 0, 255, .55);
+    }
+
+    .vip-sub {
+      margin: 6px 0 0;
+      font-size: 13px;
+      opacity: .85;
+      max-width: 280px;
+    }
+
+    .vip-close {
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1;
+      transition: .2s;
+    }
+
+    .vip-close:hover {
+      transform: scale(1.05);
+    }
+
+    .vip-body {
+      padding: 0 18px 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .vip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media (max-width:520px) {
+      .vip-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .vip-input,
+    .vip-select,
+    .vip-textarea {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .vip-input::placeholder,
+    .vip-textarea::placeholder {
+      color: rgba(255, 255, 255, .65);
+    }
+
+    .vip-textarea {
+      min-height: 80px;
+      resize: vertical;
+      grid-column: 1/-1;
+    }
+
+    .vip-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .vip-btn {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 900;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      color: #fff;
+      transition: .22s;
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .vip-btn:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .vip-ghost {
+      flex: 1;
+      min-width: 160px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .22s;
+      font-family: inherit;
+    }
+
+    .vip-ghost:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .vip-note {
+      font-size: 12px;
+      opacity: .82;
+      margin-top: 10px;
+    }
+
+    .vip-success {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(0, 229, 255, 0.10);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.12);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .vip-error {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 0, 255, 0.10);
+      border: 1px solid rgba(255, 0, 255, 0.25);
+      box-shadow: 0 0 18px rgba(255, 0, 255, 0.12);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .date-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      gap: 10px;
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width:520px) {
+      .date-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* PROFILE MODAL */
+    #profileModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10050;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+    }
+
+    .modal-card {
+      position: relative;
+      max-width: 900px;
+      width: 92%;
+      margin: 6vh auto;
+      background: rgba(0, 0, 0, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 26px;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.18);
+      padding: 20px;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .modal-close {
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .modal-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    @media(max-width:800px) {
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .modal-grid img {
+      width: 100%;
+      height: 280px;
+      border-radius: 20px;
+      object-fit: cover;
+    }
+
+    .about-box {
+      margin-top: 14px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .about-box h3 {
+      margin: 0;
+      color: var(--neon2);
+      text-shadow: 0 0 10px var(--neon2);
+    }
+
+    /* CLIENT ACCESS MODAL */
+    #clientAccessModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10060;
+    }
+
+    .client-modal-card {
+      position: relative;
+      max-width: 900px;
+      width: 92%;
+      margin: 6vh auto;
+      background: rgba(0, 0, 0, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 26px;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.18);
+      padding: 20px;
+    }
+
+    .client-modal-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .client-modal-close {
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .client-form {
+      margin-top: 14px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .client-form h3 {
+      margin: 0;
+      color: var(--neon2);
+      text-shadow: 0 0 10px var(--neon2);
+    }
+
+    .client-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media(max-width:700px) {
+      .client-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .client-input,
+    .client-select,
+    .client-textarea {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .client-textarea {
+      min-height: 90px;
+      resize: vertical;
+      grid-column: 1 / -1;
+    }
+
+    .client-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .client-btn-primary {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 900;
+      padding: 12px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      color: #fff;
+      transition: .22s;
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .client-btn-primary:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .client-btn-ghost {
+      flex: 1;
+      min-width: 160px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .22s;
+      font-family: inherit;
+    }
+
+    .client-btn-ghost:hover {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    .client-terms {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 0, 255, 0.20);
+      box-shadow: 0 0 18px rgba(255, 0, 255, 0.08);
+      font-size: 13px;
+      opacity: .92;
+    }
+
+    /* ===========================
+       OSM AUTOCOMPLETE STYLING
+       =========================== */
+    .autoComplete_wrapper {
+      width: 100%;
+    }
+
+    .autoComplete_wrapper input {
+      width: 100% !important;
+      padding: 12px 12px !important;
+      border-radius: 14px !important;
+      border: 1px solid rgba(0, 229, 255, 0.22) !important;
+      background: rgba(0, 0, 0, 0.35) !important;
+      color: #fff !important;
+      outline: none !important;
+      font-family: inherit !important;
+      font-weight: 700 !important;
+      font-size: 14px !important;
+    }
+
+    .autoComplete_wrapper input::placeholder {
+      color: rgba(255, 255, 255, .65) !important;
+    }
+
+    .autoComplete_wrapper>ul {
+      background: rgba(0, 0, 0, 0.96) !important;
+      border: 1px solid rgba(0, 229, 255, 0.25) !important;
+      border-radius: 14px !important;
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.18) !important;
+      padding: 6px !important;
+      margin-top: 8px !important;
+      z-index: 200000 !important;
+      max-height: 260px !important;
+      overflow-y: auto !important;
+    }
+
+    .autoComplete_wrapper>ul>li {
+      color: #fff !important;
+      border-radius: 12px !important;
+      margin: 4px 0 !important;
+      font-weight: 750 !important;
+    }
+
+    .autoComplete_wrapper>ul>li:hover {
+      background: rgba(255, 0, 255, 0.14) !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ===== MEDIA (Tabs + Player) ===== */
+    .media-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .media-tab {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      font-weight: 900;
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    .media-tab:hover {
+      transform: translateY(-1px);
+    }
+
+    .media-tab.active {
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      border-color: rgba(0, 229, 255, 0.25);
+    }
+
+    .media-player {
+      max-width: 520px;
+      margin: 16px auto 0;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(255, 0, 255, 0.30);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 12px;
+      position: relative;
+    }
+
+    .media-player video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 16px;
+      background: #000;
+    }
+
+    .stream-shell {
+      width: 100%;
+      border-radius: 16px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+    }
+
+    .stream-shell iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #000;
+      border-radius: 16px;
+    }
+
+    /* Logo overlay on video */
+    .media-logo {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 64px;
+      height: auto;
+      z-index: 5;
+      opacity: 0.92;
+      filter:
+        drop-shadow(0 0 8px rgba(0, 229, 255, 0.6)) drop-shadow(0 0 12px rgba(255, 0, 255, 0.45));
+      pointer-events: none;
+    }
+
+    .media-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .media-caption {
+      margin-top: 14px;
+      font-size: 14px;
+      opacity: .85;
+    }
+
+    /* Glow highlight */
+    .media-glow {
+      animation: mediaGlow 1.2s ease-in-out 2;
+    }
+
+    @keyframes mediaGlow {
+      0% {
+        box-shadow: 0 0 18px rgba(0, 229, 255, 0.20), 0 0 24px rgba(255, 0, 255, 0.18);
+      }
+
+      50% {
+        box-shadow: 0 0 34px rgba(0, 229, 255, 0.55), 0 0 46px rgba(255, 0, 255, 0.40);
+      }
+
+      100% {
+        box-shadow: 0 0 18px rgba(0, 229, 255, 0.20), 0 0 24px rgba(255, 0, 255, 0.18);
+      }
+    }
+
+    /* Custom Play Overlay button (big play) */
+    .play-overlay {
+      position: absolute;
+      inset: 12px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.55));
+      z-index: 6;
+      opacity: 1;
+      transition: opacity .18s ease, transform .18s ease;
+      pointer-events: auto;
+    }
+
+    .play-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.98);
+    }
+
+    .play-btn {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: linear-gradient(135deg, rgba(255, 0, 255, 0.9), rgba(0, 229, 255, 0.85));
+      box-shadow: 0 0 28px rgba(255, 0, 255, 0.28), 0 0 34px rgba(0, 229, 255, 0.22);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform .15s ease;
+    }
+
+    .play-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    .play-tri {
+      width: 0;
+      height: 0;
+      border-left: 18px solid #fff;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 6px;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+    }
+
+    /* VIDEO MODAL */
+    #videoModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 11000;
+    }
+
+    .video-modal-card {
+      position: relative;
+      max-width: 980px;
+      width: 92%;
+      margin: 6vh auto;
+      background: rgba(0, 0, 0, 0.92);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: 26px;
+      box-shadow: 0 0 40px rgba(255, 0, 255, 0.18);
+      padding: 14px;
+    }
+
+    .video-modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 6px 12px;
+    }
+
+    .video-modal-top h3 {
+      margin: 0;
+    }
+
+    .video-modal-close {
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 14px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .video-modal-player {
+      border-radius: 18px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.12);
+    }
+
+    .video-modal-player video {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #000;
+    }
+
+    .video-modal-player iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      min-height: 260px;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+
+    @media (max-width: 520px) {
+      .video-modal-card {
+        margin: 8vh auto;
+      }
+    }
+
+    /* ===== Reviews (submission only; no fake reviews) ===== */
+    .review-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 0 26px rgba(0, 229, 255, 0.12);
+    }
+
+    .review-grid {
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    @media (max-width:700px) {
+      .review-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .review-input,
+    .review-select,
+    .review-textarea {
+      width: 100%;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      outline: none;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .review-textarea {
+      min-height: 110px;
+      resize: vertical;
+      grid-column: 1 / -1;
+    }
+
+    .stars-row {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 0, 255, 0.20);
+      background: rgba(0, 0, 0, 0.30);
+      box-shadow: 0 0 18px rgba(255, 0, 255, 0.08);
+    }
+
+    .stars {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .star-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform .12s ease, box-shadow .12s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .star-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .star-btn.active {
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.18), 0 0 22px rgba(255, 0, 255, 0.16);
+    }
+
+    .star {
+      font-size: 20px;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.22));
+    }
+
+    .rating-pill {
+      font-weight: 900;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      white-space: nowrap;
+    }
+
+    .review-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .review-note {
+      font-size: 12px;
+      opacity: .82;
+      margin-top: 10px;
+    }
+
+    /* ================================
+       EVENT PROMOTION SYSTEM: CSS ADDITIONS
+       Scoped classes only; safe to reuse.
+       ================================ */
+    .event-promo-popup {
+      position: fixed;
+      inset: 0;
+      z-index: 21050;
+      display: grid;
+      place-items: center;
+      padding: 22px;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .28s ease;
+    }
+
+    .event-promo-popup.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .event-promo-modal {
+      position: relative;
+      width: min(860px, 94vw);
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 0, 255, .58);
+      background:
+        linear-gradient(135deg, rgba(0, 0, 0, .78), rgba(4, 0, 10, .94)),
+        rgba(0, 0, 0, .92);
+      box-shadow:
+        0 0 32px rgba(255, 0, 255, .38),
+        0 0 56px rgba(0, 229, 255, .20);
+      transform: translateY(14px) scale(.97);
+      transition: transform .28s ease;
+    }
+
+    .event-promo-popup.is-visible .event-promo-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .event-promo-modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      min-height: 430px;
+    }
+
+    .event-promo-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      padding: 42px;
+      text-align: left;
+    }
+
+    .event-promo-kicker,
+    .event-promo-sidebar-kicker {
+      color: var(--neon1);
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    .event-promo-title {
+      margin: 0;
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .92;
+      text-shadow: 0 0 22px rgba(255, 0, 255, .34);
+    }
+
+    .event-promo-date {
+      width: max-content;
+      max-width: 100%;
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 229, 255, .74);
+      color: #fff;
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      box-shadow: 0 0 18px rgba(0, 229, 255, .20), inset 0 0 18px rgba(255, 0, 255, .16);
+    }
+
+    .event-promo-text {
+      margin: 0;
+      color: rgba(255, 255, 255, .86);
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .event-promo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .event-promo-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 13px 26px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 229, 255, .58);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 900;
+      background: rgba(255, 255, 255, .04);
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .event-promo-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(0, 229, 255, .24);
+    }
+
+    .event-promo-button-primary {
+      border-color: transparent;
+      background: linear-gradient(90deg, var(--neon1), var(--neon2));
+      box-shadow: 0 0 26px rgba(255, 0, 255, .26);
+    }
+
+    .event-promo-image-wrap {
+      position: relative;
+      min-height: 430px;
+      background: #05010a;
+    }
+
+    .event-promo-image-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0, 0, 0, .72), transparent 46%);
+      pointer-events: none;
+    }
+
+    .event-promo-image {
+      width: 100%;
+      height: 100%;
+      min-height: 430px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .event-promo-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, .20);
+      background: rgba(0, 0, 0, .46);
+      color: #fff;
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(255, 0, 255, .18);
+    }
+
+    .event-promo-featured {
+      border: 1px solid rgba(0, 229, 255, .28);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .055);
+      overflow: hidden;
+      box-shadow: inset 0 0 24px rgba(255, 0, 255, .08);
+    }
+
+    .event-promo-featured-image {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      display: block;
+      object-fit: cover;
+      background: #05010a;
+    }
+
+    .event-promo-featured-body {
+      padding: 16px;
+    }
+
+    .event-promo-status {
+      display: inline-flex;
+      width: max-content;
+      max-width: 100%;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, rgba(255, 0, 255, .55), rgba(0, 229, 255, .45));
+      box-shadow: 0 0 18px rgba(255, 0, 255, .18);
+    }
+
+    .event-promo-featured-title {
+      margin: 12px 0 6px;
+      font-size: clamp(30px, 5vw, 54px);
+      line-height: 1;
+      text-shadow: 0 0 18px rgba(255, 0, 255, .36);
+    }
+
+    .event-promo-meta {
+      margin: 0;
+      color: rgba(255, 255, 255, .82);
+      font-weight: 800;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .event-promo-featured-text {
+      margin: 12px 0 0;
+      color: rgba(255, 255, 255, .86);
+      line-height: 1.55;
+    }
+
+    .event-promo-modal-events {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 0 18px 18px;
+      max-height: 38vh;
+      overflow-y: auto;
+    }
+
+    .event-promo-mini-card {
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr);
+      gap: 10px;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(255, 255, 255, .05);
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+    }
+
+    .event-promo-mini-card.is-highlighted {
+      border-color: rgba(0, 229, 255, .55);
+      box-shadow: 0 0 22px rgba(0, 229, 255, .12);
+    }
+
+    .event-promo-mini-image {
+      width: 74px;
+      height: 74px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #05010a;
+    }
+
+    .event-promo-mini-title {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.25;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .event-promo-mini-meta {
+      margin: 5px 0 8px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 11px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .event-promo-selector {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      z-index: 9997;
+      width: min(760px, calc(100vw - 32px));
+      padding: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 229, 255, .24);
+      background: rgba(0, 0, 0, .82);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 28px rgba(255, 0, 255, .18), 0 0 26px rgba(0, 229, 255, .10);
+    }
+
+    .event-promo-selector-label {
+      margin: 0 0 8px;
+      color: var(--neon1);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .event-promo-selector-list {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+    }
+
+    .event-promo-pill {
+      flex: 0 0 auto;
+      min-width: 150px;
+      max-width: 220px;
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(255, 255, 255, .055);
+      color: #fff;
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .event-promo-pill:hover,
+    .event-promo-pill.is-active {
+      border-color: rgba(0, 229, 255, .48);
+      box-shadow: 0 0 18px rgba(0, 229, 255, .12);
+    }
+
+    .event-promo-pill-date {
+      display: grid;
+      place-items: center;
+      min-height: 42px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 0, 255, .38);
+      color: var(--neon1);
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .event-promo-pill-title {
+      display: block;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .event-promo-pill-sub {
+      display: block;
+      margin-top: 2px;
+      color: rgba(255, 255, 255, .68);
+      font-size: 11px;
+      line-height: 1.2;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .event-promo-sidebar {
+      position: fixed;
+      top: 120px;
+      right: 18px;
+      z-index: 60;
+      width: min(300px, calc(100vw - 36px));
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 229, 255, .24);
+      background: rgba(0, 0, 0, .78);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 28px rgba(255, 0, 255, .16), 0 0 30px rgba(0, 229, 255, .10);
+    }
+
+    .event-promo-sidebar-title {
+      margin: 6px 0 14px;
+      font-size: 18px;
+      line-height: 1.2;
+      text-shadow: 0 0 12px rgba(0, 229, 255, .58);
+    }
+
+    .event-promo-list {
+      display: grid;
+      gap: 10px;
+      max-height: min(62vh, 640px);
+      overflow-y: auto;
+      padding-right: 4px;
+      scrollbar-color: rgba(255, 0, 255, .55) rgba(255, 255, 255, .08);
+    }
+
+    .event-promo-card {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .event-promo-date-badge {
+      display: grid;
+      place-items: center;
+      min-height: 62px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 0, 255, .48);
+      background: rgba(0, 0, 0, .46);
+      box-shadow: inset 0 0 18px rgba(0, 229, 255, .08), 0 0 18px rgba(255, 0, 255, .14);
+      text-align: center;
+      line-height: 1;
+    }
+
+    .event-promo-month {
+      color: var(--neon1);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .event-promo-day {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 900;
+    }
+
+    .event-promo-card-title {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.25;
+      font-weight: 900;
+    }
+
+    .event-promo-card-location {
+      margin: 5px 0 9px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 12px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .event-promo-card-link,
+    .event-promo-booked-tag {
+      display: inline-flex;
+      width: max-content;
+      max-width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 229, 255, .38);
+      color: #fff;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      background: rgba(0, 0, 0, .34);
+    }
+
+    .event-promo-booked-tag {
+      border-color: rgba(255, 0, 255, .38);
+      color: var(--neon1);
+    }
+
+    .event-promo-empty {
+      margin: 0;
+      color: rgba(255, 255, 255, .74);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1180px) {
+      .event-promo-sidebar {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: auto;
+        max-width: 900px;
+        margin: 18px auto 0;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .event-promo-modal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .event-promo-copy {
+        padding: 30px 22px;
+      }
+
+      .event-promo-image-wrap,
+      .event-promo-image {
+        min-height: 260px;
+      }
+
+      .event-promo-image-wrap {
+        order: -1;
+      }
+
+      .event-promo-image-wrap::after {
+        background: linear-gradient(0deg, rgba(0, 0, 0, .74), transparent 62%);
+      }
+
+      .event-promo-actions {
+        flex-direction: column;
+      }
+
+      .event-promo-button {
+        width: 100%;
+      }
+    }
+
+    /* ================================
+       MOBILE POLISH ADDITIONS
+       Keeps all desktop behavior intact.
+       ================================ */
+    @media (max-width: 768px) {
+      body {
+        font-size: 15px;
+        padding-bottom: 188px;
+      }
+
+      .overlay {
+        padding-bottom: 188px;
+      }
+
+      header {
+        padding: 34px 14px 22px;
+      }
+
+      h1 {
+        font-size: 34px;
+        line-height: 1.12;
+      }
+
+      h2 {
+        font-size: 19px;
+        line-height: 1.35;
+      }
+
+      .image-row {
+        gap: 12px;
+      }
+
+      .cover-img {
+        width: min(42vw, 180px);
+        height: min(42vw, 180px);
+        border-radius: 16px;
+      }
+
+      .card {
+        margin: 16px 12px;
+        padding: 20px 14px;
+        border-radius: 18px;
+      }
+
+      #about>div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      #about img[style*="width:160px"] {
+        width: 130px !important;
+        height: 130px !important;
+      }
+
+      .media-player {
+        max-width: 100%;
+        padding: 8px;
+        border-radius: 18px;
+      }
+
+      .stream-shell,
+      .stream-shell iframe {
+        border-radius: 12px;
+      }
+
+      .media-logo {
+        width: 48px;
+        top: 10px;
+        left: 10px;
+      }
+
+      .play-btn {
+        width: 68px;
+        height: 68px;
+      }
+
+      .services-wrap {
+        padding: 0 12px 16px;
+      }
+
+      .services-head {
+        text-align: center;
+      }
+
+      .review-actions,
+      .client-actions,
+      .vip-actions {
+        flex-direction: column;
+      }
+
+      .review-actions .btn-primary,
+      .client-actions button,
+      .vip-actions button {
+        width: 100%;
+      }
+
+      .calendar-wrap {
+        max-width: 100% !important;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      #calendar iframe {
+        min-width: 720px;
+        height: 520px !important;
+      }
+
+      .event-promo-sidebar {
+        position: relative;
+        inset: auto;
+        z-index: 3;
+        width: calc(100% - 24px);
+        max-width: none;
+        margin: 18px auto 108px;
+        padding: 16px;
+        border-radius: 18px;
+        overflow: hidden;
+        pointer-events: auto;
+      }
+
+      .event-promo-list {
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+        width: 100%;
+      }
+
+      .event-promo-card {
+        grid-template-columns: 58px minmax(0, 1fr);
+        gap: 10px;
+        padding: 10px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .event-promo-card>div:last-child {
+        min-width: 0;
+      }
+
+      .event-promo-card-title,
+      .event-promo-card-location {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-break: normal;
+      }
+
+      .event-promo-card-link,
+      .event-promo-booked-tag {
+        max-width: 100%;
+        white-space: normal;
+        text-align: center;
+      }
+
+      .event-promo-popup {
+        padding: 10px;
+        align-items: start;
+        overflow-y: auto;
+      }
+
+      .event-promo-modal {
+        width: 100%;
+        margin: 12px 0;
+        border-radius: 18px;
+        max-height: calc(100dvh - 24px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .event-promo-title {
+        font-size: 42px;
+      }
+
+      .event-promo-featured {
+        grid-template-columns: 1fr;
+      }
+
+      .event-promo-featured-image {
+        min-height: 240px;
+        order: -1;
+      }
+
+      .event-promo-featured-body {
+        padding: 20px 16px;
+      }
+
+      .event-promo-featured-title {
+        font-size: 32px;
+        line-height: 1.05;
+        overflow-wrap: anywhere;
+      }
+
+      .event-promo-meta,
+      .event-promo-featured-text {
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+
+      .event-promo-modal-events {
+        grid-template-columns: 1fr;
+        max-height: none;
+        overflow: visible;
+        padding: 0 12px 14px;
+      }
+
+      .event-promo-mini-card {
+        grid-template-columns: 64px minmax(0, 1fr);
+        width: 100%;
+      }
+
+      .event-promo-mini-image {
+        width: 64px;
+        height: 64px;
+      }
+
+      .event-promo-selector {
+        bottom: calc(62px + env(safe-area-inset-bottom));
+        width: calc(100vw - 18px);
+        max-height: 112px;
+        padding: 8px;
+        border-radius: 16px;
+      }
+
+      .event-promo-selector-label {
+        margin-bottom: 6px;
+        font-size: 10px;
+      }
+
+      .event-promo-selector-list {
+        gap: 7px;
+      }
+
+      .event-promo-pill {
+        min-width: 138px;
+        max-width: 170px;
+        grid-template-columns: 38px minmax(0, 1fr);
+        padding: 7px;
+      }
+
+      .event-promo-pill-date {
+        min-height: 38px;
+        font-size: 10px;
+      }
+
+      .event-promo-date {
+        font-size: 28px;
+      }
+
+      .event-promo-text {
+        font-size: 14px;
+      }
+
+      .modal-card,
+      .client-modal-card,
+      .video-modal-card {
+        width: calc(100vw - 20px);
+        margin: 5vh auto;
+        max-height: 88vh;
+        overflow-y: auto;
+        padding: 16px;
+        border-radius: 20px;
+      }
+
+      .modal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .modal-grid img {
+        height: 220px;
+      }
+
+      .client-grid,
+      .review-grid,
+      .vip-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .client-textarea,
+      .review-textarea,
+      .vip-textarea {
+        grid-column: auto;
+      }
+
+      .floating-call,
+      .floating-sms,
+      .floating-email,
+      .whatsapp-float {
+        bottom: 76px;
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+        opacity: .9;
+      }
+
+      .floating-call { right: 146px; }
+      .floating-sms { right: 100px; }
+      .floating-email { right: 54px; }
+      .whatsapp-float { right: 8px; }
+
+      .vip-orb {
+        left: 12px;
+        bottom: 82px;
+        width: 54px;
+        height: 54px;
+      }
+
+      .vip-orb:before,
+      .vip-orb-label {
+        pointer-events: none;
+      }
+
+      .vip-panel-wrap {
+        left: 10px;
+        right: 10px;
+        bottom: 144px;
+        width: auto;
+      }
+
+      .vip-panel:not(.open) {
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .vip-panel.open {
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .mobile-book-bar {
+        padding-bottom: max(14px, env(safe-area-inset-bottom));
+      }
+    }
+
+    @media (max-width: 420px) {
+      .cover-img {
+        width: 148px;
+        height: 148px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .event-promo-card {
+        grid-template-columns: 52px minmax(0, 1fr);
+      }
+
+      .event-promo-date-badge {
+        min-height: 54px;
+      }
+
+      .event-promo-day {
+        font-size: 21px;
+      }
+    }
+
+    /* Keep your logo usage intact (as you requested) */
+  </style>
+<meta name="description" content="Bollywood, Nepali, Hip-Hop and dance floor favorites with DJ Sarif. Explore performances, plan your celebration and inquire about your date.">
+<link rel="stylesheet" href="redesign.css">
+<script src="site-config.js"></script>
+</head>
+
+<body class="stage-layout">
+<a class="skip-link" href="#mainSite">Skip to content</a>
+
+
+
+  <nav class="topnav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" style="display:flex; align-items:center; gap:10px;">
+        <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" style="height:36px;">
+        <span>DJ Sarif</span>
+      </a>
+
+      <button class="hamburger" type="button" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks">Menu</button>
+
+      <div class="nav-links" id="navLinks">
+        <a class="nav-link" href="#media">The sound</a>
+        
+        <a class="nav-link" href="#services">Services</a>
+        <a class="nav-link" href="#about">Meet Sarif</a>
+        
+        <a class="nav-link nav-book" href="#booking">Check my date ↗</a>
+        
+
+        <div class="nav-item" id="mediaItem" style="display:none;"></div>
+
+        <button class="nav-btn client-btn" type="button" onclick="openClientAccess()">Client Access</button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="top"></div>
+
+  <!-- WIZARD -->
+  <div id="djWizard" class="pre-wizard hidden">
+    <div class="pre-wizard-backdrop" onclick="closeWizard()"></div>
+    <div class="pre-wizard-content">
+      <h2>Plan Your Event with DJ Sarif</h2>
+      <h3>What type of event?</h3>
+
+      <button class="wizard-option-btn" type="button" onclick="selectEvent('Wedding')">Wedding</button>
+      <button class="wizard-option-btn" type="button" onclick="selectEvent('Birthday')">Birthday</button>
+      <button class="wizard-option-btn" type="button" onclick="selectEvent('Corporate')">Corporate</button>
+      <button class="wizard-option-btn" type="button" onclick="selectEvent('Concert')">Concert</button>
+
+      <button class="wizard-skip-btn" type="button" onclick="enterWebsite()">Enter Website →</button>
+
+    </div>
+  </div>
+
+  <main class="overlay" id="mainSite">
+<header class="new-hero">
+ <div class="hero-copy"><p class="eyebrow"><span></span> BOLLYWOOD / NEPALI / GLOBAL SOUNDS</p>
+ <h1>Your people.<br>Your music.<br><em>Your night.</em></h1>
+ <p class="hero-intro">For the first dance. The old favorites. The one-more-song crowd. A soundtrack that brings everyone together.</p>
+ <div class="hero-actions"><a class="primary" href="#booking">Let's plan your event <span>↗</span></a><a class="secondary" href="#media">Watch the highlights <span>▶</span></a></div>
+ <p class="hero-foot">WEDDINGS &nbsp; / &nbsp; PRIVATE EVENTS &nbsp; / &nbsp; CLUB NIGHTS</p></div>
+ <figure class="hero-image"><img src="images/dj-sarif-stage-portrait.webp" width="1200" height="1800" alt="DJ Sarif behind the decks, raising a peace sign under warm stage lighting" fetchpriority="high"><figcaption><span>IN THE MIX WITH</span><strong>DJ SARIF</strong><span>Music that feels like you.</span></figcaption></figure>
+ <div class="hero-index" aria-hidden="true">01 — SET THE TONE</div>
+</header><section class="top-cards" aria-label="Explore your night"><a class="quick-card" href="#eventPromoSidebar"><span class="eyebrow">LIVE DATES</span><h2>Catch the next set ↗</h2><p>Upcoming public events, flyers and ticket links.</p></a><a class="quick-card" href="#packages"><span class="eyebrow">YOUR EVENT</span><h2>Find your package ↗</h2><p>Basic or Premium — All Out. Let’s find your fit.</p></a><a class="quick-card" href="#media"><span class="eyebrow">PRESS PLAY</span><h2>See the energy ▶</h2><p>Watch highlights from behind the decks.</p></a></section><section class="featured-event" id="featuredEvent" hidden aria-label="Next public event"></section><div class="sound-strip"><span>BOLLYWOOD</span><b>✳</b><span>NEPALI</span><b>✳</b><span>HIP-HOP</span><b>✳</b><span>TOP 40</span><b>✳</b><span>EDM</span></div>
+
+    <!-- ABOUT -->
+    
+
+    <!-- MEDIA -->
+    <section class="card" id="media">
+      <p class="eyebrow">02 — HEAR IT. FEEL IT.</p><h2>This is what<br><em>a good night sounds like.</em></h2><p class="section-intro">A little taste of the music, the room and the energy.</p>
+
+      <div class="media-tabs" role="group" aria-label="Choose a performance video">
+        <button class="media-tab active" type="button" data-key="highlight"
+          onclick="setMediaVideo('highlight')">Highlights</button>
+
+        <button class="media-tab" type="button" data-key="club" onclick="setMediaVideo('club')">Clubs</button>
+
+      </div>
+
+      <div class="media-player" id="mediaPlayerWrap">
+        <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" class="media-logo" />
+
+        <video id="performanceVideo" controls playsinline preload="none" poster="images/dj-sarif-mixing-live.webp" aria-label="DJ Sarif performance highlights"><source src="media/dj-sarif-highlight.mp4" type="video/mp4"></video>
+      </div>
+      <p class="media-caption">Press play for the highlights, or switch to the club set. Sound starts only when you play.</p>
+    </section>
+
+    <section class="card photo-story" id="gallery"><p class="eyebrow">BEHIND THE DECKS</p><div class="section-top"><h2>In the moment.<br><em>In the mix.</em></h2><p>A closer look at the hands, the music and the energy behind every set.</p></div><div class="photo-story-grid"><figure><img src="images/dj-sarif-mixing-live.webp" width="1200" height="1799" alt="DJ Sarif mixing at the decks under warm stage lighting" loading="lazy"><figcaption>01 / IN THE MIX</figcaption></figure><figure><img src="images/dj-sarif-decks-detail.webp" width="1200" height="1799" alt="Black-and-white close-up of hands on the DJ controller" loading="lazy"><figcaption>02 / EVERY TRANSITION</figcaption></figure><figure><img src="images/dj-sarif-stage-wide.webp" width="1200" height="1799" alt="DJ Sarif raising a peace sign behind the decks on stage" loading="lazy"><figcaption>03 / GOOD ENERGY</figcaption></figure></div></section>
+<!-- SERVICES -->
+    <section id="services" class="services-new"><p class="eyebrow">03 — MADE FOR YOUR OCCASION</p><div class="section-top"><h2>Big moments.<br><em>Unforgettable nights.</em></h2><p>Different occasions. The same attention to your music, your guests and the way you want the room to feel.</p></div><div class="services-grid">
+<article class="service-card"><span>01 / CELEBRATE</span><h3>Weddings &<br>receptions</h3><p>From cocktail hour to the final song, a soundtrack that brings your families and friends together.</p><a href="#booking">Plan your wedding ↗</a></article>
+<article class="service-card"><span>02 / CONNECT</span><h3>Private &<br>corporate events</h3><p>A birthday, a milestone, a night with your team. Set the mood, then turn up the energy.</p><a href="#booking">Tell me your plans ↗</a></article>
+<article class="service-card"><span>03 / TURN IT UP</span><h3>Clubs &<br>live events</h3><p>High-energy sets, clean transitions and crowd favorites that keep the night moving.</p><a href="#booking">Build your lineup ↗</a></article></div>
+<div class="included"><strong>The setup, covered.</strong><span>Professional sound</span><span>Wireless mic</span><span>Dance floor lighting</span><span>Setup & breakdown</span></div><p class="mix-note">Need a custom mix or playlist? <a href="mailto:Djinquiries1000@gmail.com">Let's talk ↗</a></p></section>
+<section class="card about-new" id="about"><div><p class="eyebrow">THE PERSON BEHIND THE MUSIC</p><h2>Hey, I'm Sarif.<br><em>Let's find your sound.</em></h2><p>I bring Bollywood, Nepali, Hip-Hop, Top 40 and EDM together, with clean transitions and a feel for the crowd.</p><p>Your event has its own personality. Tell me about your people, your must-play songs and the moments you want to remember.</p><a class="secondary" href="https://instagram.com/_dj.sarif" target="_blank" rel="noopener">Follow @_dj.sarif ↗</a></div><img src="images/dj-sarif-headphones-live.webp" width="1200" height="1801" alt="DJ Sarif listening through headphones during a live set" loading="lazy"></section>
+
+    <div class="neon-divider"></div>
+
+    <!-- REVIEWS (no fake reviews displayed) -->
+    <section class="card" id="reviews">
+      <p class="eyebrow">FROM THE PEOPLE IN THE ROOM</p><h2>Good nights.<br><em>Real stories.</em></h2>
+
+      <div class="review-wrap" style="margin-bottom:18px;">
+        <h3 style="margin:0 0 8px;">Client Reviews</h3>
+        <div id="approvedReviews" style="display:grid; gap:12px;"></div>
+        <div id="approvedReviewsEmpty" style="opacity:.85; font-size:14px; margin-top:8px;">
+          Loading approved reviews...
+        </div>
+      </div>
+
+      <details class="review-wrap"><summary>Played your event? Leave a review ↗</summary>
+        <h3 style="margin:0 0 8px;">Leave a Review</h3>
+        <p style="margin:0; opacity:.88; font-size:14px;">
+          If you booked DJ Sarif, please leave an honest review. Your feedback helps new clients.
+        </p>
+
+        <form id="reviewForm" onsubmit="submitReview(event)">
+          <div class="review-grid">
+            <input class="review-input" name="reviewerName" placeholder="Your Name" required />
+            <input class="review-input" name="reviewerEmail" type="email" placeholder="Your Email (not shown publicly)" required />
+
+            <select class="review-select" name="eventType" required>
+              <option value="" disabled selected>Event Type</option>
+              <option>Wedding</option>
+              <option>Birthday</option>
+              <option>Corporate</option>
+              <option>Concert</option>
+              <option>Private Party</option>
+              <option>Club</option>
+              <option>Other</option>
+            </select>
+
+            <div class="stars-row">
+              <div class="stars" aria-label="Star rating">
+                <button type="button" class="star-btn" data-val="1" onclick="setStars(1)"><span
+                    class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="2" onclick="setStars(2)"><span
+                    class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="3" onclick="setStars(3)"><span
+                    class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="4" onclick="setStars(4)"><span
+                    class="star">★</span></button>
+                <button type="button" class="star-btn" data-val="5" onclick="setStars(5)"><span
+                    class="star">★</span></button>
+              </div>
+              <div class="rating-pill" id="ratingPill">Rating: <span id="ratingText">0</span>/5</div>
+            </div>
+
+            <input type="hidden" name="rating" id="ratingInput" value="0" />
+
+            <textarea class="review-textarea" name="reviewText" placeholder="Write your review..." required></textarea>
+          </div>
+
+          <div class="review-actions">
+            <button class="btn-primary" type="submit" id="reviewSubmitBtn">Submit Review</button>
+            <button class="btn-primary" type="button" onclick="scrollToBooking()">Book DJ Sarif</button>
+          </div>
+
+          <p class="form-privacy">Your email is not published. Reviews appear only after approval. <a href="privacy.html">Privacy notice</a></p><div class="review-note" id="reviewNote">
+            Reviews are submitted to DJ Sarif for verification. No example/fake reviews are shown on the website.
+          </div>
+        </form>
+      </details>
+    </section>
+
+    <div class="neon-divider"></div>
+
+    <!-- CALENDAR -->
+    <section class="card" id="calendar">
+      <p class="eyebrow">FIND YOUR DATE</p><h2>Something to celebrate?</h2>
+      <p style="max-width:900px; margin:0 auto; opacity:.88;">
+        Use the calendar as a guide, then send an inquiry. An open date is not a confirmed booking.
+      </p>
+
+      <details class="calendar-details"><summary>Open the availability calendar <span aria-hidden="true">+</span></summary><div class="calendar-wrap" style="max-width:900px; margin:18px auto 0;">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=e9dd4be6ec069d0e0d06489b2b39c6e731f968bbabc86dd05197f5ff4bfba32f%40group.calendar.google.com&ctz=America%2FNew_York"
+          style="border:0; width:100%; height:560px; border-radius:18px; overflow:hidden; box-shadow:0 0 28px rgba(0,229,255,0.12);"
+          title="DJ Sarif availability calendar" loading="lazy" frameborder="0"
+          scrolling="no"></iframe>
+      </div>
+    </section>
+
+    <div class="neon-divider"></div>
+
+    <!-- EVENT PROMOTION SYSTEM: UPCOMING EVENTS -->
+    <aside class="event-promo-sidebar" id="eventPromoSidebar" aria-label="Upcoming Events">
+      <div class="event-promo-sidebar-kicker">ON THE CALENDAR</div>
+      <h2 class="event-promo-sidebar-title">UPCOMING DATES</h2>
+      <div class="event-promo-list" id="eventPromoList">
+        <p class="event-promo-empty">Loading upcoming dates...</p>
+      </div>
+    </aside>
+    <!-- END EVENT PROMOTION SYSTEM: UPCOMING EVENTS -->
+
+    <div class="neon-divider"></div>
+
+    <!-- BOOKING -->
+    <section class="card" id="packages"><p class="eyebrow">MADE FOR YOUR NIGHT</p><h2>Choose your starting point.</h2><div class="package-grid"><article class="package-card"><p class="eyebrow">01 / BASIC</p><h3>Basic</h3><p>Great for birthdays, private parties and small events.</p><ul class="package-inclusions"><li>Professional DJ service</li><li>QSC &amp; JBL speaker setup</li><li>Shure wireless microphone set</li><li>Standard party lighting</li></ul><a class="primary" href="#booking" data-package="basic">Ask about Basic ↗</a></article><article class="package-card"><p class="eyebrow">02 / PREMIUM</p><h3>Premium — All Out</h3><p>Ideal for weddings, receptions and large celebrations.</p><ul class="package-inclusions"><li>Full DJ experience</li><li>QSC &amp; JBL speaker setup</li><li>5 subwoofers</li><li>6 moving heads</li><li>1 premium Gig Bar</li><li>3 strobes</li><li>10 uplights</li><li>Regular smoke machine</li><li>Dry ice low-lying fog effect</li><li>6 cold spark machines</li><li>Shure wireless microphone set</li></ul><a class="primary" href="#booking" data-package="premium">Ask about Premium ↗</a></article></div><p class="booking-small">Contact Sarif for pricing and a personalized quote.</p><div class="package-comparison"><h3>Compare your setup</h3><div class="comparison-scroll" tabindex="0" aria-label="Package comparison"><table><thead><tr><th scope="col">Included</th><th scope="col">Basic</th><th scope="col">Premium - All Out</th></tr></thead><tbody><tr><th scope="row">DJ service, QSC &amp; JBL speakers, Shure wireless microphones</th><td>Included</td><td>Included</td></tr><tr><th scope="row">Lighting</th><td>Standard party lighting</td><td>6 moving heads, 1 premium Gig Bar, 3 strobes, 10 uplights</td></tr><tr><th scope="row">Additional bass</th><td>As listed above</td><td>5 subwoofers</td></tr><tr><th scope="row">Special effects</th><td>Ask about options</td><td>Smoke, dry ice low-lying fog, 6 cold spark machines</td></tr><tr><th scope="row">Performance hours &amp; travel</th><td colspan="2">Confirmed in your personalized quote</td></tr></tbody></table></div><p class="booking-small">Tell us about any extra lighting, sound or effects you would like. Availability and pricing are confirmed with your quote.</p></div></section><section class="card faq-section" id="faq"><p class="eyebrow">BEFORE THE FIRST SONG</p><h2>A few things to know.</h2><details><summary>How soon will I hear back?</summary><p>Expect a response within 24–48 hours. For a time-sensitive request, call 614-772-6549.</p></details><details><summary>Does an inquiry reserve my date?</summary><p>No. We will confirm availability, discuss your plans and send a personalized quote. Your booking requirements and confirmation are set out in your agreement.</p></details><details><summary>How many hours does each package include?</summary><p>Performance hours, setup and breakdown timing are confirmed in your quote based on your event schedule.</p></details><details><summary>Do you travel, and are there travel fees?</summary><p>Send your venue location with your inquiry. Travel availability and any travel fees will be confirmed in your quote.</p></details><details><summary>Can we request songs?</summary><p>Yes. Share your favorite genres, must-play songs and do-not-play list in your inquiry so we can discuss the music for your event.</p></details><details><summary>What deposit is required?</summary><p>The deposit amount and payment schedule will be confirmed in your quote and agreement.</p></details><details><summary>What is the cancellation or rescheduling policy?</summary><p>Cancellation and rescheduling terms are confirmed in your agreement. Contact Sarif if your plans change.</p></details><details><summary>Can I customize a package?</summary><p>Tell us which sound, lighting or effects you are interested in. Available options and any additional charges will be confirmed in your quote.</p></details><details><summary>What does the venue need to provide?</summary><p>Share the venue details and available setup space. We will coordinate access, power and any venue requirements for lighting, fog and special effects before the event.</p></details></section><section class="card booking-new" id="booking"><div><p class="eyebrow">LET'S MAKE IT YOUR NIGHT</p><h2>The next great night<br><em>starts right here.</em></h2><p>Share your date, venue and event type. We'll talk music, confirm availability and work out the details together.</p><a class="primary" href="https://docs.google.com/forms/d/e/1FAIpQLSdS8PTiEEpd7LqjRK17SraauG_6nJbVMyytgCbAgKKvnUOU6Q/viewform" target="_blank" rel="noopener">Check my date ↗</a><p class="booking-small">Expect a reply within 24–48 hours. Sending an inquiry does not reserve a date.</p></div><div class="booking-steps"><p><b>01</b><span><strong>Tell me about your event</strong>Date, location and the kind of celebration.</span></p><p><b>02</b><span><strong>Hear back in 24–48 hours</strong>We’ll discuss your music, timeline, setup and personalized quote.</span></p><p><b>03</b><span><strong>Let's make it happen</strong>Confirm the details together.</span></p><a href="tel:+16147726549">Prefer to talk? 614-772-6549 ↗</a></div></section>
+
+    <!-- CONTACT -->
+    <section class="card" id="contact">
+      <h2>Connect with DJ Sarif</h2>
+      <p class="socials">
+        Facebook: <a href="https://www.facebook.com/profile.php?id=100011071497688" target="_blank" rel="noopener">Sarif
+          Subedi</a><br>
+        Instagram: <a href="https://instagram.com/_dj.sarif" target="_blank" rel="noopener">@_dj.sarif</a><br>
+        Phone: <a href="tel:+16147726549">614-772-6549</a><br>
+        Email: <a href="mailto:Djinquiries1000@gmail.com">Djinquiries1000@gmail.com</a>
+      </p>
+    </section>
+
+    <footer><strong>DJ SARIF.</strong><span>© <span id="currentYear">2026</span> DJ Sarif</span><a href="#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="dashboard.html">Admin</a><a href="#top">Back to top ↑</a></footer>
+  </main>
+
+  <!-- Floating contacts -->
+  <a href="tel:+16147726549" class="floating-call" aria-label="Call DJ Sarif">📞</a>
+  <a href="sms:+16147726549" class="floating-sms" aria-label="Text DJ Sarif">💬</a>
+  <a href="mailto:Djinquiries1000@gmail.com" class="floating-email" aria-label="Email DJ Sarif">✉️</a>
+  <a href="https://wa.me/16147726549" target="_blank" rel="noopener" class="whatsapp-float"
+    aria-label="WhatsApp DJ Sarif">💬</a>
+
+  <div class="mobile-book-bar"><a href="#booking">Check my date ↗</a></div>
+
+  <!-- EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
+  <div id="eventPromoPopupRoot" aria-live="polite"></div>
+  <div id="eventPromoSelectorRoot" aria-live="polite"></div>
+
+  <!-- END EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
+
+  <!-- VIP Orb -->
+  <button class="vip-orb" type="button" onclick="toggleVIP(true)" aria-label="Open event inquiry">
+    <span class="vip-orb-label">VIP</span>
+  </button>
+
+  <!-- VIP Panel -->
+  <div class="vip-panel-wrap" aria-live="polite">
+    <div class="vip-panel" id="vipPanel" role="dialog" aria-label="Event inquiry panel">
+      <div class="vip-head">
+        <div>
+          <p class="vip-title">Event inquiry</p>
+          <p class="vip-sub">Tell me a little about your event.</p>
+        </div>
+        <button class="vip-close" type="button" onclick="toggleVIP(false)" aria-label="Close VIP Panel">✕</button>
+      </div>
+
+      <div class="vip-body">
+        <form id="vipForm" onsubmit="submitVIP(event)">
+          <div class="vip-grid">
+            <input class="vip-input" name="name" placeholder="Full Name" required />
+            <input class="vip-input" name="email" type="email" placeholder="Email Address" required />
+
+            <select class="vip-select" name="eventType" required>
+              <option value="" disabled selected>Event Type</option>
+              <option>Wedding</option>
+              <option>Birthday</option>
+              <option>Corporate</option>
+              <option>Concert</option>
+              <option>Private Party</option>
+            </select>
+
+            <div class="date-row">
+              <select class="vip-select" name="mm" required aria-label="Month">
+                <option value="" disabled selected>Month</option>
+              </select>
+              <select class="vip-select" name="dd" required aria-label="Day">
+                <option value="" disabled selected>Day</option>
+              </select>
+              <select class="vip-select" name="yyyy" required aria-label="Year">
+                <option value="" disabled selected>Year</option>
+              </select>
+            </div>
+
+            <input class="vip-input" id="vipVenue" name="venue" placeholder="Venue Name / Location"
+              autocomplete="off" />
+            <input class="vip-input" name="guests" type="number" placeholder="Estimated Guests" />
+            <input class="vip-input" name="startTime" type="text" placeholder="Start Time (e.g. 6PM)" />
+            <input class="vip-input" name="duration" type="text" placeholder="Duration (e.g. 4 Hours)" />
+            <textarea class="vip-textarea" name="specialRequests"
+              placeholder="Special Requests or Must-Play songs..."></textarea>
+          </div>
+
+          <div class="vip-actions">
+            <button class="vip-btn" id="vipSubmitBtn" type="submit">Send Request</button>
+            <button class="vip-ghost" type="button" onclick="goToBooking()">Book Now</button>
+          </div>
+
+          <div class="vip-note" id="vipNote">
+            Your date is confirmed after we connect. You can also call 614-772-6549.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE MODAL -->
+  <div id="profileModal">
+    <div class="modal-backdrop" onclick="closeProfile()"></div>
+    <div class="modal-card">
+      <div class="modal-top">
+        <div>
+          <h2 style="margin:0;">DJ Sarif – Profile</h2>
+          <p style="margin:8px 0 0; opacity:.85;">Weddings • Corporate • Concerts • Private Parties</p>
+        </div>
+        <button class="modal-close" type="button" onclick="closeProfile()" aria-label="Close Profile">✕</button>
+      </div>
+
+      <div class="modal-grid">
+        <img src="images/dj-sarif-stage-portrait.webp" style="border:2px solid var(--neon1);" alt="DJ Sarif photo 1">
+        <img src="images/sarif-live.webp" style="border:2px solid var(--neon2);" alt="DJ Sarif photo 2">
+      </div>
+
+      <div class="about-box">
+        <h3>About</h3>
+        <p style="margin:10px 0 0;">
+          I specialize in reading the crowd and keeping energy high with clean transitions. I mix Bollywood, Nepali,
+          Hip-Hop, Top 40, and EDM to match your vibe.
+        </p>
+        <p style="margin:10px 0 0;">
+          Professional sound system, wireless mic, dance floor lighting, and full setup/breakdown included.
+        </p>
+
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn-primary" href="#booking" onclick="closeProfile()">Book Now</a>
+          <button class="btn-primary" type="button" onclick="watchAboutVideo()">Watch Video</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLIENT ACCESS MODAL -->
+  <div id="clientAccessModal" role="dialog" aria-modal="true" aria-label="Client Access">
+    <div class="modal-backdrop" onclick="closeClientAccess()"></div>
+    <div class="client-modal-card">
+      <div class="client-modal-top">
+        <div>
+          <h2 style="margin:0;">Client Access</h2>
+          <p style="margin:8px 0 0; opacity:.85;">Send your event details to Sarif. To sign an agreement, use your private signing link.</p>
+        </div>
+        <button class="client-modal-close" type="button" onclick="closeClientAccess()"
+          aria-label="Close Client Access">✕</button>
+      </div>
+
+      <div class="client-form">
+        <h3>Event details request</h3>
+        <p style="margin:8px 0 0; opacity:.85; font-size:14px;">
+          Use this after you’ve spoken with DJ Sarif to confirm details.
+        </p>
+
+        <p class="form-privacy">We use these details to respond and plan your event. <a href="privacy.html">Privacy notice</a></p><form id="clientAccessForm" onsubmit="submitClientAccess(event)">
+          <div class="client-grid">
+            <input class="client-input" name="clientName" placeholder="Client Name" required />
+            <input class="client-input" name="clientEmail" type="email" placeholder="Client Email" required />
+            <input class="client-input" name="eventDate" type="date" required />
+            <input class="client-input" id="clientLocation" name="location" placeholder="Venue / Location" required
+              autocomplete="off" />
+            <input class="client-input" name="rate" type="number" placeholder="Agreed Rate ($)" />
+            <select class="client-select" name="eventType" required>
+              <option value="" disabled selected>Event Type</option>
+              <option>Wedding</option>
+              <option>Birthday</option>
+              <option>Corporate</option>
+              <option>Concert</option>
+              <option>Private Party</option>
+            </select>
+            <label class="field-label">Package preference<select class="client-select" name="packageOption"><option value="unsure">Help me choose</option><option value="basic">Basic</option><option value="premium">Premium — All Out</option></select></label><textarea class="client-textarea" name="notes"
+              placeholder="Notes, timeline, must-play songs, special requests..."></textarea>
+          </div>
+
+          <p class="client-terms">Sending details does not sign an agreement or reserve your date.</p>
+
+          <div class="client-actions">
+            <button class="client-btn-primary" type="submit" id="clientSubmitBtn">Send</button>
+            
+          </div>
+
+          <div class="vip-note" id="clientNote" style="margin-top:10px;">
+            Send an update about your event. This does not sign or change an agreement.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO MODAL -->
+  <div id="videoModal" role="dialog" aria-modal="true" aria-label="Full screen video">
+    <div class="modal-backdrop" onclick="closeVideoModal()"></div>
+    <div class="video-modal-card">
+      <div class="video-modal-top">
+        <h3>DJ Sarif – Video</h3>
+        <button class="video-modal-close" type="button" onclick="closeVideoModal()">✕</button>
+      </div>
+
+        <div class="video-modal-player">
+          <iframe
+            id="videoModalFrame"
+            title="DJ Sarif full screen video"
+            src="about:blank"
+            loading="lazy"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+          ></iframe>
+        </div>
+    </div>
+  </div>
+
+  <!-- autoComplete.js (OSM) -->
+
+
+  <script>
+    /* ===========================
+       IMPORTANT: Your Apps Script URL
+       =========================== */
+    const SCRIPT_URL = window.DJ_CONFIG.publicApiUrl || "https://script.google.com/macros/s/AKfycbyFdjV0zjHtGDSF2g_0UkBIjNo5jzc8htWFn590tT0fL_oXdVRbdPvYOJyf92MNTJJE/exec";
+
+    /* ===========================
+       MEDIA VIDEO CONFIG (CLOUDFLARE STREAM TABS)
+       =========================== */
+    const STREAM_CUSTOMER_HOST = "customer-tj8nsrtq4n6pjvgm.cloudflarestream.com";
+
+    const MEDIA_VIDEOS = {
+      highlight: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Highlights" },
+      wedding: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Weddings" },
+      club: { uid: "9edf078f3801e17ffda7b0e73fc78e57", label: "Clubs" },
+      corporate: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Corporate" }
+    };
+
+    let currentMediaKey = "highlight";
+    let userStartedInlineVideo = false;
+
+    function buildStreamIframeSrc(uid, opts) {
+      const options = Object.assign(
+        { autoplay: false, muted: false, loop: true, controls: true },
+        opts || {}
+      );
+
+      const params = new URLSearchParams();
+      if (options.autoplay) params.set("autoplay", "true");
+      if (options.muted) params.set("muted", "true");
+      if (options.loop) params.set("loop", "true");
+      if (options.controls) params.set("controls", "true");
+
+      const qs = params.toString();
+      return `https://${STREAM_CUSTOMER_HOST}/${uid}/iframe${qs ? "?" + qs : ""}`;
+    }
+
+    function getMediaFrame() {
+      return document.getElementById("aboutVideoFrame");
+    }
+
+    function setMediaVideo(key) {
+      const frame = getMediaFrame();
+      const wrap = document.getElementById("mediaPlayerWrap");
+      const overlay = document.getElementById("playOverlay");
+      if (!frame || !MEDIA_VIDEOS[key]) return;
+
+      currentMediaKey = key;
+      userStartedInlineVideo = false;
+
+      document.querySelectorAll(".media-tab").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.key === key);
+      });
+
+      frame.src = buildStreamIframeSrc(MEDIA_VIDEOS[key].uid, {
+        autoplay: false,
+        muted: false,
+        loop: true,
+        controls: true
+      });
+
+      if (overlay) overlay.classList.remove("hidden");
+
+      if (wrap) {
+        wrap.classList.remove("media-glow");
+        void wrap.offsetWidth;
+        wrap.classList.add("media-glow");
+      }
+    }
+
+    function enterWebsite() {
+      const w = document.getElementById("djWizard");
+      if (w) w.classList.add("hidden");
+
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+
+      if (typeof toggleVIP === "function") toggleVIP(false);
+
+      const nav = document.getElementById("navLinks");
+      if (nav) nav.classList.remove("open");
+    }
+
+    function playInlineVideo() {
+      const frame = getMediaFrame();
+      const overlay = document.getElementById("playOverlay");
+      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
+      if (!frame || !cfg) return;
+
+      userStartedInlineVideo = true;
+      if (overlay) overlay.classList.add("hidden");
+
+      frame.src = buildStreamIframeSrc(cfg.uid, {
+        autoplay: true,
+        muted: false,
+        loop: true,
+        controls: true
+      });
+    }
+
+    function syncPlayOverlay() {
+      const overlay = document.getElementById("playOverlay");
+      if (!overlay) return;
+
+      if (userStartedInlineVideo) overlay.classList.add("hidden");
+      else overlay.classList.remove("hidden");
+    }
+
+    function watchAboutVideo() {
+      try { closeProfile(); } catch (e) { }
+
+      const section = document.getElementById("media");
+      const wrap = document.getElementById("mediaPlayerWrap");
+
+      if (section) section.scrollIntoView({ behavior: "smooth", block: "center" });
+
+      if (wrap) {
+        wrap.classList.remove("media-glow");
+        void wrap.offsetWidth;
+        wrap.classList.add("media-glow");
+      }
+
+      setTimeout(() => playInlineVideo(), 600);
+    }
+
+    /* Auto-stop cloud stream when media section leaves view */
+    (function initAutoPause() {
+      const section = document.getElementById("media");
+      const frame = getMediaFrame();
+      if (!frame || !section) return;
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
+            const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
+            frame.src = buildStreamIframeSrc(cfg.uid, {
+              autoplay: false,
+              muted: false,
+              loop: true,
+              controls: true
+            });
+            userStartedInlineVideo = false;
+            syncPlayOverlay();
+          }
+        });
+      }, { threshold: [0, 0.35, 0.6, 1] });
+
+      obs.observe(section);
+    })();
+
+    /* Fullscreen modal using Cloudflare Stream */
+    function openVideoModal() {
+      const modal = document.getElementById("videoModal");
+      const frame = document.getElementById("videoModalFrame");
+      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
+      if (!modal || !frame || !cfg) return;
+
+      modal.style.display = "block";
+      document.body.style.overflow = "hidden";
+
+      frame.src = buildStreamIframeSrc(cfg.uid, {
+        autoplay: true,
+        muted: false,
+        loop: true,
+        controls: true
+      });
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById("videoModal");
+      const frame = document.getElementById("videoModalFrame");
+      if (frame) frame.src = "";
+      if (modal) modal.style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+
+    function openVideoModalFromInline() {
+      openVideoModal();
+    }
+
+    /* ===========================
+       REVIEWS: fancy stars + submit (no fake reviews shown)
+       =========================== */
+    function setStars(n) {
+      const input = document.getElementById("ratingInput");
+      const text = document.getElementById("ratingText");
+      if (input) input.value = String(n);
+      if (text) text.textContent = String(n);
+
+      document.querySelectorAll(".star-btn").forEach(btn => {
+        const v = Number(btn.dataset.val || "0");
+        btn.classList.toggle("active", v <= n);
+
+        // tiny "pop" animation
+        btn.animate(
+          [{ transform: "translateY(0) scale(1)" }, { transform: "translateY(-2px) scale(1.04)" }, { transform: "translateY(0) scale(1)" }],
+          { duration: 220, easing: "ease-out" }
+        );
+      });
+    }
+
+    function scrollToBooking() {
+      const booking = document.getElementById("booking");
+      if (booking) booking.scrollIntoView({ behavior: "smooth" });
+    }
+
+    /* ===========================
+       NAV (mobile + wizard)
+       =========================== */
+    function toggleNav() {
+      const open = document.getElementById("navLinks").classList.toggle("open");
+      document.querySelector(".hamburger").setAttribute("aria-expanded", String(open));
+    }
+
+    function selectEvent(type) {
+      closeWizard();
+      setTimeout(() => {
+        const booking = document.getElementById("booking");
+        if (booking) booking.scrollIntoView({ behavior: "smooth" });
+      }, 200);
+    }
+
+    function closeWizard() {
+      const w = document.getElementById("djWizard");
+      if (w) w.classList.add("hidden");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const isFile = location.protocol === "file:";
+
+      // Disable OSM autocomplete when opened as file:// (prevents CORS/403 errors)
+      if (!isFile) {
+        
+        
+      }
+
+      syncPlayOverlay();
+    });
+
+    /* ===========================
+       VIP PANEL
+       =========================== */
+    function toggleVIP(open) {
+      const panel = document.getElementById("vipPanel");
+      if (!panel) return;
+      panel.classList.toggle("open", !!open);
+
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.body.style.overflow = open ? "hidden" : "auto";
+      }
+    }
+
+    function goToBooking() {
+      toggleVIP(false);
+      closeWizard();
+      const booking = document.getElementById("booking");
+      if (booking) booking.scrollIntoView({ behavior: "smooth" });
+    }
+
+    /* ===========================
+       PROFILE MODAL
+       =========================== */
+    function openProfile() {
+      closeWizard();
+      document.getElementById("profileModal").style.display = "block";
+    }
+    function closeProfile() {
+      document.getElementById("profileModal").style.display = "none";
+    }
+
+    /* ===========================
+       CLIENT ACCESS MODAL
+       =========================== */
+    function openClientAccess() {
+      closeWizard();
+      toggleVIP(false);
+      document.getElementById("clientAccessModal").style.display = "block";
+      document.body.style.overflow = "hidden";
+      document.getElementById("navLinks").classList.remove("open");
+      const first = document.querySelector("#clientAccessForm input[name='clientName']");
+      if (first) first.focus();
+    }
+
+    function closeClientAccess() {
+      document.getElementById("clientAccessModal").style.display = "none";
+      document.body.style.overflow = "auto";
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        toggleVIP(false);
+        closeClientAccess();
+        closeProfile();
+        closeVideoModal();
+      }
+    });
+
+    /* ===========================
+       VIP DATE DROPDOWNS
+       =========================== */
+    (function initDateDropdowns() {
+      const form = document.getElementById("vipForm");
+      if (!form) return;
+
+      const mm = form.elements.mm;
+      const dd = form.elements.dd;
+      const yyyy = form.elements.yyyy;
+
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      months.forEach((m, i) => {
+        const opt = document.createElement("option");
+        opt.value = String(i + 1).padStart(2, "0");
+        opt.textContent = m;
+        mm.appendChild(opt);
+      });
+
+      for (let d = 1; d <= 31; d++) {
+        const opt = document.createElement("option");
+        opt.value = String(d).padStart(2, "0");
+        opt.textContent = String(d);
+        dd.appendChild(opt);
+      }
+
+      const yearNow = new Date().getFullYear();
+      for (let y = yearNow; y <= yearNow + 3; y++) {
+        const opt = document.createElement("option");
+        opt.value = String(y);
+        opt.textContent = String(y);
+        yyyy.appendChild(opt);
+      }
+    })();
+
+    function isValidYMD(yyyy, mm, dd) {
+      if (!yyyy || !mm || !dd) return false;
+      const test = new Date(`${yyyy}-${mm}-${dd}T00:00:00`);
+      const ok =
+        test &&
+        (String(test.getFullYear()) === String(yyyy)) &&
+        (String(test.getMonth() + 1).padStart(2, "0") === String(mm).padStart(2, "0")) &&
+        (String(test.getDate()).padStart(2, "0") === String(dd).padStart(2, "0"));
+      return ok;
+    }
+
+    /* ===========================
+       POST helper
+       =========================== */
+    async function postFormData(url, formData) {
+      const res = await fetch(url, {
+        method: "POST",
+        body: formData,
+        signal: AbortSignal.timeout(15000),
+        headers: { "Accept": "application/json" }
+      });
+
+      const text = await res.text();
+      let data = {};
+      try { data = JSON.parse(text); } catch (e) { throw new Error("The service returned an unexpected response"); }
+
+      if (!res.ok) throw new Error(data?.error || `Request failed (${res.status})`);
+      if (data?.ok !== true) throw new Error(data?.error || "The service did not confirm your request");
+      return data;
+    }
+
+    /* ===========================
+       LOCAL DASHBOARD CAPTURE
+       This lets dashboard.html manage submissions made in the same browser.
+       For all visitor submissions on the live site, connect these same fields
+       in Google Apps Script, Firebase, Supabase, or another backend.
+       =========================== */
+    const DASHBOARD_CLIENTS_KEY = "djSarifClients";
+    const DASHBOARD_REVIEWS_KEY = "djSarifReviews";
+
+    function getDashboardCollection(key) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(value) ? value : [];
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function saveDashboardCollection(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function captureDashboardClient(record) { /* Submission is stored by the server after acknowledgement. */ }
+
+    function captureDashboardReview(record) { /* Submission is stored by the server after acknowledgement. */ }
+
+    /* ===========================
+       VIP submit
+       =========================== */
+    async function submitVIP(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById("vipSubmitBtn");
+      const note = document.getElementById("vipNote");
+
+      btn.innerText = "Sending...";
+      btn.disabled = true;
+
+      try {
+        const mm = form.elements.mm?.value;
+        const dd = form.elements.dd?.value;
+        const yyyy = form.elements.yyyy?.value;
+
+        if (!isValidYMD(yyyy, mm, dd)) {
+          note.innerHTML = '<div class="vip-error">Please select a valid date.</div>';
+          btn.innerText = "Send Request";
+          btn.disabled = false;
+          return;
+        }
+
+        const fd = new FormData(form);
+        fd.append("source", "vip");
+        fd.append("eventDate", `${yyyy}-${mm}-${dd}`);
+        captureDashboardClient({
+          name: fd.get("name") || "",
+          email: fd.get("email") || "",
+          phone: fd.get("phone") || "",
+          eventType: fd.get("eventType") || "",
+          eventDate: `${yyyy}-${mm}-${dd}`,
+          location: fd.get("venue") || "",
+          rate: "",
+          notes: [
+            fd.get("specialRequests") || "",
+            fd.get("guests") ? `Guests: ${fd.get("guests")}` : "",
+            fd.get("startTime") ? `Start: ${fd.get("startTime")}` : "",
+            fd.get("duration") ? `Duration: ${fd.get("duration")}` : ""
+          ].filter(Boolean).join("\n")
+        });
+
+        await postFormData(SCRIPT_URL, fd);
+
+        note.innerHTML = '<div class="vip-success">Submitted. Check your email for confirmation.</div>';
+        form.reset();
+
+        btn.innerText = "Sent!";
+        setTimeout(() => { btn.innerText = "Send Request"; btn.disabled = false; }, 2500);
+      } catch (err) {
+        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
+        btn.innerText = "Send Request";
+        btn.disabled = false;
+      }
+    }
+
+    /* ===========================
+       Client Access submit
+       =========================== */
+    async function submitClientAccess(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById("clientSubmitBtn");
+      const note = document.getElementById("clientNote");
+
+      btn.innerText = "Sending...";
+      btn.disabled = true;
+
+      try {
+        const fd = new FormData(form);
+        fd.append("source", "client_access");
+        captureDashboardClient({
+          name: fd.get("clientName") || "",
+          email: fd.get("clientEmail") || "",
+          phone: "",
+          eventType: fd.get("eventType") || "",
+          eventDate: fd.get("eventDate") || "",
+          location: fd.get("location") || "",
+          rate: fd.get("rate") || "",
+          notes: fd.get("notes") || ""
+        });
+
+        await postFormData(SCRIPT_URL, fd);
+
+        note.innerHTML = '<div class="vip-success">Submitted. Confirmation email should arrive shortly.</div>';
+        form.reset();
+
+        btn.innerText = "Sent!";
+        setTimeout(() => { btn.innerText = "Send"; btn.disabled = false; }, 2500);
+      } catch (err) {
+        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
+        btn.innerText = "Send";
+        btn.disabled = false;
+      }
+    }
+
+    /* ===========================
+       Review submit
+       =========================== */
+    async function submitReview(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById("reviewSubmitBtn");
+      const note = document.getElementById("reviewNote");
+
+      const rating = Number(document.getElementById("ratingInput")?.value || "0");
+      if (!rating || rating < 1) {
+        note.innerHTML = '<div class="vip-error">Please choose a star rating (1–5).</div>';
+        return;
+      }
+
+      btn.innerText = "Submitting...";
+      btn.disabled = true;
+
+      try {
+        const fd = new FormData(form);
+        fd.append("source", "review");
+        captureDashboardReview({
+          name: fd.get("reviewerName") || "",
+          email: fd.get("reviewerEmail") || "",
+          eventType: fd.get("eventType") || "",
+          rating: fd.get("rating") || "",
+          text: fd.get("reviewText") || ""
+        });
+
+        await postFormData(SCRIPT_URL, fd);
+
+        note.innerHTML = '<div class="vip-success">Thank you! Your review was submitted.</div>';
+        form.reset();
+        setStars(0);
+
+        btn.innerText = "Submitted!";
+        setTimeout(() => { btn.innerText = "Submit Review"; btn.disabled = false; }, 2500);
+      } catch (err) {
+        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. Please try again.</div>`;
+        btn.innerText = "Submit Review";
+        btn.disabled = false;
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    async function fetchJsonp(url) {
+      let lastError;
+      for(let attempt=0;attempt<2;attempt++){
+        try{const response=await fetch(url,{signal:AbortSignal.timeout(25000),cache:'no-store'});
+          if(!response.ok)throw Error('Service unavailable');
+          const data=await response.json();if(data?.ok!==true)throw Error(data?.error||'Service unavailable');return data;
+        }catch(error){lastError=error;}
+      }
+      throw lastError;
+    }
+
+    async function loadApprovedReviews() {
+      const grid = document.getElementById("approvedReviews");
+      const empty = document.getElementById("approvedReviewsEmpty");
+      if (!grid) return;
+
+      grid.innerHTML = "";
+      const existingToggle = document.getElementById("approvedReviewsToggle");
+      if (existingToggle) existingToggle.remove();
+
+      try {
+        const data = await fetchJsonp(`${SCRIPT_URL}?action=approved_reviews`);
+        if (data?.ok === false) throw new Error("Reviews unavailable");
+        const localApprovedReviews = [];
+        const reviews = [
+          ...localApprovedReviews,
+          ...(Array.isArray(data?.reviews) ? data.reviews : [])
+        ];
+
+        if (!reviews.length) {
+          if (empty) {
+            empty.style.display = "block";
+            empty.textContent = "No approved reviews posted yet.";
+          }
+          return;
+        }
+
+        if (empty) empty.style.display = "none";
+
+        const cards = [];
+        reviews.forEach((r, idx) => {
+          const stars = Math.max(1, Math.min(5, Number(r.rating || 5)));
+          const card = document.createElement("div");
+          card.style.background = "rgba(0,0,0,0.35)";
+          card.style.border = "1px solid rgba(255,255,255,0.12)";
+          card.style.borderRadius = "16px";
+          card.style.padding = "12px";
+          card.style.boxShadow = "0 0 18px rgba(236,162,115,0.10)";
+          card.style.marginBottom = "12px";
+
+          if (idx >= 3) card.style.display = "none";
+
+          card.innerHTML = `
+            <div style="font-weight:900; letter-spacing:2px; color:#eca273; margin-bottom:8px;">${"★".repeat(stars)}</div>
+            <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(r.text || "")}</div>
+            <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">— ${escapeHtml(r.name || "Client")}</div>
+            <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(r.eventType || "")}</div>
+          `;
+
+          grid.appendChild(card);
+          cards.push(card);
+        });
+
+        if (cards.length > 3) {
+          const btn = document.createElement("button");
+          btn.id = "approvedReviewsToggle";
+          btn.type = "button";
+          btn.className = "btn-primary";
+          btn.style.marginTop = "10px";
+          btn.textContent = "Show all reviews";
+
+          let expanded = false;
+          btn.addEventListener("click", () => {
+            expanded = !expanded;
+            cards.forEach((card, index) => {
+              if (index >= 3) card.style.display = expanded ? "block" : "none";
+            });
+            btn.textContent = expanded ? "Show less" : "Show all reviews";
+          });
+
+          grid.parentElement?.appendChild(btn);
+        }
+      } catch (err) {
+        const localApprovedReviews = [];
+
+        if (localApprovedReviews.length) {
+          if (empty) empty.style.display = "none";
+          grid.innerHTML = localApprovedReviews.map((review) => {
+            const stars = Math.max(1, Math.min(5, Number(review.rating || 5)));
+            return `
+              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:12px; box-shadow:0 0 18px rgba(236,162,115,0.10); margin-bottom:12px;">
+                <div style="font-weight:900; letter-spacing:2px; color:#eca273; margin-bottom:8px;">${"★".repeat(stars)}</div>
+                <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(review.text || "")}</div>
+                <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">- ${escapeHtml(review.name || "Client")}</div>
+                <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(review.eventType || "")}</div>
+              </div>
+            `;
+          }).join("");
+          return;
+        }
+
+        if (empty) {
+          empty.style.display = "block";
+          empty.textContent = "Unable to load approved reviews right now.";
+        }
+        console.warn("Unable to load approved reviews.", err);
+      }
+    }
+      /* ===========================
+     OSM AUTOCOMPLETE (Nominatim)
+     =========================== */
+  function initOSMAutocomplete(selector, placeholder) {
+    const el = document.querySelector(selector);
+    if (!el) return null;
+
+    el.setAttribute("autocomplete", "off");
+    el.setAttribute("spellcheck", "false");
+
+    return new autoComplete({
+      selector,
+      placeHolder: placeholder || "Search city or address...",
+      threshold: 3,
+      debounce: 350,
+      data: {
+        src: async (query) => {
+          try {
+            const url =
+              `https://nominatim.openstreetmap.org/search` +
+              `?format=json&addressdetails=1&limit=6&countrycodes=us&accept-language=en` +
+              `&q=${encodeURIComponent(query)}`;
+
+            const res = await fetch(url);
+            const data = await res.json();
+            return Array.isArray(data) ? data : [];
+          } catch (e) {
+            return [];
+          }
+        },
+        keys: ["display_name"],
+      },
+      resultItem: { highlight: true },
+      resultsList: { noResults: true },
+      events: {
+        input: {
+          selection: (event) => {
+            const selection = event.detail.selection.value.display_name;
+            if (event?.detail?.input) {
+              event.detail.input.value = selection;
+            }
+          },
+        },
+      },
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const isFile = location.protocol === "file:";
+
+    // Disable OSM autocomplete when opened as file:// (prevents CORS/403 errors)
+    if (!isFile) {
+      
+      
+    }
+
+    // Ensure play overlay is correct on load (only if your function exists)
+    if (typeof syncPlayOverlay === "function") syncPlayOverlay();
+    loadApprovedReviews();
+  });
+
+
+</script>
+<script src="redesign.js"></script>
+<script src="site-api.js"></script>
+</body>
+</html>

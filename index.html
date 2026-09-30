@@ -2418,11 +2418,15 @@
 
     /* Keep your logo usage intact (as you requested) */
   </style>
+<meta name="description" content="Bollywood, Nepali, Hip-Hop and dance floor favorites with DJ Sarif. Explore performances, plan your celebration and inquire about your date.">
+<link rel="stylesheet" href="redesign.css">
+<script src="site-config.js"></script>
 </head>
 
 <body>
-  <img src="speaker-wave.jpg" class="bg-wave" alt="">
-  <img src="dj-controller.jpg" class="bg-controller" alt="">
+<a class="skip-link" href="#mainSite">Skip to content</a>
+
+
 
   <nav class="topnav">
     <div class="nav-inner">
@@ -2431,16 +2435,16 @@
         <span>DJ Sarif</span>
       </a>
 
-      <button class="hamburger" type="button" onclick="toggleNav()">Menu</button>
+      <button class="hamburger" type="button" onclick="toggleNav()" aria-expanded="false" aria-controls="navLinks">Menu</button>
 
       <div class="nav-links" id="navLinks">
-        <a class="nav-link" href="#about">About</a>
-        <a class="nav-link" href="#media">Media</a>
+        <a class="nav-link" href="#media">The sound</a>
+        
         <a class="nav-link" href="#services">Services</a>
-        <a class="nav-link" href="#reviews">Reviews</a>
-        <a class="nav-link" href="#calendar">Availability</a>
-        <a class="nav-link" href="#booking">Book</a>
-        <a class="nav-link" href="#contact">Contact</a>
+        <a class="nav-link" href="#about">Meet Sarif</a>
+        
+        <a class="nav-link nav-book" href="#booking">Check my date ↗</a>
+        
 
         <div class="nav-item" id="mediaItem" style="display:none;"></div>
 
@@ -2452,7 +2456,7 @@
   <div id="top"></div>
 
   <!-- WIZARD -->
-  <div id="djWizard" class="pre-wizard">
+  <div id="djWizard" class="pre-wizard hidden">
     <div class="pre-wizard-backdrop" onclick="closeWizard()"></div>
     <div class="pre-wizard-content">
       <h2>Plan Your Event with DJ Sarif</h2>
@@ -2468,147 +2472,54 @@
     </div>
   </div>
 
-  <div class="overlay" id="mainSite">
-    <header>
-      <div class="image-row">
-        <img class="cover-img" src="IMG_1234.jpg" alt="DJ Sarif Photo 1" />
-        <img class="cover-img" src="IMG_1235.jpg" alt="DJ Sarif Photo 2" />
-      </div>
-
-      <h1>Turn your event into a full dance floor.</h1>
-      <h2>Weddings • Clubs • Corporate • Private Parties — clean mixes, real crowd reading, zero awkward silence.</h2>
-    </header>
+  <main class="overlay" id="mainSite">
+<header class="new-hero">
+ <div class="hero-copy"><p class="eyebrow"><span></span> BOLLYWOOD / NEPALI / GLOBAL SOUNDS</p>
+ <h1>Your people.<br>Your music.<br><em>Your night.</em></h1>
+ <p class="hero-intro">For the first dance. The old favorites. The one-more-song crowd. A soundtrack that brings everyone together.</p>
+ <div class="hero-actions"><a class="primary" href="#booking">Let's plan your event <span>↗</span></a><a class="secondary" href="#media">Watch the highlights <span>▶</span></a></div>
+ <p class="hero-foot">WEDDINGS &nbsp; / &nbsp; PRIVATE EVENTS &nbsp; / &nbsp; CLUB NIGHTS</p></div>
+ <figure class="hero-image"><img src="images/dj-sarif-stage-portrait.webp" width="1200" height="1800" alt="DJ Sarif behind the decks, raising a peace sign under warm stage lighting" fetchpriority="high"><figcaption><span>IN THE MIX WITH</span><strong>DJ SARIF</strong><span>Music that feels like you.</span></figcaption></figure>
+ <div class="hero-index" aria-hidden="true">01 — SET THE TONE</div>
+</header><section class="top-cards" aria-label="Explore your night"><a class="quick-card" href="#eventPromoSidebar"><span class="eyebrow">LIVE DATES</span><h2>Catch the next set ↗</h2><p>Upcoming public events, flyers and ticket links.</p></a><a class="quick-card" href="#packages"><span class="eyebrow">YOUR EVENT</span><h2>Find your package ↗</h2><p>Basic or Premium — All Out. Let’s find your fit.</p></a><a class="quick-card" href="#media"><span class="eyebrow">PRESS PLAY</span><h2>See the energy ▶</h2><p>Watch highlights from behind the decks.</p></a></section><section class="featured-event" id="featuredEvent" hidden aria-label="Next public event"></section><div class="sound-strip"><span>BOLLYWOOD</span><b>✳</b><span>NEPALI</span><b>✳</b><span>HIP-HOP</span><b>✳</b><span>TOP 40</span><b>✳</b><span>EDM</span></div>
 
     <!-- ABOUT -->
-    <section class="card" id="about">
-      <h2>Meet DJ Sarif</h2>
-
-      <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" style="
-        width:80px;
-        margin:10px auto 0;
-        display:block;
-        filter: drop-shadow(0 0 10px rgba(255,0,255,.6));
-      ">
-
-      <div
-        style="max-width:900px; margin:0 auto; display:grid; grid-template-columns: 1.2fr 0.8fr; gap:18px; align-items:center;">
-        <div
-          style="text-align:left; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:22px; padding:18px; box-shadow:0 0 26px rgba(0,229,255,0.12);">
-          <h3 style="margin:0; color:#00e5ff; text-shadow:0 0 10px #00e5ff;">High-Energy DJ • Clean Mixes • Crowd
-            Reading</h3>
-          <p style="margin:10px 0 0;">
-            Bringing Bollywood, Nepali, Hip-Hop, EDM & Top-40 with clean transitions, crowd reading, and professional
-            sound & lighting.
-          </p>
-          <button class="btn-primary" type="button" onclick="openProfile()">View Profile</button>
-        </div>
-
-        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-          <img src="IMG_1234.jpg" alt="DJ Sarif"
-            style="width:160px; height:160px; border-radius:18px; object-fit:cover; border:2px solid #ff00ff; box-shadow:0 0 18px rgba(255,255,255,0.25);" />
-          <img src="IMG_1235.jpg" alt="DJ Sarif"
-            style="width:160px; height:160px; border-radius:18px; object-fit:cover; border:2px solid #00e5ff; box-shadow:0 0 18px rgba(255,255,255,0.25);" />
-        </div>
-      </div>
-
-      <div class="neon-divider"></div>
-
-      <div
-        style="max-width:900px; margin:0 auto; text-align:left; background: rgba(0,0,0,0.6); padding:18px; border-radius:20px; box-shadow:0 0 30px rgba(0,229,255,0.22);">
-        <h3 style="margin:0; color:#00e5ff; text-shadow:0 0 10px #00e5ff;">Why clients book me</h3>
-        <ul style="list-style:none; padding:0; margin:12px 0 0;">
-          <li style="margin:8px 0;">✅ Clean transitions + professional sound</li>
-          <li style="margin:8px 0;">✅ Crowd reading + high energy</li>
-          <li style="margin:8px 0;">✅ Bollywood, Nepali & Western hits</li>
-        </ul>
-        <a href="#booking" class="btn-primary">Book Now</a>
-      </div>
-    </section>
+    
 
     <!-- MEDIA -->
     <section class="card" id="media">
-      <h2>Live Performance</h2>
+      <p class="eyebrow">02 — HEAR IT. FEEL IT.</p><h2>This is what<br><em>a good night sounds like.</em></h2><p class="section-intro">A little taste of the music, the room and the energy.</p>
 
-      <div class="media-tabs" role="tablist" aria-label="Video categories">
+      <div class="media-tabs" role="group" aria-label="Choose a performance video">
         <button class="media-tab active" type="button" data-key="highlight"
           onclick="setMediaVideo('highlight')">Highlights</button>
-        <button class="media-tab" type="button" data-key="wedding" onclick="setMediaVideo('wedding')">Weddings</button>
+
         <button class="media-tab" type="button" data-key="club" onclick="setMediaVideo('club')">Clubs</button>
-        <button class="media-tab" type="button" data-key="corporate"
-          onclick="setMediaVideo('corporate')">Corporate</button>
+
       </div>
 
       <div class="media-player" id="mediaPlayerWrap">
         <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" class="media-logo" />
 
-        <div class="stream-shell" aria-label="Performance video player">
-          <iframe
-            id="aboutVideoFrame"
-            title="DJ Sarif video"
-            src="about:blank"
-            loading="lazy"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"
-          ></iframe>
-        </div>
-
-        <!-- Big Play Overlay -->
-        <div class="play-overlay" id="playOverlay" aria-label="Play video">
-          <div class="play-btn" role="button" tabindex="0" onclick="playInlineVideo()">
-            <div class="play-tri"></div>
-          </div>
-        </div>
-
-        <div class="media-actions">
-          <button class="btn-primary" type="button" onclick="openVideoModalFromInline()">Full Screen</button>
-        </div>
+        <video id="performanceVideo" controls playsinline preload="none" poster="images/dj-sarif-mixing-live.webp" aria-label="DJ Sarif performance highlights"><source src="media/dj-sarif-highlight.mp4" type="video/mp4"></video>
       </div>
-
-      <p class="media-caption">Real crowd energy. Clean mixes. Professional sound.</p>
+      <p class="media-caption">Press play for the highlights, or switch to the club set. Sound starts only when you play.</p>
     </section>
 
-    <!-- SERVICES -->
-    <section id="services" style="padding: 10px 0 10px;">
-      <div class="services-wrap">
-        <div class="services-head">
-          <h2>Services</h2>
-          <p>Clear options for every event type — professional, adaptable, and built for the room.</p>
-        </div>
-
-        <div class="services-grid">
-          <div class="service-card">
-            <p class="service-title">Weddings & Receptions</p>
-            <p class="service-text">A polished soundtrack from cocktail hour to the final song with clean transitions
-              and crowd-first pacing.</p>
-          </div>
-
-          <div class="service-card">
-            <p class="service-title">Corporate & Private Events</p>
-            <p class="service-text">Brand-safe energy, strong professionalism, and the right volume for conversations
-              and moments.</p>
-          </div>
-
-          <div class="service-card">
-            <p class="service-title">Clubs & Festivals</p>
-            <p class="service-text">High-energy sets built for the dancefloor with momentum, pacing, and peak-time
-              control.</p>
-          </div>
-
-          <div class="service-card">
-            <p class="service-title">Custom Mixes / Playlists</p>
-            <p class="service-text">Tailored mixes for workouts, content, events, or a specific vibe you want to own.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="card photo-story" id="gallery"><p class="eyebrow">BEHIND THE DECKS</p><div class="section-top"><h2>In the moment.<br><em>In the mix.</em></h2><p>A closer look at the hands, the music and the energy behind every set.</p></div><div class="photo-story-grid"><figure><img src="images/dj-sarif-mixing-live.webp" width="1200" height="1799" alt="DJ Sarif mixing at the decks under warm stage lighting" loading="lazy"><figcaption>01 / IN THE MIX</figcaption></figure><figure><img src="images/dj-sarif-decks-detail.webp" width="1200" height="1799" alt="Black-and-white close-up of hands on the DJ controller" loading="lazy"><figcaption>02 / EVERY TRANSITION</figcaption></figure><figure><img src="images/dj-sarif-stage-wide.webp" width="1200" height="1799" alt="DJ Sarif raising a peace sign behind the decks on stage" loading="lazy"><figcaption>03 / GOOD ENERGY</figcaption></figure></div></section>
+<!-- SERVICES -->
+    <section id="services" class="services-new"><p class="eyebrow">03 — MADE FOR YOUR OCCASION</p><div class="section-top"><h2>Big moments.<br><em>Unforgettable nights.</em></h2><p>Different occasions. The same attention to your music, your guests and the way you want the room to feel.</p></div><div class="services-grid">
+<article class="service-card"><span>01 / CELEBRATE</span><h3>Weddings &<br>receptions</h3><p>From cocktail hour to the final song, a soundtrack that brings your families and friends together.</p><a href="#booking">Plan your wedding ↗</a></article>
+<article class="service-card"><span>02 / CONNECT</span><h3>Private &<br>corporate events</h3><p>A birthday, a milestone, a night with your team. Set the mood, then turn up the energy.</p><a href="#booking">Tell me your plans ↗</a></article>
+<article class="service-card"><span>03 / TURN IT UP</span><h3>Clubs &<br>live events</h3><p>High-energy sets, clean transitions and crowd favorites that keep the night moving.</p><a href="#booking">Build your lineup ↗</a></article></div>
+<div class="included"><strong>The setup, covered.</strong><span>Professional sound</span><span>Wireless mic</span><span>Dance floor lighting</span><span>Setup & breakdown</span></div><p class="mix-note">Need a custom mix or playlist? <a href="mailto:Djinquiries1000@gmail.com">Let's talk ↗</a></p></section>
+<section class="card about-new" id="about"><div><p class="eyebrow">THE PERSON BEHIND THE MUSIC</p><h2>Hey, I'm Sarif.<br><em>Let's find your sound.</em></h2><p>I bring Bollywood, Nepali, Hip-Hop, Top 40 and EDM together, with clean transitions and a feel for the crowd.</p><p>Your event has its own personality. Tell me about your people, your must-play songs and the moments you want to remember.</p><a class="secondary" href="https://instagram.com/_dj.sarif" target="_blank" rel="noopener">Follow @_dj.sarif ↗</a></div><img src="images/dj-sarif-headphones-live.webp" width="1200" height="1801" alt="DJ Sarif listening through headphones during a live set" loading="lazy"></section>
 
     <div class="neon-divider"></div>
 
     <!-- REVIEWS (no fake reviews displayed) -->
     <section class="card" id="reviews">
-      <h2>Reviews</h2>
+      <p class="eyebrow">FROM THE PEOPLE IN THE ROOM</p><h2>Good nights.<br><em>Real stories.</em></h2>
 
       <div class="review-wrap" style="margin-bottom:18px;">
         <h3 style="margin:0 0 8px;">Client Reviews</h3>
@@ -2618,7 +2529,7 @@
         </div>
       </div>
 
-      <div class="review-wrap">
+      <details class="review-wrap"><summary>Played your event? Leave a review ↗</summary>
         <h3 style="margin:0 0 8px;">Leave a Review</h3>
         <p style="margin:0; opacity:.88; font-size:14px;">
           If you booked DJ Sarif, please leave an honest review. Your feedback helps new clients.
@@ -2627,7 +2538,7 @@
         <form id="reviewForm" onsubmit="submitReview(event)">
           <div class="review-grid">
             <input class="review-input" name="reviewerName" placeholder="Your Name" required />
-            <input class="review-input" name="reviewerEmail" type="email" placeholder="Your Email (optional)" />
+            <input class="review-input" name="reviewerEmail" type="email" placeholder="Your Email (not shown publicly)" required />
 
             <select class="review-select" name="eventType" required>
               <option value="" disabled selected>Event Type</option>
@@ -2666,27 +2577,27 @@
             <button class="btn-primary" type="button" onclick="scrollToBooking()">Book DJ Sarif</button>
           </div>
 
-          <div class="review-note" id="reviewNote">
+          <p class="form-privacy">Your email is not published. Reviews appear only after approval. <a href="privacy.html">Privacy notice</a></p><div class="review-note" id="reviewNote">
             Reviews are submitted to DJ Sarif for verification. No example/fake reviews are shown on the website.
           </div>
         </form>
-      </div>
+      </details>
     </section>
 
     <div class="neon-divider"></div>
 
     <!-- CALENDAR -->
     <section class="card" id="calendar">
-      <h2>Check Availability</h2>
+      <p class="eyebrow">FIND YOUR DATE</p><h2>Something to celebrate?</h2>
       <p style="max-width:900px; margin:0 auto; opacity:.88;">
-        This calendar shows availability only. If your date looks open, submit a request and I’ll confirm.
+        Use the calendar as a guide, then send an inquiry. An open date is not a confirmed booking.
       </p>
 
-      <div class="calendar-wrap" style="max-width:900px; margin:18px auto 0;">
+      <details class="calendar-details"><summary>Open the availability calendar <span aria-hidden="true">+</span></summary><div class="calendar-wrap" style="max-width:900px; margin:18px auto 0;">
         <iframe
           src="https://calendar.google.com/calendar/embed?src=e9dd4be6ec069d0e0d06489b2b39c6e731f968bbabc86dd05197f5ff4bfba32f%40group.calendar.google.com&ctz=America%2FNew_York"
           style="border:0; width:100%; height:560px; border-radius:18px; overflow:hidden; box-shadow:0 0 28px rgba(0,229,255,0.12);"
-          frameborder="0"
+          title="DJ Sarif availability calendar" loading="lazy" frameborder="0"
           scrolling="no"></iframe>
       </div>
     </section>
@@ -2695,8 +2606,8 @@
 
     <!-- EVENT PROMOTION SYSTEM: UPCOMING EVENTS -->
     <aside class="event-promo-sidebar" id="eventPromoSidebar" aria-label="Upcoming Events">
-      <div class="event-promo-sidebar-kicker">Upcoming Events</div>
-      <h2 class="event-promo-sidebar-title">WHERE I'M PLAYING NEXT</h2>
+      <div class="event-promo-sidebar-kicker">ON THE CALENDAR</div>
+      <h2 class="event-promo-sidebar-title">UPCOMING DATES</h2>
       <div class="event-promo-list" id="eventPromoList">
         <p class="event-promo-empty">Loading upcoming dates...</p>
       </div>
@@ -2706,14 +2617,7 @@
     <div class="neon-divider"></div>
 
     <!-- BOOKING -->
-    <section class="card" id="booking">
-      <h2>Book Your Event</h2>
-      <a class="btn-primary"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSdS8PTiEEpd7LqjRK17SraauG_6nJbVMyytgCbAgKKvnUOU6Q/viewform"
-        target="_blank" rel="noopener">
-        Open Booking Form
-      </a>
-    </section>
+    <section class="card" id="packages"><p class="eyebrow">MADE FOR YOUR NIGHT</p><h2>Choose your starting point.</h2><div class="package-grid"><article class="package-card"><p class="eyebrow">01 / BASIC</p><h3>Basic</h3><p>Great for birthdays, private parties and small events.</p><ul class="package-inclusions"><li>Professional DJ service</li><li>QSC &amp; JBL speaker setup</li><li>Shure wireless microphone set</li><li>Standard party lighting</li></ul><a class="primary" href="#booking" data-package="basic">Ask about Basic ↗</a></article><article class="package-card"><p class="eyebrow">02 / PREMIUM</p><h3>Premium — All Out</h3><p>Ideal for weddings, receptions and large celebrations.</p><ul class="package-inclusions"><li>Full DJ experience</li><li>QSC &amp; JBL speaker setup</li><li>5 subwoofers</li><li>6 moving heads</li><li>1 premium Gig Bar</li><li>3 strobes</li><li>10 uplights</li><li>Regular smoke machine</li><li>Dry ice low-lying fog effect</li><li>6 cold spark machines</li><li>Shure wireless microphone set</li></ul><a class="primary" href="#booking" data-package="premium">Ask about Premium ↗</a></article></div><p class="booking-small">Contact Sarif for pricing and a personalized quote.</p><div class="package-comparison"><h3>Compare your setup</h3><div class="comparison-scroll" tabindex="0" aria-label="Package comparison"><table><thead><tr><th scope="col">Included</th><th scope="col">Basic</th><th scope="col">Premium - All Out</th></tr></thead><tbody><tr><th scope="row">DJ service, QSC &amp; JBL speakers, Shure wireless microphones</th><td>Included</td><td>Included</td></tr><tr><th scope="row">Lighting</th><td>Standard party lighting</td><td>6 moving heads, 1 premium Gig Bar, 3 strobes, 10 uplights</td></tr><tr><th scope="row">Additional bass</th><td>As listed above</td><td>5 subwoofers</td></tr><tr><th scope="row">Special effects</th><td>Ask about options</td><td>Smoke, dry ice low-lying fog, 6 cold spark machines</td></tr><tr><th scope="row">Performance hours &amp; travel</th><td colspan="2">Confirmed in your personalized quote</td></tr></tbody></table></div><p class="booking-small">Tell us about any extra lighting, sound or effects you would like. Availability and pricing are confirmed with your quote.</p></div></section><section class="card faq-section" id="faq"><p class="eyebrow">BEFORE THE FIRST SONG</p><h2>A few things to know.</h2><details><summary>How soon will I hear back?</summary><p>Expect a response within 24–48 hours. For a time-sensitive request, call 614-772-6549.</p></details><details><summary>Does an inquiry reserve my date?</summary><p>No. We will confirm availability, discuss your plans and send a personalized quote. Your booking requirements and confirmation are set out in your agreement.</p></details><details><summary>How many hours does each package include?</summary><p>Performance hours, setup and breakdown timing are confirmed in your quote based on your event schedule.</p></details><details><summary>Do you travel, and are there travel fees?</summary><p>Send your venue location with your inquiry. Travel availability and any travel fees will be confirmed in your quote.</p></details><details><summary>Can we request songs?</summary><p>Yes. Share your favorite genres, must-play songs and do-not-play list in your inquiry so we can discuss the music for your event.</p></details><details><summary>What deposit is required?</summary><p>The deposit amount and payment schedule will be confirmed in your quote and agreement.</p></details><details><summary>What is the cancellation or rescheduling policy?</summary><p>Cancellation and rescheduling terms are confirmed in your agreement. Contact Sarif if your plans change.</p></details><details><summary>Can I customize a package?</summary><p>Tell us which sound, lighting or effects you are interested in. Available options and any additional charges will be confirmed in your quote.</p></details><details><summary>What does the venue need to provide?</summary><p>Share the venue details and available setup space. We will coordinate access, power and any venue requirements for lighting, fog and special effects before the event.</p></details></section><section class="card booking-new" id="booking"><div><p class="eyebrow">LET'S MAKE IT YOUR NIGHT</p><h2>The next great night<br><em>starts right here.</em></h2><p>Share your date, venue and event type. We'll talk music, confirm availability and work out the details together.</p><a class="primary" href="https://docs.google.com/forms/d/e/1FAIpQLSdS8PTiEEpd7LqjRK17SraauG_6nJbVMyytgCbAgKKvnUOU6Q/viewform" target="_blank" rel="noopener">Check my date ↗</a><p class="booking-small">Expect a reply within 24–48 hours. Sending an inquiry does not reserve a date.</p></div><div class="booking-steps"><p><b>01</b><span><strong>Tell me about your event</strong>Date, location and the kind of celebration.</span></p><p><b>02</b><span><strong>Hear back in 24–48 hours</strong>We’ll discuss your music, timeline, setup and personalized quote.</span></p><p><b>03</b><span><strong>Let's make it happen</strong>Confirm the details together.</span></p><a href="tel:+16147726549">Prefer to talk? 614-772-6549 ↗</a></div></section>
 
     <!-- CONTACT -->
     <section class="card" id="contact">
@@ -2727,8 +2631,8 @@
       </p>
     </section>
 
-    <footer>© 2025 DJ Sarif. All Rights Reserved.</footer>
-  </div>
+    <footer><strong>DJ SARIF.</strong><span>© <span id="currentYear">2026</span> DJ Sarif</span><a href="#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="dashboard.html">Admin</a><a href="#top">Back to top ↑</a></footer>
+  </main>
 
   <!-- Floating contacts -->
   <a href="tel:+16147726549" class="floating-call" aria-label="Call DJ Sarif">📞</a>
@@ -2737,7 +2641,7 @@
   <a href="https://wa.me/16147726549" target="_blank" rel="noopener" class="whatsapp-float"
     aria-label="WhatsApp DJ Sarif">💬</a>
 
-  <div class="mobile-book-bar"><a href="#booking">📅 Book DJ Sarif Now</a></div>
+  <div class="mobile-book-bar"><a href="#booking">Check my date ↗</a></div>
 
   <!-- EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
   <div id="eventPromoPopupRoot" aria-live="polite"></div>
@@ -2746,17 +2650,17 @@
   <!-- END EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
 
   <!-- VIP Orb -->
-  <button class="vip-orb" type="button" onclick="toggleVIP(true)" aria-label="Open VIP Signup">
+  <button class="vip-orb" type="button" onclick="toggleVIP(true)" aria-label="Open event inquiry">
     <span class="vip-orb-label">VIP</span>
   </button>
 
   <!-- VIP Panel -->
   <div class="vip-panel-wrap" aria-live="polite">
-    <div class="vip-panel" id="vipPanel" role="dialog" aria-label="VIP Signup Panel">
+    <div class="vip-panel" id="vipPanel" role="dialog" aria-label="Event inquiry panel">
       <div class="vip-head">
         <div>
-          <p class="vip-title">Join the VIP List</p>
-          <p class="vip-sub">You’ll get a confirmation email that your request has been received.</p>
+          <p class="vip-title">Event inquiry</p>
+          <p class="vip-sub">Tell me a little about your event.</p>
         </div>
         <button class="vip-close" type="button" onclick="toggleVIP(false)" aria-label="Close VIP Panel">✕</button>
       </div>
@@ -2803,7 +2707,7 @@
           </div>
 
           <div class="vip-note" id="vipNote">
-            When you click “Send Request”, the site will email you and the customer (confirmation).
+            Your date is confirmed after we connect. You can also call 614-772-6549.
           </div>
         </form>
       </div>
@@ -2823,8 +2727,8 @@
       </div>
 
       <div class="modal-grid">
-        <img src="IMG_1234.jpg" style="border:2px solid var(--neon1);" alt="DJ Sarif photo 1">
-        <img src="IMG_1235.jpg" style="border:2px solid var(--neon2);" alt="DJ Sarif photo 2">
+        <img src="images/dj-sarif-stage-portrait.webp" style="border:2px solid var(--neon1);" alt="DJ Sarif photo 1">
+        <img src="images/sarif-live.webp" style="border:2px solid var(--neon2);" alt="DJ Sarif photo 2">
       </div>
 
       <div class="about-box">
@@ -2852,27 +2756,27 @@
       <div class="client-modal-top">
         <div>
           <h2 style="margin:0;">Client Access</h2>
-          <p style="margin:8px 0 0; opacity:.85;">Finalize details, confirm terms, or send a quick update.</p>
+          <p style="margin:8px 0 0; opacity:.85;">Send your event details to Sarif. To sign an agreement, use your private signing link.</p>
         </div>
         <button class="client-modal-close" type="button" onclick="closeClientAccess()"
           aria-label="Close Client Access">✕</button>
       </div>
 
       <div class="client-form">
-        <h3>Booking Agreement / Update</h3>
+        <h3>Event details request</h3>
         <p style="margin:8px 0 0; opacity:.85; font-size:14px;">
           Use this after you’ve spoken with DJ Sarif to confirm details.
         </p>
 
-        <form id="clientAccessForm" onsubmit="submitClientAccess(event)">
+        <p class="form-privacy">We use these details to respond and plan your event. <a href="privacy.html">Privacy notice</a></p><form id="clientAccessForm" onsubmit="submitClientAccess(event)">
           <div class="client-grid">
             <input class="client-input" name="clientName" placeholder="Client Name" required />
             <input class="client-input" name="clientEmail" type="email" placeholder="Client Email" required />
-            <input class="client-input" name="eventDate" placeholder="Event Date (MM/DD/YYYY)" />
-            <input class="client-input" id="clientLocation" name="location" placeholder="Venue / Location"
+            <input class="client-input" name="eventDate" type="date" required />
+            <input class="client-input" id="clientLocation" name="location" placeholder="Venue / Location" required
               autocomplete="off" />
             <input class="client-input" name="rate" type="number" placeholder="Agreed Rate ($)" />
-            <select class="client-select" name="eventType">
+            <select class="client-select" name="eventType" required>
               <option value="" disabled selected>Event Type</option>
               <option>Wedding</option>
               <option>Birthday</option>
@@ -2880,26 +2784,19 @@
               <option>Concert</option>
               <option>Private Party</option>
             </select>
-            <textarea class="client-textarea" name="notes"
+            <label class="field-label">Package preference<select class="client-select" name="packageOption"><option value="unsure">Help me choose</option><option value="basic">Basic</option><option value="premium">Premium — All Out</option></select></label><textarea class="client-textarea" name="notes"
               placeholder="Notes, timeline, must-play songs, special requests..."></textarea>
           </div>
 
-          <div class="client-terms">
-            <strong>Terms (example):</strong>
-            <ul style="margin:8px 0 0; padding-left:18px;">
-              <li>30% non-refundable deposit required to secure booking.</li>
-              <li>Remaining balance due on or before event date.</li>
-              <li>Cancellation within 14 days may require 50% of agreed rate.</li>
-            </ul>
-          </div>
+          <p class="client-terms">Sending details does not sign an agreement or reserve your date.</p>
 
           <div class="client-actions">
             <button class="client-btn-primary" type="submit" id="clientSubmitBtn">Send</button>
-            <button class="client-btn-ghost" type="button" onclick="window.print()">Save as PDF</button>
+            
           </div>
 
           <div class="vip-note" id="clientNote" style="margin-top:10px;">
-            When you click “Send”, the site will email you and the customer (confirmation).
+            Send an update about your event. This does not sign or change an agreement.
           </div>
         </form>
       </div>
@@ -2930,13 +2827,13 @@
   </div>
 
   <!-- autoComplete.js (OSM) -->
-  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+
 
   <script>
     /* ===========================
        IMPORTANT: Your Apps Script URL
        =========================== */
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyFdjV0zjHtGDSF2g_0UkBIjNo5jzc8htWFn590tT0fL_oXdVRbdPvYOJyf92MNTJJE/exec";
+    const SCRIPT_URL = window.DJ_CONFIG.publicApiUrl || "https://script.google.com/macros/s/AKfycbyFdjV0zjHtGDSF2g_0UkBIjNo5jzc8htWFn590tT0fL_oXdVRbdPvYOJyf92MNTJJE/exec";
 
     /* ===========================
        MEDIA VIDEO CONFIG (CLOUDFLARE STREAM TABS)
@@ -3142,7 +3039,8 @@
        NAV (mobile + wizard)
        =========================== */
     function toggleNav() {
-      document.getElementById("navLinks").classList.toggle("open");
+      const open = document.getElementById("navLinks").classList.toggle("open");
+      document.querySelector(".hamburger").setAttribute("aria-expanded", String(open));
     }
 
     function selectEvent(type) {
@@ -3163,8 +3061,8 @@
 
       // Disable OSM autocomplete when opened as file:// (prevents CORS/403 errors)
       if (!isFile) {
-        initOSMAutocomplete("#vipVenue", "Venue name, city, or address...");
-        initOSMAutocomplete("#clientLocation", "Venue name, city, or address...");
+        
+        
       }
 
       syncPlayOverlay();
@@ -3281,15 +3179,16 @@
       const res = await fetch(url, {
         method: "POST",
         body: formData,
+        signal: AbortSignal.timeout(15000),
         headers: { "Accept": "application/json" }
       });
 
       const text = await res.text();
       let data = {};
-      try { data = JSON.parse(text); } catch (e) { }
+      try { data = JSON.parse(text); } catch (e) { throw new Error("The service returned an unexpected response"); }
 
       if (!res.ok) throw new Error(data?.error || `Request failed (${res.status})`);
-      if (data?.ok === false) throw new Error(data?.error || "Request failed");
+      if (data?.ok !== true) throw new Error(data?.error || "The service did not confirm your request");
       return data;
     }
 
@@ -3315,28 +3214,9 @@
       localStorage.setItem(key, JSON.stringify(value));
     }
 
-    function captureDashboardClient(record) {
-      const clients = getDashboardCollection(DASHBOARD_CLIENTS_KEY);
-      clients.unshift({
-        id: `client-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        status: "new",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        ...record
-      });
-      saveDashboardCollection(DASHBOARD_CLIENTS_KEY, clients);
-    }
+    function captureDashboardClient(record) { /* Submission is stored by the server after acknowledgement. */ }
 
-    function captureDashboardReview(record) {
-      const reviews = getDashboardCollection(DASHBOARD_REVIEWS_KEY);
-      reviews.unshift({
-        id: `review-${Date.now()}-${Math.random().toString(36).slice(2)}`,
-        status: "pending",
-        createdAt: new Date().toISOString(),
-        ...record
-      });
-      saveDashboardCollection(DASHBOARD_REVIEWS_KEY, reviews);
-    }
+    function captureDashboardReview(record) { /* Submission is stored by the server after acknowledgement. */ }
 
     /* ===========================
        VIP submit
@@ -3389,7 +3269,7 @@
         btn.innerText = "Sent!";
         setTimeout(() => { btn.innerText = "Send Request"; btn.disabled = false; }, 2500);
       } catch (err) {
-        note.innerHTML = `<div class="vip-error">Error: ${String(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
+        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
         btn.innerText = "Send Request";
         btn.disabled = false;
       }
@@ -3429,7 +3309,7 @@
         btn.innerText = "Sent!";
         setTimeout(() => { btn.innerText = "Send"; btn.disabled = false; }, 2500);
       } catch (err) {
-        note.innerHTML = `<div class="vip-error">Error: ${String(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
+        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
         btn.innerText = "Send";
         btn.disabled = false;
       }
@@ -3473,7 +3353,7 @@
         btn.innerText = "Submitted!";
         setTimeout(() => { btn.innerText = "Submit Review"; btn.disabled = false; }, 2500);
       } catch (err) {
-        note.innerHTML = `<div class="vip-error">Error: ${String(err.message || err)}. Please try again.</div>`;
+        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. Please try again.</div>`;
         btn.innerText = "Submit Review";
         btn.disabled = false;
       }
@@ -3488,30 +3368,15 @@
         .replaceAll("'", "&#039;");
     }
 
-    function fetchJsonp(url) {
-      return new Promise((resolve, reject) => {
-        const callbackName = `djSarifJsonp_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-        const script = document.createElement("script");
-        const separator = url.includes("?") ? "&" : "?";
-
-        const cleanup = () => {
-          delete window[callbackName];
-          script.remove();
-        };
-
-        window[callbackName] = (data) => {
-          cleanup();
-          resolve(data);
-        };
-
-        script.onerror = () => {
-          cleanup();
-          reject(new Error("Apps Script JSONP request failed."));
-        };
-
-        script.src = `${url}${separator}callback=${encodeURIComponent(callbackName)}`;
-        document.body.appendChild(script);
-      });
+    async function fetchJsonp(url) {
+      let lastError;
+      for(let attempt=0;attempt<2;attempt++){
+        try{const response=await fetch(url,{signal:AbortSignal.timeout(25000),cache:'no-store'});
+          if(!response.ok)throw Error('Service unavailable');
+          const data=await response.json();if(data?.ok!==true)throw Error(data?.error||'Service unavailable');return data;
+        }catch(error){lastError=error;}
+      }
+      throw lastError;
     }
 
     async function loadApprovedReviews() {
@@ -3525,14 +3390,8 @@
 
       try {
         const data = await fetchJsonp(`${SCRIPT_URL}?action=approved_reviews`);
-        const localApprovedReviews = getDashboardCollection(DASHBOARD_REVIEWS_KEY)
-          .filter((review) => review.status === "approved")
-          .map((review) => ({
-            name: review.name,
-            text: review.text,
-            rating: review.rating,
-            eventType: review.eventType
-          }));
+        if (data?.ok === false) throw new Error("Reviews unavailable");
+        const localApprovedReviews = [];
         const reviews = [
           ...localApprovedReviews,
           ...(Array.isArray(data?.reviews) ? data.reviews : [])
@@ -3556,13 +3415,13 @@
           card.style.border = "1px solid rgba(255,255,255,0.12)";
           card.style.borderRadius = "16px";
           card.style.padding = "12px";
-          card.style.boxShadow = "0 0 18px rgba(0,229,255,0.10)";
+          card.style.boxShadow = "0 0 18px rgba(236,162,115,0.10)";
           card.style.marginBottom = "12px";
 
           if (idx >= 3) card.style.display = "none";
 
           card.innerHTML = `
-            <div style="font-weight:900; letter-spacing:2px; color:#ffd54a; margin-bottom:8px;">${"★".repeat(stars)}</div>
+            <div style="font-weight:900; letter-spacing:2px; color:#eca273; margin-bottom:8px;">${"★".repeat(stars)}</div>
             <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(r.text || "")}</div>
             <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">— ${escapeHtml(r.name || "Client")}</div>
             <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(r.eventType || "")}</div>
@@ -3592,16 +3451,15 @@
           grid.parentElement?.appendChild(btn);
         }
       } catch (err) {
-        const localApprovedReviews = getDashboardCollection(DASHBOARD_REVIEWS_KEY)
-          .filter((review) => review.status === "approved");
+        const localApprovedReviews = [];
 
         if (localApprovedReviews.length) {
           if (empty) empty.style.display = "none";
           grid.innerHTML = localApprovedReviews.map((review) => {
             const stars = Math.max(1, Math.min(5, Number(review.rating || 5)));
             return `
-              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:12px; box-shadow:0 0 18px rgba(0,229,255,0.10); margin-bottom:12px;">
-                <div style="font-weight:900; letter-spacing:2px; color:#ffd54a; margin-bottom:8px;">${"★".repeat(stars)}</div>
+              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:12px; box-shadow:0 0 18px rgba(236,162,115,0.10); margin-bottom:12px;">
+                <div style="font-weight:900; letter-spacing:2px; color:#eca273; margin-bottom:8px;">${"★".repeat(stars)}</div>
                 <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(review.text || "")}</div>
                 <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">- ${escapeHtml(review.name || "Client")}</div>
                 <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(review.eventType || "")}</div>
@@ -3670,8 +3528,8 @@
 
     // Disable OSM autocomplete when opened as file:// (prevents CORS/403 errors)
     if (!isFile) {
-      initOSMAutocomplete("#vipVenue", "Venue name, city, or address...");
-      initOSMAutocomplete("#clientLocation", "Venue name, city, or address...");
+      
+      
     }
 
     // Ensure play overlay is correct on load (only if your function exists)
@@ -3679,734 +3537,9 @@
     loadApprovedReviews();
   });
 
-  /* ================================
-     EVENT PROMOTION SYSTEM: JS ADDITIONS
-     Google Calendar powered upcoming events + reusable multi-event popup.
-     ================================ */
-  (() => {
-    const PROMO_EVENTS = [
-      {
-        id: "one-bottle-down-neon-may",
-        title: "One Bottle Down - Neon May",
-        date: "2026-05-16",
-        time: "9 PM - 11:59 PM",
-        location: "Boozemandu, Pickerington, OH",
-        image: "event-promo-may16.png",
-        description: "Neon night energy with DJ Sarif. Pure energy, clean mixes, and a dance floor built for the moment.",
-        ticketUrl: "https://www.eventbrite.com/e/one-bottle-down-neon-may-tickets-1988322436933?keep_tld=true",
-        detailsUrl: "",
-        statusLabel: "Tickets Available",
-        showUntil: "2026-05-16T23:59:59"
-      }
-    ];
 
-    const PRIMARY_PROMO_EVENT = PROMO_EVENTS[0] || {};
-    const EVENT_DATE = PRIMARY_PROMO_EVENT.showUntil || "2026-05-16T23:59:59";
-    const EVENT_TITLE = PRIMARY_PROMO_EVENT.title || "DJ SARIF LIVE";
-    const EVENT_IMAGE = PRIMARY_PROMO_EVENT.image || "event-promo-may16.png";
-    const EVENT_TICKET_URL = PRIMARY_PROMO_EVENT.ticketUrl || PRIMARY_PROMO_EVENT.detailsUrl || "#booking";
-    const EVENT_LEARN_MORE_URL = EVENT_TICKET_URL;
-
-    const CALENDAR_ID = "e9dd4be6ec069d0e0d06489b2b39c6e731f968bbabc86dd05197f5ff4bfba32f@group.calendar.google.com";
-    const MAX_EVENTS = 50;
-    const PUBLIC_EVENT_OVERRIDES = [
-      {
-        date: "2026-05-16",
-        title: "One Bottle Down - Neon May",
-        location: "Boozemandu, Pickerington, OH • 9 PM - 11:59 PM",
-        url: EVENT_TICKET_URL
-      }
-    ];
-
-    const PRIVATE_KEYWORDS = ["private", "wedding", "corporate"];
-
-    let eventPromoPreviousOverflow = "";
-
-    function isEventExpired(dateString) {
-      return Date.now() > new Date(dateString).getTime();
-    }
-
-    function getPromoExpiration(eventItem) {
-      const fallback = eventItem?.date ? `${eventItem.date}T23:59:59` : EVENT_DATE;
-      return new Date(eventItem?.showUntil || fallback);
-    }
-
-    function getPromoDate(eventItem) {
-      const date = new Date(`${eventItem?.date || ""}T12:00:00`);
-      return Number.isNaN(date.getTime()) ? getPromoExpiration(eventItem) : date;
-    }
-
-    function isActivePromoEvent(eventItem) {
-      const expires = getPromoExpiration(eventItem);
-      return eventItem && !Number.isNaN(expires.getTime()) && expires.getTime() >= Date.now();
-    }
-
-    function getActivePromoEvents() {
-      return PROMO_EVENTS
-        .filter(isActivePromoEvent)
-        .sort((a, b) => getPromoDate(a) - getPromoDate(b));
-    }
-
-    function shouldShowPopup() {
-      return getActivePromoEvents().length > 0;
-    }
-
-    function formatPromoDate(eventItem) {
-      const date = getPromoDate(eventItem);
-      if (Number.isNaN(date.getTime())) return "Date TBA";
-      return date.toLocaleString("en-US", { month: "short", day: "numeric" });
-    }
-
-    function formatPromoFullDate(eventItem) {
-      const date = getPromoDate(eventItem);
-      if (Number.isNaN(date.getTime())) return "Date TBA";
-      return date.toLocaleString("en-US", { weekday: "short", month: "long", day: "numeric" });
-    }
-
-    function getPromoUrl(eventItem) {
-      return eventItem?.ticketUrl || eventItem?.detailsUrl || "";
-    }
-
-    function getPromoButtonLabel(eventItem) {
-      if (eventItem?.ticketUrl) return "Get Tickets";
-      if (eventItem?.detailsUrl) return "View Details";
-      return "Message DJ Sarif";
-    }
-
-    function sanitizePromoUrl(value) {
-      const url = String(value || "");
-      if (!url) return "";
-      if (url.startsWith("#")) return url;
-
-      try {
-        const parsed = new URL(url, window.location.href);
-        if (parsed.protocol === "http:" || parsed.protocol === "https:" || parsed.protocol === "sms:" || parsed.protocol === "mailto:" || parsed.protocol === "tel:") {
-          return parsed.href;
-        }
-      } catch (error) {}
-
-      return "";
-    }
-
-    function renderPromoAction(eventItem, extraClass = "") {
-      const url = sanitizePromoUrl(getPromoUrl(eventItem));
-      const label = getPromoButtonLabel(eventItem);
-      if (url) {
-        const target = url.startsWith("http") ? ' target="_blank" rel="noopener"' : "";
-        return `<a class="event-promo-button ${extraClass}" href="${escapeEventHtml(url)}"${target}>${escapeEventHtml(label)}</a>`;
-      }
-
-      return `<a class="event-promo-button ${extraClass}" href="sms:+16147726549">Message DJ Sarif</a>`;
-    }
-
-    function closeEventPopup() {
-      const popup = document.getElementById("eventPromoPopup");
-      if (!popup) return;
-
-      popup.classList.remove("is-visible");
-      document.body.style.overflow = eventPromoPreviousOverflow;
-
-      setTimeout(() => {
-        popup.remove();
-      }, 280);
-    }
-
-    function renderPopup(selectedEventId) {
-      const root = document.getElementById("eventPromoPopupRoot");
-      const activeEvents = getActivePromoEvents();
-      if (!root || !activeEvents.length) {
-        if (root) root.innerHTML = "";
-        return;
-      }
-
-      const featuredEvent = activeEvents.find((eventItem) => eventItem.id === selectedEventId) || activeEvents[0];
-      const extraCards = activeEvents.length > 1
-        ? `
-          <div class="event-promo-modal-events" aria-label="More upcoming promoted events">
-            ${activeEvents.map((eventItem) => {
-              const highlighted = eventItem.id === featuredEvent.id ? " is-highlighted" : "";
-              return `
-                <button class="event-promo-mini-card${highlighted}" type="button" data-event-promo-select="${escapeEventHtml(eventItem.id)}">
-                  <img class="event-promo-mini-image" src="${escapeEventHtml(eventItem.image || EVENT_IMAGE)}" alt="">
-                  <span class="event-promo-mini-title">${escapeEventHtml(eventItem.title)}</span>
-                  <span class="event-promo-mini-meta">${escapeEventHtml(formatPromoDate(eventItem))}${eventItem.time ? ` • ${escapeEventHtml(eventItem.time)}` : ""}</span>
-                </button>
-              `;
-            }).join("")}
-          </div>
-        `
-        : "";
-
-      root.innerHTML = `
-        <div class="event-promo-popup" id="eventPromoPopup" role="dialog" aria-modal="true" aria-label="${escapeEventHtml(featuredEvent.title)}">
-          <div class="event-promo-modal">
-            <button class="event-promo-close" type="button" aria-label="Close event popup" data-event-promo-close>&times;</button>
-            <div class="event-promo-featured">
-              <div class="event-promo-featured-image">
-                <img class="event-promo-image" src="${escapeEventHtml(featuredEvent.image || EVENT_IMAGE)}" alt="${escapeEventHtml(featuredEvent.title)} event poster">
-              </div>
-              <div class="event-promo-featured-body">
-                <div class="event-promo-status">${escapeEventHtml(featuredEvent.statusLabel || "Upcoming")}</div>
-                <h2 class="event-promo-featured-title">${escapeEventHtml(featuredEvent.title)}</h2>
-                <div class="event-promo-meta">${escapeEventHtml(formatPromoFullDate(featuredEvent))}${featuredEvent.time ? ` • ${escapeEventHtml(featuredEvent.time)}` : ""}</div>
-                <div class="event-promo-meta">${escapeEventHtml(featuredEvent.location || "Location TBA")}</div>
-                <p class="event-promo-featured-text">${escapeEventHtml(featuredEvent.description || "A premium DJ Sarif event with clean mixes and high energy.")}</p>
-                <div class="event-promo-actions">
-                  ${renderPromoAction(featuredEvent, "event-promo-button-primary")}
-                  <a class="event-promo-button" href="#contact" data-event-promo-close>Contact</a>
-                </div>
-              </div>
-            </div>
-            ${extraCards}
-          </div>
-        </div>
-      `;
-
-      const popup = document.getElementById("eventPromoPopup");
-      if (!popup) return;
-
-      eventPromoPreviousOverflow = document.body.style.overflow || "";
-      document.body.style.overflow = "hidden";
-
-      popup.addEventListener("click", (event) => {
-        if (event.target === popup || event.target.closest("[data-event-promo-close]")) {
-          closeEventPopup();
-          return;
-        }
-
-        const selected = event.target.closest("[data-event-promo-select]");
-        if (selected) {
-          renderPopup(selected.getAttribute("data-event-promo-select"));
-        }
-      });
-
-      requestAnimationFrame(() => popup.classList.add("is-visible"));
-    }
-
-    function renderPromoSelector(activeEvents = getActivePromoEvents()) {
-      const root = document.getElementById("eventPromoSelectorRoot");
-      if (!root) return;
-
-      if (!activeEvents.length) {
-        root.innerHTML = "";
-        return;
-      }
-
-      root.innerHTML = `
-        <aside class="event-promo-selector" aria-label="Promoted upcoming events">
-          <div class="event-promo-selector-label">Upcoming Events</div>
-          <div class="event-promo-selector-list">
-            ${activeEvents.map((eventItem, index) => `
-              <button class="event-promo-pill${index === 0 ? " is-active" : ""}" type="button" data-event-promo-open="${escapeEventHtml(eventItem.id)}">
-                <span class="event-promo-pill-date">${escapeEventHtml(formatPromoDate(eventItem))}</span>
-                <span>
-                  <span class="event-promo-pill-title">${escapeEventHtml(eventItem.title)}</span>
-                  <span class="event-promo-pill-sub">${escapeEventHtml(eventItem.statusLabel || "Upcoming")}</span>
-                </span>
-              </button>
-            `).join("")}
-          </div>
-        </aside>
-      `;
-
-      root.querySelectorAll("[data-event-promo-open]").forEach((button) => {
-        button.addEventListener("click", () => {
-          root.querySelectorAll(".event-promo-pill").forEach((pill) => pill.classList.remove("is-active"));
-          button.classList.add("is-active");
-          renderPopup(button.getAttribute("data-event-promo-open"));
-        });
-      });
-    }
-
-    function hasCalendarConfig() {
-      return (
-        typeof SCRIPT_URL === "string" &&
-        SCRIPT_URL.includes("script.google.com")
-      );
-    }
-
-    function isPrivateEvent(title, location, description) {
-      const haystack = `${title || ""} ${location || ""} ${description || ""}`.toLowerCase();
-      return PRIVATE_KEYWORDS.some((word) => haystack.includes(word));
-    }
-
-    function stripEventHtml(value) {
-      const wrapper = document.createElement("div");
-      wrapper.innerHTML = String(value || "");
-      return wrapper.textContent || wrapper.innerText || "";
-    }
-
-    function findEventbriteUrl(item) {
-      const fields = [
-        item?.description || "",
-        item?.location || "",
-        item?.summary || "",
-        item?.title || "",
-        item?.htmlLink || ""
-      ];
-
-      for (const field of fields) {
-        const text = `${field} ${stripEventHtml(field)}`;
-        const match = text.match(/https?:\/\/[^\s"'<>]*eventbrite[^\s"'<>]*/i);
-        if (match) return match[0].replace(/[),.;]+$/, "");
-      }
-
-      return "";
-    }
-
-    function getPublicEventOverride(date, title, location) {
-      const eventDate = new Date(date);
-      const ymd = Number.isNaN(eventDate.getTime())
-        ? ""
-        : eventDate.toISOString().slice(0, 10);
-      const haystack = `${title || ""} ${location || ""}`.toLowerCase();
-
-      return PUBLIC_EVENT_OVERRIDES.find((eventItem) => {
-        if (eventItem.date && eventItem.date === ymd) return true;
-        if (eventItem.title && haystack.includes(eventItem.title.toLowerCase())) return true;
-        return false;
-      });
-    }
-
-    function normalizeCalendarEvent(item) {
-      if (item?.date && item?.title) {
-        const override = getPublicEventOverride(item.date, item.title, item.location);
-        if (override) {
-          return {
-            date: new Date(item.date),
-            title: override.title,
-            location: override.location || item.location || "Location TBA",
-            url: override.url,
-            privateEvent: false
-          };
-        }
-
-        return {
-          date: new Date(item.date),
-          title: item.privateEvent ? "PRIVATE EVENT" : item.title,
-          location: item.location || "Booked",
-          url: item.privateEvent ? "" : item.url,
-          privateEvent: !!item.privateEvent
-        };
-      }
-
-      const startValue = item?.start?.dateTime || item?.start?.date;
-      const eventDate = startValue ? new Date(startValue) : new Date(EVENT_DATE);
-      const rawTitle = item?.summary || EVENT_TITLE;
-      const rawLocation = item?.location || "";
-      const rawDescription = item?.description || "";
-      const eventbriteUrl = findEventbriteUrl(item);
-      const override = getPublicEventOverride(eventDate, rawTitle, rawLocation);
-      const publicUrl = override?.url || eventbriteUrl;
-      const privateEvent = !publicUrl || isPrivateEvent(rawTitle, rawLocation, rawDescription);
-
-      return {
-        date: eventDate,
-        title: privateEvent ? "PRIVATE EVENT" : (override?.title || rawTitle),
-        location: override?.location || rawLocation || (privateEvent ? "Booked" : "Location TBA"),
-        url: privateEvent ? "" : publicUrl,
-        privateEvent
-      };
-    }
-
-    function getFallbackEvents() {
-      if (isEventExpired(EVENT_DATE)) return [];
-
-      return [{
-        date: new Date(EVENT_DATE),
-        title: "One Bottle Down - Neon May",
-        location: "Boozemandu, Pickerington, OH • 9 PM - 11:59 PM",
-        url: EVENT_LEARN_MORE_URL,
-        privateEvent: false
-      }];
-    }
-
-    function formatEventDate(date) {
-      return {
-        month: date.toLocaleString("en-US", { month: "short" }),
-        day: date.toLocaleString("en-US", { day: "2-digit" })
-      };
-    }
-
-    function escapeEventHtml(value) {
-      return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function sanitizeEventUrl(value) {
-      const url = String(value || EVENT_LEARN_MORE_URL);
-      if (url.startsWith("#")) return url;
-
-      try {
-        const parsed = new URL(url, window.location.href);
-        if (parsed.protocol === "http:" || parsed.protocol === "https:") {
-          return parsed.href;
-        }
-      } catch (error) {}
-
-      return EVENT_LEARN_MORE_URL;
-    }
-
-    function renderEvents(events) {
-      const list = document.getElementById("eventPromoList");
-      if (!list) return;
-
-      if (!events.length) {
-        list.innerHTML = '<p class="event-promo-empty">No public upcoming dates posted yet. Check back soon.</p>';
-        return;
-      }
-
-      list.innerHTML = events.map((eventItem) => {
-        const dateParts = formatEventDate(eventItem.date);
-        const safeTitle = escapeEventHtml(eventItem.title);
-        const safeLocation = escapeEventHtml(eventItem.location);
-        const safeUrl = sanitizeEventUrl(eventItem.url);
-        const action = eventItem.privateEvent
-          ? '<span class="event-promo-booked-tag">Booked</span>'
-          : `<a class="event-promo-card-link" href="${safeUrl}" target="_blank" rel="noopener">Details &rarr;</a>`;
-
-        return `
-          <article class="event-promo-card">
-            <div class="event-promo-date-badge" aria-label="${dateParts.month} ${dateParts.day}">
-              <span class="event-promo-month">${dateParts.month}</span>
-              <span class="event-promo-day">${dateParts.day}</span>
-            </div>
-            <div>
-              <h3 class="event-promo-card-title">${safeTitle}</h3>
-              <p class="event-promo-card-location">${safeLocation}</p>
-              ${action}
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
-    async function loadEvents() {
-      try {
-        if (!hasCalendarConfig()) {
-          renderEvents(getFallbackEvents());
-          return;
-        }
-
-        const data = await fetchJsonp(`${SCRIPT_URL}?action=calendar_events&limit=${MAX_EVENTS}`);
-        if (data?.ok === false) throw new Error(data.error || "Calendar request failed.");
-
-        const sourceEvents = Array.isArray(data?.events)
-          ? data.events
-          : (Array.isArray(data?.items) ? data.items : []);
-
-        const events = sourceEvents
-          .filter((item) => item?.status !== "cancelled")
-          .map(normalizeCalendarEvent)
-          .filter((eventItem) => eventItem.date.getTime() >= Date.now())
-          .sort((a, b) => a.date - b.date)
-          .slice(0, MAX_EVENTS);
-
-        renderEvents(events);
-      } catch (error) {
-        console.warn("Unable to load upcoming events.", error);
-        renderEvents(getFallbackEvents());
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const activePromoEvents = getActivePromoEvents();
-      renderPromoSelector(activePromoEvents);
-      renderPopup(activePromoEvents[0]?.id);
-      loadEvents();
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeEventPopup();
-    });
-
-    window.shouldShowPopup = shouldShowPopup;
-    window.renderPopup = renderPopup;
-    window.renderPromoSelector = renderPromoSelector;
-    window.loadEvents = loadEvents;
-  })();
-
-  /* ================================
-     DASHBOARD CONNECTED EVENTS
-     Reads local dashboard edits first, then events.json, then optional Google Calendar.
-     ================================ */
-  (() => {
-    // Disabled: this older dashboard events block overwrote the current
-    // Apps Script calendar events and popup rendering.
-    return;
-
-    const EVENTS_KEY = "djSarifEvents";
-    const SETTINGS_KEY = "djSarifDashboardSettings";
-    const POPUP_SESSION_KEY = "djSarifFeaturedEventPopupSeen";
-    const DEFAULT_SETTINGS = {
-      popupEnabled: true,
-      eventSource: "manual",
-      googleCalendarApiKey: "",
-      googleCalendarId: "",
-      hiddenSections: []
-    };
-
-    let dashboardEventPromoPreviousOverflow = "";
-
-    function getTodayStart() {
-      const now = new Date();
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    }
-
-    function escapeDashboardEventHtml(value) {
-      return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function sanitizeDashboardEventUrl(value) {
-      const url = String(value || "#");
-      if (url.startsWith("#")) return url;
-
-      try {
-        const parsed = new URL(url, window.location.href);
-        if (parsed.protocol === "http:" || parsed.protocol === "https:") return parsed.href;
-      } catch (error) {}
-
-      return "#";
-    }
-
-    function getDashboardSettings() {
-      try {
-        return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}") };
-      } catch (error) {
-        return { ...DEFAULT_SETTINGS };
-      }
-    }
-
-    function getDashboardLocalEvents() {
-      try {
-        const stored = JSON.parse(localStorage.getItem(EVENTS_KEY) || "[]");
-        return Array.isArray(stored) ? stored : [];
-      } catch (error) {
-        return [];
-      }
-    }
-
-    async function getEventsJsonData() {
-      try {
-        const response = await fetch("events.json", { cache: "no-store" });
-        if (!response.ok) throw new Error(`events.json request failed (${response.status})`);
-        return await response.json();
-      } catch (error) {
-        console.warn("Unable to load events.json.", error);
-        return {};
-      }
-    }
-
-    function normalizeManualEvent(eventItem) {
-      return {
-        id: eventItem.id || `${eventItem.title || "event"}-${eventItem.date || ""}`,
-        title: eventItem.title || "DJ Sarif Live",
-        date: eventItem.date || "",
-        time: eventItem.time || "",
-        venue: eventItem.venue || "Venue TBA",
-        cityState: eventItem.cityState || "",
-        ticketLink: eventItem.ticketLink || eventItem.url || "#",
-        image: eventItem.image || "event-promo-may16.png",
-        status: eventItem.status || "active",
-        featured: !!eventItem.featured
-      };
-    }
-
-    function isActiveFutureEvent(eventItem) {
-      if (!eventItem.date || eventItem.status !== "active") return false;
-      const eventDate = new Date(`${eventItem.date}T23:59:59`);
-      return !Number.isNaN(eventDate.getTime()) && eventDate >= getTodayStart();
-    }
-
-    function sortEvents(a, b) {
-      if (a.featured !== b.featured) return a.featured ? -1 : 1;
-      return new Date(a.date) - new Date(b.date);
-    }
-
-    function formatDashboardDate(dateString) {
-      const date = new Date(`${dateString}T12:00:00`);
-      if (Number.isNaN(date.getTime())) return { month: "TBA", day: "" };
-      return {
-        month: date.toLocaleString("en-US", { month: "short" }),
-        day: date.toLocaleString("en-US", { day: "2-digit" })
-      };
-    }
-
-    async function getGoogleCalendarEvents(settings) {
-      const apiKey = settings.googleCalendarApiKey;
-      const calendarId = settings.googleCalendarId;
-      if (!apiKey || !calendarId) return [];
-
-      const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`);
-      url.searchParams.set("key", apiKey);
-      url.searchParams.set("singleEvents", "true");
-      url.searchParams.set("orderBy", "startTime");
-      url.searchParams.set("timeMin", new Date().toISOString());
-
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Google Calendar request failed (${response.status})`);
-        const data = await response.json();
-        return (Array.isArray(data.items) ? data.items : []).map((item) => {
-          const startValue = item?.start?.dateTime || item?.start?.date || "";
-          const eventDate = startValue ? new Date(startValue) : null;
-          return normalizeManualEvent({
-            id: item.id,
-            title: item.summary || "DJ Sarif Event",
-            date: eventDate && !Number.isNaN(eventDate.getTime()) ? eventDate.toISOString().slice(0, 10) : "",
-            time: eventDate && item?.start?.dateTime ? eventDate.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }) : "",
-            venue: item.location || "Venue TBA",
-            cityState: "",
-            ticketLink: item.htmlLink || "#",
-            image: "event-promo-may16.png",
-            status: item.status === "cancelled" ? "expired" : "active",
-            featured: false
-          });
-        });
-      } catch (error) {
-        console.warn("Unable to load Google Calendar events.", error);
-        return [];
-      }
-    }
-
-    async function getHomepageEventsAndSettings() {
-      const localSettings = getDashboardSettings();
-      const localEvents = getDashboardLocalEvents();
-      const jsonData = await getEventsJsonData();
-      const settings = { ...DEFAULT_SETTINGS, ...(jsonData.settings || {}), ...localSettings };
-
-      if (settings.eventSource === "google" && settings.googleCalendarApiKey && settings.googleCalendarId) {
-        const googleEvents = await getGoogleCalendarEvents(settings);
-        if (googleEvents.length) return { settings, events: googleEvents };
-      }
-
-      const sourceEvents = localEvents.length ? localEvents : (Array.isArray(jsonData.events) ? jsonData.events : []);
-      return { settings, events: sourceEvents.map(normalizeManualEvent) };
-    }
-
-    function renderDashboardEvents(events) {
-      const list = document.getElementById("eventPromoList");
-      if (!list) return;
-
-      const activeEvents = events.filter(isActiveFutureEvent).sort(sortEvents);
-      if (!activeEvents.length) {
-        list.innerHTML = '<p class="event-promo-empty">No public upcoming dates posted yet. Check back soon.</p>';
-        return;
-      }
-
-      list.innerHTML = activeEvents.map((eventItem) => {
-        const dateParts = formatDashboardDate(eventItem.date);
-        const location = [eventItem.venue, eventItem.cityState].filter(Boolean).join(", ");
-        const time = eventItem.time ? ` • ${eventItem.time}` : "";
-        const safeUrl = sanitizeDashboardEventUrl(eventItem.ticketLink);
-        const button = safeUrl === "#"
-          ? '<span class="event-promo-booked-tag">Details Soon</span>'
-          : `<a class="event-promo-card-link" href="${safeUrl}" target="_blank" rel="noopener">Get Tickets</a>`;
-
-        return `
-          <article class="event-promo-card">
-            <div class="event-promo-date-badge" aria-label="${dateParts.month} ${dateParts.day}">
-              <span class="event-promo-month">${dateParts.month}</span>
-              <span class="event-promo-day">${dateParts.day}</span>
-            </div>
-            <div>
-              <h3 class="event-promo-card-title">${escapeDashboardEventHtml(eventItem.title)}</h3>
-              <p class="event-promo-card-location">${escapeDashboardEventHtml(location)}${escapeDashboardEventHtml(time)}</p>
-              ${button}
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
-    function closeDashboardEventPopup() {
-      const popup = document.getElementById("eventPromoPopup");
-      if (!popup) return;
-
-      sessionStorage.setItem(POPUP_SESSION_KEY, "true");
-      popup.classList.remove("is-visible");
-      document.body.style.overflow = dashboardEventPromoPreviousOverflow;
-
-      setTimeout(() => popup.remove(), 280);
-    }
-
-    function renderDashboardPopup(events, settings) {
-      const root = document.getElementById("eventPromoPopupRoot");
-      if (!root || !settings.popupEnabled || sessionStorage.getItem(POPUP_SESSION_KEY) === "true") return;
-
-      const eventItem = events.filter(isActiveFutureEvent).sort(sortEvents).find((item) => item.featured);
-      if (!eventItem) return;
-
-      const location = [eventItem.venue, eventItem.cityState].filter(Boolean).join(", ");
-      const dateLabel = [eventItem.date, eventItem.time].filter(Boolean).join(" • ");
-      const safeUrl = sanitizeDashboardEventUrl(eventItem.ticketLink);
-      const safeImage = escapeDashboardEventHtml(eventItem.image || "event-promo-may16.png");
-
-      root.innerHTML = `
-        <div class="event-promo-popup" id="eventPromoPopup" role="dialog" aria-modal="true" aria-label="${escapeDashboardEventHtml(eventItem.title)}">
-          <div class="event-promo-modal">
-            <button class="event-promo-close" type="button" aria-label="Close event popup" data-event-promo-close>&times;</button>
-            <div class="event-promo-modal-grid">
-              <div class="event-promo-copy">
-                <div class="event-promo-kicker">Featured Event</div>
-                <h2 class="event-promo-title">${escapeDashboardEventHtml(eventItem.title)}</h2>
-                <div class="event-promo-date">${escapeDashboardEventHtml(dateLabel)}</div>
-                <p class="event-promo-text">${escapeDashboardEventHtml(location)}</p>
-                <div class="event-promo-actions">
-                  ${safeUrl === "#" ? "" : `<a class="event-promo-button event-promo-button-primary" href="${safeUrl}" target="_blank" rel="noopener">Get Tickets</a>`}
-                  <button class="event-promo-button" type="button" data-event-promo-close>Close</button>
-                </div>
-              </div>
-              <div class="event-promo-image-wrap">
-                <img class="event-promo-image" src="${safeImage}" alt="${escapeDashboardEventHtml(eventItem.title)} event image">
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      const popup = document.getElementById("eventPromoPopup");
-      if (!popup) return;
-
-      dashboardEventPromoPreviousOverflow = document.body.style.overflow || "";
-      document.body.style.overflow = "hidden";
-      popup.addEventListener("click", (event) => {
-        if (event.target === popup || event.target.closest("[data-event-promo-close]")) {
-          closeDashboardEventPopup();
-        }
-      });
-      requestAnimationFrame(() => popup.classList.add("is-visible"));
-    }
-
-    function applyHomepageSectionControls(settings) {
-      (settings.hiddenSections || []).forEach((sectionId) => {
-        const section = document.getElementById(sectionId);
-        if (section) section.style.display = "none";
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", async () => {
-      const { settings, events } = await getHomepageEventsAndSettings();
-      applyHomepageSectionControls(settings);
-      renderDashboardEvents(events);
-      renderDashboardPopup(events, settings);
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeDashboardEventPopup();
-    });
-  })();
-  </script>
+</script>
+<script src="redesign.js"></script>
+<script src="site-api.js"></script>
 </body>
 </html>
-
-    
