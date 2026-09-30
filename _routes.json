@@ -1,1 +1,1 @@
-{"version":1,"include":["/api/event-preview"],"exclude":[]}
+{"version":1,"include":["/api/event-preview","/api/videos/*"],"exclude":[]}
