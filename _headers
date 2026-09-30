@@ -11,3 +11,14 @@
   X-Robots-Tag: noindex
 /site-config.js
   Cache-Control: no-cache
+
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/layout-stage.html
+  Cache-Control: no-cache
+/redesign.js
+  Cache-Control: no-cache
+/redesign.css
+  Cache-Control: no-cache
