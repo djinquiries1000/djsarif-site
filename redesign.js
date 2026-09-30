@@ -82,6 +82,8 @@
 
   function safeMediaURL(value){if(!value)return '';if(value.length<=1500000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value))return value;try{const u=new URL(value,location.href);return (u.protocol==='https:'||u.origin===location.origin)&&!u.username&&!u.password?u.href:''}catch{return ''}}
 
+  const flyerRequests=new Map();
+  function loadEventFlyer(url){if(!flyerRequests.has(url))flyerRequests.set(url,fetch('/api/event-preview?url='+encodeURIComponent(url),{signal:AbortSignal.timeout(12000)}).then(r=>r.ok?r.json():null).then(data=>data?.image||''));return flyerRequests.get(url);}
   async function upcoming(){
 
     const list=document.getElementById('eventPromoList');
@@ -112,7 +114,7 @@
 
         venue:e.privateEvent===false?e.location:'Booked — private celebration',
 
-        ticketLink:e.privateEvent===false?e.url:'',calendar:true
+        ticketLink:e.privateEvent===false?e.url:'',image:e.privateEvent===false?e.image||'':'',calendar:true
 
       }));
 
@@ -129,33 +131,21 @@
       if(!events.length){list.innerHTML='<p class="event-promo-empty">New public dates will be posted here. Planning a private event? <a href="#booking">Check your date ↗</a></p>';return;}
 
       function makeCard(e){
-
-        const card=document.createElement('article');card.className='event-promo-card';
-
-        const date=document.createElement('p');date.className='eyebrow';date.textContent=eventDate(e).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'America/New_York'});
-
-        const title=document.createElement('h3');title.textContent=e.title;
-
-        const location=document.createElement('p');location.textContent=[e.venue,e.cityState,e.time].filter(Boolean).join(' · ');
-
-        const details=document.createElement('div');details.append(date,title,location);
-
-        const imageURL=safeMediaURL(e.image);if(imageURL){const img=document.createElement('img');img.className='event-flyer';img.src=imageURL;img.alt=e.title+' event flyer';img.loading='lazy';img.addEventListener('error',()=>img.remove());const destination=safeLink(e.ticketLink);if(destination){const a=document.createElement('a');a.href=destination;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','View '+e.title+' event details');a.append(img);card.append(a)}else card.append(img)}
-
-        card.append(details);
-
-        try{const url=new URL(e.ticketLink);if(['https:','http:'].includes(url.protocol)){const a=document.createElement('a');a.href=url.href;a.textContent='Event details ↗';a.target='_blank';a.rel='noopener';details.append(a);}}catch{}
-
+        const destination=safeLink(e.ticketLink),isPublic=!!destination;
+        const card=document.createElement('article');card.className='event-promo-card '+(isPublic?'public-date':'private-date');
+        const date=eventDate(e),badge=document.createElement('div');badge.className='event-date-badge';const month=document.createElement('span');month.textContent=date.toLocaleDateString('en-US',{month:'short',timeZone:'America/New_York'});const day=document.createElement('strong');day.textContent=date.toLocaleDateString('en-US',{day:'2-digit',timeZone:'America/New_York'});badge.append(month,day);
+        const details=document.createElement('div');details.className='event-card-details';const tag=document.createElement('span');tag.className='event-status';tag.textContent=isPublic?'YOU’RE INVITED':'PRIVATE BOOKING';
+        const title=document.createElement('h3');title.textContent=isPublic?e.title:'Private event';
+        const location=document.createElement('p');location.textContent=isPublic?[e.venue,e.cityState,e.time].filter(Boolean).join(' · '):'A night reserved for a private celebration.';
+        const foot=document.createElement('span');foot.className='event-day-label';foot.textContent=date.toLocaleDateString('en-US',{weekday:'long',year:'numeric',timeZone:'America/New_York'});
+        details.append(tag,title,location,foot);card.append(badge,details);
+        function flyer(src){if(!isPublic||!safeMediaURL(src)||card.querySelector('.event-flyer'))return;const a=document.createElement('a');a.className='event-flyer-link';a.href=destination;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Tickets and details for '+e.title);const img=document.createElement('img');img.className='event-flyer';img.src=src;img.alt=e.title+' event flyer';img.loading='lazy';img.onerror=()=>{a.remove();card.classList.remove('has-flyer')};a.append(img);card.prepend(a);card.classList.add('has-flyer');}
+        if(isPublic){const a=document.createElement('a');a.className='event-ticket-button';a.href=destination;a.textContent='Tickets & details';a.target='_blank';a.rel='noopener noreferrer';details.append(a);if(e.image)flyer(safeMediaURL(e.image));else loadEventFlyer(destination).then(flyer).catch(()=>{});}
         return card;
-
       }
-
-      for(const e of events)list.append(makeCard(e));
-
-      const featured=document.getElementById('featuredEvent'),next=events.find(e=>!e.calendar&&e.image&&safeMediaURL(e.image));
-
+      const seen=new Set();for(const e of events){const key=safeLink(e.ticketLink);if(key&&seen.has(key))continue;if(key)seen.add(key);list.append(makeCard(e));}
+      const featured=document.getElementById('featuredEvent'),next=events.find(e=>safeLink(e.ticketLink));
       if(featured){featured.replaceChildren();featured.hidden=!next;if(next)featured.append(makeCard(next));}
-
     }catch{list.innerHTML='<p class="event-promo-empty">Public dates are unavailable right now. <a href="#booking">Contact Sarif about your event ↗</a></p>';}
 
   }

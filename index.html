@@ -3380,101 +3380,16 @@
     }
 
     async function loadApprovedReviews() {
-      const grid = document.getElementById("approvedReviews");
-      const empty = document.getElementById("approvedReviewsEmpty");
-      if (!grid) return;
-
-      grid.innerHTML = "";
-      const existingToggle = document.getElementById("approvedReviewsToggle");
-      if (existingToggle) existingToggle.remove();
-
-      try {
-        const data = await fetchJsonp(`${SCRIPT_URL}?action=approved_reviews`);
-        if (data?.ok === false) throw new Error("Reviews unavailable");
-        const localApprovedReviews = [];
-        const reviews = [
-          ...localApprovedReviews,
-          ...(Array.isArray(data?.reviews) ? data.reviews : [])
-        ];
-
-        if (!reviews.length) {
-          if (empty) {
-            empty.style.display = "block";
-            empty.textContent = "No approved reviews posted yet.";
-          }
-          return;
+      const grid=document.getElementById('approvedReviews'),empty=document.getElementById('approvedReviewsEmpty');if(!grid)return;
+      grid.replaceChildren();grid.setAttribute('role','list');
+      try{const data=await fetchJsonp(`${SCRIPT_URL}?action=approved_reviews`);const reviews=Array.isArray(data.reviews)?data.reviews:[];
+        if(empty){empty.style.display=reviews.length?'none':'block';empty.textContent='No approved reviews posted yet.';}
+        for(const r of reviews){const card=document.createElement('article');card.className='approved-review-card';card.setAttribute('role','listitem');
+          const stars=document.createElement('div');stars.className='review-stars';const rating=Math.max(1,Math.min(5,Math.round(Number(r.rating)||5)));stars.textContent='\u2605'.repeat(rating);stars.setAttribute('aria-label',rating+' out of 5 stars');
+          const quote=document.createElement('blockquote');quote.textContent=r.text||'';
+          const byline=document.createElement('div');byline.className='review-byline';const name=document.createElement('strong');name.textContent=r.name||'Client';const type=document.createElement('span');type.textContent=r.eventType||'';byline.append(name,type);card.append(stars,quote,byline);grid.append(card);
         }
-
-        if (empty) empty.style.display = "none";
-
-        const cards = [];
-        reviews.forEach((r, idx) => {
-          const stars = Math.max(1, Math.min(5, Number(r.rating || 5)));
-          const card = document.createElement("div");
-          card.style.background = "rgba(0,0,0,0.35)";
-          card.style.border = "1px solid rgba(255,255,255,0.12)";
-          card.style.borderRadius = "16px";
-          card.style.padding = "12px";
-          card.style.boxShadow = "0 0 18px rgba(236,162,115,0.10)";
-          card.style.marginBottom = "12px";
-
-          if (idx >= 3) card.style.display = "none";
-
-          card.innerHTML = `
-            <div style="font-weight:900; letter-spacing:2px; color:#eca273; margin-bottom:8px;">${"★".repeat(stars)}</div>
-            <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(r.text || "")}</div>
-            <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">— ${escapeHtml(r.name || "Client")}</div>
-            <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(r.eventType || "")}</div>
-          `;
-
-          grid.appendChild(card);
-          cards.push(card);
-        });
-
-        if (cards.length > 3) {
-          const btn = document.createElement("button");
-          btn.id = "approvedReviewsToggle";
-          btn.type = "button";
-          btn.className = "btn-primary";
-          btn.style.marginTop = "10px";
-          btn.textContent = "Show all reviews";
-
-          let expanded = false;
-          btn.addEventListener("click", () => {
-            expanded = !expanded;
-            cards.forEach((card, index) => {
-              if (index >= 3) card.style.display = expanded ? "block" : "none";
-            });
-            btn.textContent = expanded ? "Show less" : "Show all reviews";
-          });
-
-          grid.parentElement?.appendChild(btn);
-        }
-      } catch (err) {
-        const localApprovedReviews = [];
-
-        if (localApprovedReviews.length) {
-          if (empty) empty.style.display = "none";
-          grid.innerHTML = localApprovedReviews.map((review) => {
-            const stars = Math.max(1, Math.min(5, Number(review.rating || 5)));
-            return `
-              <div style="background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:12px; box-shadow:0 0 18px rgba(236,162,115,0.10); margin-bottom:12px;">
-                <div style="font-weight:900; letter-spacing:2px; color:#eca273; margin-bottom:8px;">${"★".repeat(stars)}</div>
-                <div style="opacity:.92; font-size:14px; line-height:1.6;">${escapeHtml(review.text || "")}</div>
-                <div style="margin-top:10px; font-weight:900; color: var(--neon2); font-size:13px;">- ${escapeHtml(review.name || "Client")}</div>
-                <div style="margin-top:6px; opacity:.70; font-size:12px;">${escapeHtml(review.eventType || "")}</div>
-              </div>
-            `;
-          }).join("");
-          return;
-        }
-
-        if (empty) {
-          empty.style.display = "block";
-          empty.textContent = "Unable to load approved reviews right now.";
-        }
-        console.warn("Unable to load approved reviews.", err);
-      }
+      }catch(e){if(empty){empty.style.display='block';empty.textContent='Unable to load approved reviews right now.';}}
     }
       /* ===========================
      OSM AUTOCOMPLETE (Nominatim)
