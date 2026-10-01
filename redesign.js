@@ -133,13 +133,13 @@
 
       const today=new Date();today.setHours(0,0,0,0);
 
-      const eventDate=e=>new Date(e.date?.includes('T')?e.date:`${e.date}T12:00:00`);
+      const eventDate=e=>new Date(e.date?.includes('T')?e.date:`${e.date}T12:00:00Z`);
 
       const events=(Array.isArray(data.events)?data.events:[]).filter(e=>e.status==='active'&&eventDate(e)>=today).sort((a,b)=>eventDate(a)-eventDate(b));
 
       list.replaceChildren();
 
-      if(!events.length){list.innerHTML='<p class="event-promo-empty">New public dates will be posted here. Planning a private event? <a href="#booking">Check your date ↗</a></p>';return;}
+      if(!events.length){list.innerHTML='<p class="event-promo-empty">New public dates will be posted here. Planning a private event? <a href="#booking">Check your date</a></p>';return;}
 
       function makeCard(e){
         const destination=safeLink(e.ticketLink),isPublic=!!destination;
@@ -157,7 +157,7 @@
       const seen=new Set();for(const e of events){const key=safeLink(e.ticketLink);if(key&&seen.has(key))continue;if(key)seen.add(key);list.append(makeCard(e));}
       const featured=document.getElementById('featuredEvent'),next=events.find(e=>safeLink(e.ticketLink));
       if(featured){featured.replaceChildren();featured.hidden=!next;if(next)featured.append(makeCard(next));}
-    }catch{list.innerHTML='<p class="event-promo-empty">Public dates are unavailable right now. <a href="#booking">Contact Sarif about your event ↗</a></p>';}
+    }catch{list.innerHTML='<p class="event-promo-empty">Public dates are unavailable right now. <a href="#booking">Contact Sarif about your event</a></p>';}
 
   }
 
