@@ -10,7 +10,7 @@ window.uploadSarifVideo=async function(file,authorize,onProgress,onMessage){
     if(!response.ok||!data.ok)throw Error(data.error||'Upload failed. Try again.');return data;
   }
   try{
-    const start=await api('start');uploadId=start.uploadId;
+    const start=await api('start',{format:file.name.toLowerCase().endsWith('.mov')?'mov':'mp4'});uploadId=start.uploadId;
     if(!Number.isInteger(start.partSize)||start.partSize<5*1024*1024||start.partSize>50*1024*1024)throw Error('Invalid upload settings. Refresh and try again.');
     const parts=[],count=Math.ceil(file.size/start.partSize);
     for(let i=0;i<count;i++){
@@ -30,6 +30,6 @@ window.uploadSarifVideo=async function(file,authorize,onProgress,onMessage){
       }
       parts.push(part);onProgress(Math.min(99,Math.round(Math.min(offset+blob.size,file.size)/file.size*100)));
     }
-    onMessage('Finishing your upload…');await api('complete',{parts});onProgress(100);return auth;
+    onMessage('Finishing your upload…');const completed=await api('complete',{parts});onProgress(100);return {...auth,url:completed.url};
   }catch(error){if(uploadId){try{await api('abort');}catch{}}throw error;}
 };

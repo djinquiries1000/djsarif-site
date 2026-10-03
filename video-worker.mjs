@@ -33,8 +33,9 @@ async function handleVideo(request, env) {
       const entries = await Promise.all(slots.map(async slot => {const obj = await env.VIDEOS.get('settings/'+slot+'.json');return [slot,obj ? await obj.json() : null]}));
       response = json({ok:true,videos:Object.fromEntries(entries)});
     } else if (url.pathname.startsWith('/api/videos/file/') && ['GET','HEAD'].includes(request.method)) {
-      const id = url.pathname.slice('/api/videos/file/'.length);
-      if (!/^[a-f0-9-]{36}\.mp4$/.test(id)) return json({ok:false},404);
+      const requestedId = url.pathname.slice('/api/videos/file/'.length);
+      if (!/^[a-f0-9-]{36}\.(mp4|mov)$/.test(requestedId)) return json({ok:false},404);
+      const id=requestedId.replace(/\.mov$/,'.mp4');
       const metadata = await env.VIDEOS.head('clips/'+id);
       if (!metadata) return new Response('Video not found',{status:404});
       if (request.headers.get('If-None-Match') === metadata.httpEtag) return new Response(null,{status:304,headers:{ETag:metadata.httpEtag}});
@@ -49,7 +50,7 @@ async function handleVideo(request, env) {
         range={offset:start,length:end-start+1};
       }
       const object=request.method==='HEAD'?null:await env.VIDEOS.get('clips/'+id,range?{range}:{});
-      const headers = new Headers({'Content-Type':'video/mp4','X-Content-Type-Options':'nosniff','Accept-Ranges':'bytes','ETag':metadata.httpEtag,'Cache-Control':'public, max-age=31536000, immutable'});
+      const headers = new Headers({'Content-Type':metadata.httpMetadata?.contentType==='video/quicktime'?'video/quicktime':'video/mp4','X-Content-Type-Options':'nosniff','Accept-Ranges':'bytes','ETag':metadata.httpEtag,'Cache-Control':'public, max-age=31536000, immutable'});
       if(range)headers.set('Content-Range',`bytes ${range.offset}-${range.offset+range.length-1}/${metadata.size}`);
       headers.set('Content-Length',String(range?range.length:metadata.size));
       response=new Response(object?object.body:null,{status:range?206:200,headers});
@@ -57,7 +58,10 @@ async function handleVideo(request, env) {
       const p=await claims(request,env,'upload'),key='clips/'+p.id+'.mp4',operation=url.pathname.split('/').pop();
       if(operation==='start'&&request.method==='POST'){
         if(await env.VIDEOS.head(key))return json({ok:false,error:'This video already exists. Start a new upload.'},409);
-        const upload=await env.VIDEOS.createMultipartUpload(key,{httpMetadata:{contentType:'video/mp4'}});
+        const body=await request.text();if(body.length>200)return json({ok:false,error:'Invalid video format.'},400);
+        const format=body?JSON.parse(body).format:'mp4';
+        if(!['mp4','mov'].includes(format))return json({ok:false,error:'Choose MP4 or MOV.'},400);
+        const upload=await env.VIDEOS.createMultipartUpload(key,{httpMetadata:{contentType:format==='mov'?'video/quicktime':'video/mp4'},customMetadata:{format}});
         return json({ok:true,uploadId:upload.uploadId,partSize:PART_BYTES});
       }
       const uploadId=url.searchParams.get('uploadId');
@@ -79,9 +83,9 @@ async function handleVideo(request, env) {
         const object=await upload.complete(parts);
         const head=await env.VIDEOS.get(key,{range:{offset:0,length:12}}),bytes=new Uint8Array(await head.arrayBuffer());
         if(object.size!==p.size||String.fromCharCode(...bytes.slice(4,8))!=='ftyp'){
-          await env.VIDEOS.delete(key);return json({ok:false,error:'The upload is incomplete or is not a supported MP4.'},400);
+          await env.VIDEOS.delete(key);return json({ok:false,error:'The upload is incomplete or is not a supported MP4/MOV video.'},400);
         }
-        return json({ok:true,id:p.id,url:'/api/videos/file/'+p.id+'.mp4'});
+        return json({ok:true,id:p.id,url:'/api/videos/file/'+p.id+(object.customMetadata?.format==='mov'?'.mov':'.mp4')});
       }
       return json({ok:false,error:'Invalid upload operation.'},400);
     } else if (url.pathname === '/api/videos/upload' && request.method === 'PUT') {
@@ -98,7 +102,7 @@ async function handleVideo(request, env) {
       const p = await claims(request,env,'publish');
       const object = await env.VIDEOS.head('clips/'+p.id+'.mp4');
       if (!object || object.size !== p.size) return json({ok:false,error:'Upload the video before publishing.'},400);
-      await env.VIDEOS.put('settings/'+p.slot+'.json',JSON.stringify({url:'/api/videos/file/'+p.id+'.mp4',updatedAt:new Date().toISOString()}),{httpMetadata:{contentType:'application/json'}});
+      await env.VIDEOS.put('settings/'+p.slot+'.json',JSON.stringify({url:'/api/videos/file/'+p.id+(object.customMetadata?.format==='mov'?'.mov':'.mp4'),updatedAt:new Date().toISOString()}),{httpMetadata:{contentType:'application/json'}});
       response = json({ok:true});
     } else response = json({ok:false,error:'Not found'},404);
   } catch {response = json({ok:false,error:'Upload failed or authorization expired. Try again.'},400)}

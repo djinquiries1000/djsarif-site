@@ -3,7 +3,7 @@ const $=s=>document.querySelector(s);let state={},busy=false,imageData='';
 async function rpc(action,payload={}){return adminApi('rpc',{action,payload});}
 function el(tag,text){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n}
 function button(label,fn){const b=el('button',label);b.type='button';b.onclick=fn;return b}
-async function run(fn){if(busy)return;busy=true;document.querySelectorAll('button').forEach(b=>b.disabled=true);try{await fn()}catch(e){$('#status').textContent=e.message}finally{busy=false;document.querySelectorAll('button').forEach(b=>b.disabled=false)}}
+async function run(fn){if(busy)return;busy=true;document.querySelectorAll('button').forEach(b=>b.disabled=true);try{await fn()}catch(e){$('#status').textContent=e.message;if(!$('#videos').hidden){$('#videoMessage').textContent=e.message;$('#videoMessage').setAttribute('role','alert');}}finally{busy=false;document.querySelectorAll('button').forEach(b=>b.disabled=false)}}
 function reset(){ $('#eventForm').reset();$('#eventForm').elements.id.value='';$('#eventForm').elements.revision.value='0';imageData='';$('#flyerPreview').hidden=true;}
 function edit(e){reset();for(const [k,v] of Object.entries(e))if($('#eventForm').elements[k])$('#eventForm').elements[k].value=v;$('#eventForm').scrollIntoView({behavior:'smooth'})}
 function render(){for(const [kind,id] of [['events','eventList'],['reviews','reviewList'],['bookings','bookingList']]){const list=$('#'+id);list.replaceChildren();for(const item of state[kind]||[]){const c=el('article');c.className='row';c.append(el('h3',item.title||item.name||'Unnamed'));if(kind==='events'){c.append(el('p',item.date+' / '+item.status),el('p',item.venue),button('Edit event',()=>edit(item)))}if(kind==='reviews'){c.append(el('p',item.text),el('p',item.rating+' / 5 - '+item.status));const a=el('div');a.className='actions';for(const status of ['APPROVED','PENDING','REJECTED'])a.append(button(status,()=>run(async()=>{await rpc('moderate_review',{row:item.row,fingerprint:item.fingerprint,status});await refresh();$('#status').textContent='Review status saved.'})));c.append(a)}if(kind==='bookings'){for(const t of [item.email,item.phone,item.eventDate,item.location,item.notes])if(t)c.append(el('p',t));const label=el('label','Status');const select=el('select');for(const s of ['new','reviewed','follow_up','booked','completed','declined']){const o=el('option',s);o.value=s;select.append(o)}select.value=item.status;label.append(select);c.append(label,button('Save status',()=>run(async()=>{await rpc('booking_status',{id:item.id,fingerprint:item.fingerprint,status:select.value});await refresh();$('#status').textContent='Booking status saved.'})))}list.append(c)}if(!list.children.length)list.append(el('p','No records yet.'))}}
@@ -21,16 +21,18 @@ $('#videoFile').onchange=()=>{
 };
 $('#videoForm').onsubmit=e=>{e.preventDefault();run(async()=>{
   const file=$('#videoFile').files[0],slot=$('#videoSlot').value;
-  if(!file||!file.name.toLowerCase().endsWith('.mp4')||file.size>1024*1024*1024||file.size<12)throw Error('Choose an MP4 up to 1 GB.');
+  if(!file)throw Error('Choose a video first.');
+  if(!/\.(mp4|mov)$/i.test(file.name))throw Error('This file format is not supported. Choose an MP4 or MOV video.');
+  if(file.size>1024*1024*1024||file.size<12)throw Error('Your video is '+(file.size/1024/1024).toFixed(1)+' MB. Choose a video up to 1 GB.');
   if($('#videoPreview').error)throw Error('Your browser cannot play this video. Export it as H.264 MP4 and try again.');
-  clearVideoSelection();$('#videoSlot').disabled=true;$('#videoFile').disabled=true;
+  clearVideoSelection();$('#videoMessage').textContent='Preparing your upload…';$('#videoMessage').setAttribute('role','status');$('#videoSlot').disabled=true;$('#videoFile').disabled=true;
   try {
     $('#videoProgress').hidden=false;$('#videoProgress').value=0;
     const auth=await window.uploadSarifVideo(file,
       id=>rpc('video_authorize',{action:'upload',slot,size:file.size,...(id?{id}:{})}),
       percent=>$('#videoProgress').value=percent,
       message=>$('#videoMessage').textContent=message);
-    uploadedVideo={id:auth.id,slot,size:file.size};$('#videoPreview').src='https://djsarif.com/api/videos/file/'+auth.id+'.mp4';$('#publishVideo').hidden=false;$('#videoMessage').textContent='Uploaded. Play the preview, then select Publish video.';
+    uploadedVideo={id:auth.id,slot,size:file.size};$('#videoPreview').src='https://djsarif.com'+auth.url;$('#publishVideo').hidden=false;$('#videoMessage').textContent='Uploaded. Play the preview, then select Publish video.'+(file.name.toLowerCase().endsWith('.mov')?' MOV playback varies by device. H.264 MP4 is recommended for the widest compatibility.':'');
   } finally {$('#videoSlot').disabled=false;$('#videoFile').disabled=false;}
 })};
 $('#publishVideo').onclick=()=>run(async()=>{

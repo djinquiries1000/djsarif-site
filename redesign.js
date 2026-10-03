@@ -15,7 +15,7 @@
     if(!data?.ok)return;
     for(const key of ['highlight','club']) {
       const url=data.videos?.[key]?.url;
-      if(typeof url==='string' && /^\/api\/videos\/file\/[a-f0-9-]{36}\.mp4$/.test(url))clips[key]=url;
+      if(typeof url==='string' && /^\/api\/videos\/file\/[a-f0-9-]{36}\.(mp4|mov)$/.test(url))clips[key]=url;
     }
     // Never interrupt a video the visitor has already started.
     if(mediaVisible && video.paused && video.currentTime===0){video.src=clips[selectedClip];video.load();}
