@@ -7,6 +7,9 @@
   const clips = {highlight:'media/dj-sarif-highlight.mp4',club:'media/dj-sarif-clubs.mp4'};
 
   let selectedClip='highlight';
+  const error=document.getElementById('videoError'),fallback=document.getElementById('videoFallback');
+  video.addEventListener('error',()=>{error.hidden=false;fallback.href=video.currentSrc||clips[selectedClip]});
+  video.addEventListener('loadedmetadata',()=>error.hidden=true);
   fetch('/api/videos/config',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(data=>{
     if(!data?.ok)return;
     for(const key of ['highlight','club']) {
@@ -21,7 +24,7 @@
 
     if (!clips[key]) return;
 
-    video.pause(); video.src = clips[key]; video.load();
+    video.pause(); error.hidden=true;fallback.href=clips[key];video.src = clips[key]; video.load();
 
     document.querySelectorAll('.media-tab').forEach(button => {
 
@@ -41,7 +44,7 @@
 
   window.openVideoModalFromInline=()=>video.requestFullscreen?.();
 
-  window.watchAboutVideo=()=>{closeProfile();document.getElementById('media').scrollIntoView({behavior:'smooth'});};
+  
 
   document.getElementById('currentYear').textContent=new Date().getFullYear();
 
@@ -139,7 +142,7 @@
 
       list.replaceChildren();
 
-      if(!events.length){list.innerHTML='<p class="event-promo-empty">New public dates will be posted here. Planning a private event? <a href="#booking">Check your date</a></p>';return;}
+      if(!events.length){document.getElementById('eventPromoSidebar').hidden=true;document.querySelector('.quick-card[href="#eventPromoSidebar"]').hidden=true;return;}
 
       function makeCard(e){
         const destination=safeLink(e.ticketLink),isPublic=!!destination;
@@ -150,14 +153,14 @@
         const location=document.createElement('p');location.textContent=isPublic?[e.venue,e.cityState,e.time].filter(Boolean).join(' · '):'A night reserved for a private celebration.';
         const foot=document.createElement('span');foot.className='event-day-label';foot.textContent=date.toLocaleDateString('en-US',{weekday:'long',year:'numeric',timeZone:'America/New_York'});
         details.append(tag,title,location,foot);card.append(badge,details);
-        function flyer(src){if(!isPublic||!safeMediaURL(src)||card.querySelector('.event-flyer'))return;const a=document.createElement('a');a.className='event-flyer-link';a.href=destination;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Tickets and details for '+e.title);const img=document.createElement('img');img.className='event-flyer';img.src=src;img.alt=e.title+' event flyer';img.loading='lazy';img.onerror=()=>{a.remove();card.classList.remove('has-flyer')};a.append(img);card.prepend(a);card.classList.add('has-flyer');}
+        function flyer(src){if(!isPublic||!safeMediaURL(src)||card.querySelector('.event-flyer'))return;const a=document.createElement('a');a.className='event-flyer-link';a.href=destination;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Tickets and details for '+e.title);const img=document.createElement('img');img.className='event-flyer';img.src=src;img.alt=e.title+' event flyer';img.loading='lazy';img.width=1280;img.height=714;img.onerror=()=>{a.remove();card.classList.remove('has-flyer')};a.append(img);card.prepend(a);card.classList.add('has-flyer');}
         if(isPublic){const a=document.createElement('a');a.className='event-ticket-button';a.href=destination;a.textContent='Tickets & details';a.target='_blank';a.rel='noopener noreferrer';details.append(a);if(e.image)flyer(safeMediaURL(e.image));else loadEventFlyer(destination).then(flyer).catch(()=>{});}
         return card;
       }
       const seen=new Set();for(const e of events){const key=safeLink(e.ticketLink);if(key&&seen.has(key))continue;if(key)seen.add(key);list.append(makeCard(e));}
       const featured=document.getElementById('featuredEvent'),next=events.find(e=>safeLink(e.ticketLink));
       if(featured){featured.replaceChildren();featured.hidden=!next;if(next)featured.append(makeCard(next));}
-    }catch{list.innerHTML='<p class="event-promo-empty">Public dates are unavailable right now. <a href="#booking">Contact Sarif about your event</a></p>';}
+    }catch{document.getElementById('eventPromoSidebar').hidden=true;document.querySelector('.quick-card[href="#eventPromoSidebar"]').hidden=true;}
 
   }
 

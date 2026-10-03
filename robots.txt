@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard.html
+Disallow: /sign-contract.html
+Sitemap: https://djsarif.com/sitemap.xml

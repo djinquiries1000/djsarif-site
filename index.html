@@ -19,9 +19,8 @@
   <meta name="twitter:description" content="Explore DJ packages, watch live highlights and check your event date.">
   <meta name="twitter:image" content="https://djsarif.com/images/dj-sarif-stage-wide.webp">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+
+
 
   <style>
     :root {
@@ -2431,9 +2430,12 @@
 
     /* Keep your logo usage intact (as you requested) */
   </style>
-<meta name="description" content="Bollywood, Nepali, Hip-Hop and dance floor favorites with DJ Sarif. Explore performances, plan your celebration and inquire about your date.">
-<link rel="stylesheet" href="redesign.css?v=8dac412c39b563f2">
-<script src="site-config.js?v=8dac412c39b563f2"></script>
+
+<link rel="stylesheet" href="redesign.css?v=d6f23a519be71f0c">
+<script src="site-config.js?v=d6f23a519be71f0c" defer></script>
+<script src="homepage.js?v=d6f23a519be71f0c" defer></script>
+<link rel="preload" as="image" href="images/dj-sarif-stage-portrait-720.webp" imagesrcset="images/dj-sarif-stage-portrait-720.webp 720w, images/dj-sarif-stage-portrait.webp 1200w" imagesizes="(max-width: 768px) 100vw, 550px">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "EntertainmentBusiness", "@id": "https://djsarif.com/#business", "name": "DJ Sarif", "url": "https://djsarif.com/", "logo": "https://djsarif.com/dj-sarif-logo.png", "image": "https://djsarif.com/images/dj-sarif-stage-wide.webp", "telephone": "+1-614-772-6549", "email": "hello@djsarif.com", "areaServed": {"@type": "City", "name": "Columbus, Ohio"}, "sameAs": ["https://instagram.com/_dj.sarif", "https://www.facebook.com/profile.php?id=100011071497688"]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How soon will I hear back?", "acceptedAnswer": {"@type": "Answer", "text": "Expect a response within 24–48 hours. For a time-sensitive request, call 614-772-6549."}}, {"@type": "Question", "name": "Does an inquiry reserve my date?", "acceptedAnswer": {"@type": "Answer", "text": "No. I will confirm availability, discuss your plans and send a personalized quote. Your booking requirements and confirmation are set out in your agreement."}}, {"@type": "Question", "name": "How many hours does each package include?", "acceptedAnswer": {"@type": "Answer", "text": "Performance hours, setup and breakdown timing are confirmed in your quote based on your event schedule."}}, {"@type": "Question", "name": "Do you travel, and are there travel fees?", "acceptedAnswer": {"@type": "Answer", "text": "Send your venue location with your inquiry. Travel availability and any travel fees will be confirmed in your quote."}}, {"@type": "Question", "name": "Can we request songs?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Share your favorite genres, must-play songs and do-not-play list in your inquiry so I can plan the music for your event."}}, {"@type": "Question", "name": "What deposit is required?", "acceptedAnswer": {"@type": "Answer", "text": "The deposit amount and payment schedule will be confirmed in your quote and agreement."}}, {"@type": "Question", "name": "What is the cancellation or rescheduling policy?", "acceptedAnswer": {"@type": "Answer", "text": "Cancellation and rescheduling terms are confirmed in your agreement. Contact Sarif if your plans change."}}, {"@type": "Question", "name": "Can I customize a package?", "acceptedAnswer": {"@type": "Answer", "text": "Tell me which sound, lighting or effects you are interested in. Available options and any additional charges will be confirmed in your quote."}}, {"@type": "Question", "name": "What does the venue need to provide?", "acceptedAnswer": {"@type": "Answer", "text": "Share the venue details and available setup space. I will coordinate access, power and any venue requirements for lighting, fog and special effects before the event."}}]}]}</script>
 </head>
 
 <body>
@@ -2444,7 +2446,7 @@
   <nav class="topnav">
     <div class="nav-inner">
       <a class="brand" href="#top" style="display:flex; align-items:center; gap:10px;">
-        <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" style="height:36px;">
+        <img src="images/dj-sarif-logo-small.webp" alt="DJ Sarif Logo" width="36" height="36" style="height:36px;">
         <span>DJ Sarif</span>
       </a>
 
@@ -2461,29 +2463,12 @@
 
         <div class="nav-item" id="mediaItem" style="display:none;"></div>
 
-        <button class="nav-btn client-btn" type="button" onclick="openClientAccess()">Client Access</button>
+        
       </div>
     </div>
   </nav>
 
   <div id="top"></div>
-
-  <!-- WIZARD -->
-  <div id="djWizard" class="pre-wizard hidden">
-    <div class="pre-wizard-backdrop" onclick="closeWizard()"></div>
-    <div class="pre-wizard-content">
-      <h2>Plan Your Event with DJ Sarif</h2>
-      <h3>What type of event?</h3>
-
-      <button class="wizard-option-btn" type="button" onclick="selectEvent('Wedding')">Wedding</button>
-      <button class="wizard-option-btn" type="button" onclick="selectEvent('Birthday')">Birthday</button>
-      <button class="wizard-option-btn" type="button" onclick="selectEvent('Corporate')">Corporate</button>
-      <button class="wizard-option-btn" type="button" onclick="selectEvent('Concert')">Concert</button>
-
-      <button class="wizard-skip-btn" type="button" onclick="enterWebsite()">Enter Website →</button>
-
-    </div>
-  </div>
 
   <main class="overlay" id="mainSite">
 <header class="new-hero">
@@ -2492,7 +2477,7 @@
  <p class="hero-intro">For the first dance. The old favorites. The one-more-song crowd. A soundtrack that brings everyone together.</p>
  <div class="hero-actions"><a class="primary" href="#booking">Let's plan your event <span></span></a><a class="secondary" href="#media">Watch the highlights <span>▶</span></a></div>
  <p class="hero-foot">WEDDINGS &nbsp; / &nbsp; PRIVATE EVENTS &nbsp; / &nbsp; CLUB NIGHTS</p></div>
- <figure class="hero-image"><img src="images/dj-sarif-stage-portrait.webp" width="1200" height="1800" alt="DJ Sarif behind the decks, raising a peace sign under warm stage lighting" fetchpriority="high"><figcaption><span>IN THE MIX WITH</span><strong>DJ SARIF</strong><span>Music that feels like you.</span></figcaption></figure>
+ <figure class="hero-image"><img src="images/dj-sarif-stage-portrait-720.webp" srcset="images/dj-sarif-stage-portrait-720.webp 720w, images/dj-sarif-stage-portrait.webp 1200w" sizes="(max-width: 768px) 100vw, 550px" width="1200" height="1799" alt="DJ Sarif behind the decks, raising a peace sign under warm stage lighting" fetchpriority="high"><figcaption><span>IN THE MIX WITH</span><strong>DJ SARIF</strong><span>Music that feels like you.</span></figcaption></figure>
  <div class="hero-index" aria-hidden="true">01 — SET THE TONE</div>
 </header><section class="top-cards" aria-label="Explore your night"><a class="quick-card" href="#eventPromoSidebar"><span class="eyebrow">LIVE DATES</span><h2>Catch the next set</h2><p>Upcoming public events, flyers and ticket links.</p></a><a class="quick-card" href="#packages"><span class="eyebrow">YOUR EVENT</span><h2>Find your package</h2><p>Basic or Premium — All Out. Let’s find your fit.</p></a><a class="quick-card" href="#media"><span class="eyebrow">PRESS PLAY</span><h2>See the energy ▶</h2><p>Watch highlights from behind the decks.</p></a></section><section class="featured-event" id="featuredEvent" hidden aria-label="Next public event"></section><div class="sound-strip" aria-label="Music genres"><span>Bollywood</span><span>Nepali</span><span>Hip-Hop</span><span>Top 40</span><span>EDM</span></div>
 
@@ -2512,24 +2497,25 @@
       </div>
 
       <div class="media-player" id="mediaPlayerWrap">
-        <img src="dj-sarif-logo.png" alt="DJ Sarif Logo" class="media-logo" />
+        <img src="images/dj-sarif-logo-small.webp" alt="DJ Sarif Logo" width="120" height="120" loading="lazy" class="media-logo" />
 
-        <video id="performanceVideo" controls playsinline preload="none" poster="images/dj-sarif-mixing-live.webp" aria-label="DJ Sarif performance highlights"><source src="media/dj-sarif-highlight.mp4" type="video/mp4"></video>
+        <video id="performanceVideo" controls playsinline preload="metadata" poster="images/dj-sarif-mixing-live-720.webp" aria-label="DJ Sarif performance highlights"><source src="media/dj-sarif-highlight.mp4" type="video/mp4"><p>Your browser cannot play this video. <a href="media/dj-sarif-highlight.mp4">Open the performance video</a>.</p></video>
       </div>
-      <p class="media-caption">Press play for the highlights, or switch to the club set. Sound starts only when you play.</p>
+      <p id="videoError" role="status" hidden>Video unavailable here. <a id="videoFallback" href="media/dj-sarif-highlight.mp4">Open the video directly</a> or <a href="mailto:hello@djsarif.com">contact me</a>.</p><p class="media-caption">Press play for the highlights, or switch to the club set. Sound starts only when you play.</p>
     </section>
 
-    <section class="card photo-story" id="gallery"><p class="eyebrow">BEHIND THE DECKS</p><div class="section-top"><h2>In the moment.<br><em>In the mix.</em></h2><p>A closer look at the hands, the music and the energy behind every set.</p></div><div class="photo-story-grid"><figure><img src="images/dj-sarif-mixing-live.webp" width="1200" height="1799" alt="DJ Sarif mixing at the decks under warm stage lighting" loading="lazy"><figcaption>01 / IN THE MIX</figcaption></figure><figure><img src="images/dj-sarif-decks-detail.webp" width="1200" height="1799" alt="Black-and-white close-up of hands on the DJ controller" loading="lazy"><figcaption>02 / EVERY TRANSITION</figcaption></figure><figure><img src="images/dj-sarif-stage-wide.webp" width="1200" height="1799" alt="DJ Sarif raising a peace sign behind the decks on stage" loading="lazy"><figcaption>03 / GOOD ENERGY</figcaption></figure></div></section>
+    <section class="card photo-story" id="gallery"><p class="eyebrow">BEHIND THE DECKS</p><div class="section-top"><h2>In the moment.<br><em>In the mix.</em></h2><p>A closer look at the hands, the music and the energy behind every set.</p></div><div class="photo-story-grid"><figure><img src="images/dj-sarif-mixing-live-720.webp" srcset="images/dj-sarif-mixing-live-720.webp 720w, images/dj-sarif-mixing-live.webp 1200w" sizes="(max-width: 768px) 100vw, 550px" width="1200" height="1799" alt="DJ Sarif mixing at the decks under warm stage lighting" loading="lazy"><figcaption>01 / IN THE MIX</figcaption></figure><figure><img src="images/dj-sarif-decks-detail-720.webp" srcset="images/dj-sarif-decks-detail-720.webp 720w, images/dj-sarif-decks-detail.webp 1200w" sizes="(max-width: 768px) 100vw, 550px" width="1200" height="1799" alt="Black-and-white close-up of hands on the DJ controller" loading="lazy"><figcaption>02 / EVERY TRANSITION</figcaption></figure><figure><img src="images/dj-sarif-stage-wide-720.webp" srcset="images/dj-sarif-stage-wide-720.webp 720w, images/dj-sarif-stage-wide.webp 1200w" sizes="(max-width: 768px) 100vw, 550px" width="1200" height="1799" alt="DJ Sarif raising a peace sign behind the decks on stage" loading="lazy"><figcaption>03 / GOOD ENERGY</figcaption></figure></div></section>
 <!-- SERVICES -->
     <section id="services" class="services-new"><p class="eyebrow">03 — MADE FOR YOUR OCCASION</p><div class="section-top"><h2>Big moments.<br><em>Unforgettable nights.</em></h2><p>Different occasions. The same attention to your music, your guests and the way you want the room to feel.</p></div><div class="services-grid">
 <article class="service-card"><span>01 / CELEBRATE</span><h3>Weddings &<br>receptions</h3><p>From cocktail hour to the final song, a soundtrack that brings your families and friends together.</p><a href="#booking">Plan your wedding</a></article>
 <article class="service-card"><span>02 / CONNECT</span><h3>Private &<br>corporate events</h3><p>A birthday, a milestone, a night with your team. Set the mood, then turn up the energy.</p><a href="#booking">Tell me your plans</a></article>
 <article class="service-card"><span>03 / TURN IT UP</span><h3>Clubs &<br>live events</h3><p>High-energy sets, clean transitions and crowd favorites that keep the night moving.</p><a href="#booking">Build your lineup</a></article></div>
-<div class="included"><strong>The setup, covered.</strong><span>Professional sound</span><span>Wireless mic</span><span>Dance floor lighting</span><span>Setup & breakdown</span></div><p class="mix-note">Need a custom mix or playlist? <a href="mailto:Djinquiries1000@gmail.com">Let's talk ↗</a></p></section>
-<section class="card about-new" id="about"><div><p class="eyebrow">THE PERSON BEHIND THE MUSIC</p><h2>Hey, I'm Sarif.<br><em>Let's find your sound.</em></h2><p>I bring Bollywood, Nepali, Hip-Hop, Top 40 and EDM together, with clean transitions and a feel for the crowd.</p><p>Your event has its own personality. Tell me about your people, your must-play songs and the moments you want to remember.</p><a class="secondary" href="https://instagram.com/_dj.sarif" target="_blank" rel="noopener">Follow @_dj.sarif ↗</a></div><img src="images/dj-sarif-headphones-live.webp" width="1200" height="1801" alt="DJ Sarif listening through headphones during a live set" loading="lazy"></section>
+<div class="included"><strong>The setup, covered.</strong><span>Professional sound</span><span>Wireless mic</span><span>Dance floor lighting</span><span>Setup & breakdown</span></div><p class="mix-note">Need a custom mix or playlist? <a href="mailto:hello@djsarif.com">Let's talk ↗</a></p></section>
+<section class="card about-new" id="about"><div><p class="eyebrow">THE PERSON BEHIND THE MUSIC</p><h2>Hey, I'm Sarif.<br><em>Let's find your sound.</em></h2><p>I bring Bollywood, Nepali, Hip-Hop, Top 40 and EDM together, with clean transitions and a feel for the crowd.</p><p>Your event has its own personality. Tell me about your people, your must-play songs and the moments you want to remember.</p><a class="secondary" href="https://instagram.com/_dj.sarif" target="_blank" rel="noopener">Follow @_dj.sarif ↗</a></div><img src="images/dj-sarif-headphones-live-720.webp" srcset="images/dj-sarif-headphones-live-720.webp 720w, images/dj-sarif-headphones-live.webp 1200w" sizes="(max-width: 768px) 100vw, 550px" width="1200" height="1801" alt="DJ Sarif listening through headphones during a live set" loading="lazy"></section>
 
     <div class="neon-divider"></div>
 
+<section class="card" id="south-asian-weddings"><p class="eyebrow">YOUR TRADITIONS. YOUR SOUND.</p><h2>Nepali &amp; South Asian weddings.</h2><p>From a sangeet or mehndi celebration to your reception, tell me which traditions, songs and moments matter to you. I’ll work with your timeline and blend Nepali, Bollywood and the music your guests love.</p><p>Planning a Teej or Dashain gathering? Share your plans, venue and guest count so I can discuss a setup that fits your celebration.</p><a class="primary" href="#booking">Plan your celebration</a></section>
     <!-- REVIEWS (no fake reviews displayed) -->
     <section class="card" id="reviews">
       <p class="eyebrow">FROM THE PEOPLE IN THE ROOM</p><h2>Good nights.<br><em>Real stories.</em></h2>
@@ -2538,58 +2524,16 @@
         <h3 style="margin:0 0 8px;">Client Reviews</h3>
         <p id="reviewSummary" class="review-summary" hidden></p><div id="approvedReviews" style="display:grid; gap:12px;"></div>
         <div id="approvedReviewsEmpty" style="opacity:.85; font-size:14px; margin-top:8px;">
-          Loading approved reviews...
+          <div class="content-skeleton" aria-hidden="true"></div>
         </div>
       </div>
 
-      <details class="review-wrap"><summary>Played your event? Leave a review</summary>
-        <h3 style="margin:0 0 8px;">Leave a Review</h3>
-        <p style="margin:0; opacity:.88; font-size:14px;">
-          If you booked DJ Sarif, please leave an honest review. Your feedback helps new clients.
-        </p>
 
-        <form id="reviewForm" onsubmit="submitReview(event)">
-          <div class="review-grid">
-            <input class="review-input" name="reviewerName" placeholder="Your Name" required />
-            <input class="review-input" name="reviewerEmail" type="email" placeholder="Your Email (not shown publicly)" required />
-
-            <select class="review-select" name="eventType" required><option value="" disabled selected>Event Type</option><option>Wedding</option><option>Birthday</option><option>Corporate</option><option>Concert</option><option>Private Party</option><option>Club</option><option>Other</option></select>
-
-            <div class="stars-row">
-              <div class="stars" aria-label="Star rating">
-                <button type="button" class="star-btn" data-val="1" onclick="setStars(1)"><span
-                    class="star">★</span></button>
-                <button type="button" class="star-btn" data-val="2" onclick="setStars(2)"><span
-                    class="star">★</span></button>
-                <button type="button" class="star-btn" data-val="3" onclick="setStars(3)"><span
-                    class="star">★</span></button>
-                <button type="button" class="star-btn" data-val="4" onclick="setStars(4)"><span
-                    class="star">★</span></button>
-                <button type="button" class="star-btn" data-val="5" onclick="setStars(5)"><span
-                    class="star">★</span></button>
-              </div>
-              <div class="rating-pill" id="ratingPill">Rating: <span id="ratingText">0</span>/5</div>
-            </div>
-
-            <input type="hidden" name="rating" id="ratingInput" value="0" />
-
-            <textarea class="review-textarea" name="reviewText" placeholder="Write your review..." required></textarea>
-          </div>
-
-          <div class="review-actions">
-            <button class="btn-primary" type="submit" id="reviewSubmitBtn">Submit Review</button>
-            <button class="btn-primary" type="button" onclick="scrollToBooking()">Book DJ Sarif</button>
-          </div>
-
-          <p class="form-privacy">Your email is not published. Reviews appear only after approval. <a href="privacy.html">Privacy notice</a></p><div class="review-note" id="reviewNote">
-            Reviews are submitted to DJ Sarif for verification. No example/fake reviews are shown on the website.
-          </div>
-        </form>
-      </details>
     </section>
 
     <div class="neon-divider"></div>
 
+    <p class="review-invite"><a href="review.html">Booked DJ Sarif? Leave a review →</a></p>
     <!-- CALENDAR -->
     <section class="card" id="calendar">
       <p class="eyebrow">FIND YOUR DATE</p><h2>Something to celebrate?</h2>
@@ -2599,11 +2543,11 @@
 
       <details class="calendar-details"><summary>Open the availability calendar <span aria-hidden="true">+</span></summary><div class="calendar-wrap" style="max-width:900px; margin:18px auto 0;">
         <iframe
-          src="https://calendar.google.com/calendar/embed?src=e9dd4be6ec069d0e0d06489b2b39c6e731f968bbabc86dd05197f5ff4bfba32f%40group.calendar.google.com&ctz=America%2FNew_York"
+          data-src="https://calendar.google.com/calendar/embed?src=e9dd4be6ec069d0e0d06489b2b39c6e731f968bbabc86dd05197f5ff4bfba32f%40group.calendar.google.com&ctz=America%2FNew_York"
           style="border:0; width:100%; height:560px; border-radius:18px; overflow:hidden; box-shadow:0 0 28px rgba(0,229,255,0.12);"
           title="DJ Sarif availability calendar" loading="lazy" frameborder="0"
           scrolling="no"></iframe>
-      </div>
+      </div></details>
     </section>
 
     <div class="neon-divider"></div>
@@ -2613,7 +2557,7 @@
       <div class="event-promo-sidebar-kicker">ON THE CALENDAR</div>
       <h2 class="event-promo-sidebar-title">UPCOMING DATES</h2>
       <div class="event-promo-list" id="eventPromoList">
-        <p class="event-promo-empty">Loading upcoming dates...</p>
+        <div class="content-skeleton" aria-hidden="true"></div>
       </div>
     </aside>
     <!-- END EVENT PROMOTION SYSTEM: UPCOMING EVENTS -->
@@ -2621,7 +2565,7 @@
     <div class="neon-divider"></div>
 
     <!-- BOOKING -->
-    <section class="card" id="packages"><p class="eyebrow">MADE FOR YOUR NIGHT</p><h2>Choose your starting point.</h2><div class="package-grid"><article class="package-card"><p class="eyebrow">01 / BASIC</p><h3>Basic</h3><p>Great for birthdays, private parties and small events.</p><ul class="package-inclusions"><li>Professional DJ service</li><li>QSC &amp; JBL speaker setup</li><li>Shure wireless microphone set</li><li>Standard party lighting</li></ul><a class="primary" href="#booking" data-package="basic">Ask about Basic</a></article><article class="package-card"><p class="eyebrow">02 / PREMIUM</p><h3>Premium — All Out</h3><p>Ideal for weddings, receptions and large celebrations.</p><ul class="package-inclusions"><li>Full DJ experience</li><li>QSC &amp; JBL speaker setup</li><li>5 subwoofers</li><li>6 moving heads</li><li>1 premium Gig Bar</li><li>3 strobes</li><li>10 uplights</li><li>Regular smoke machine</li><li>Dry ice low-lying fog effect</li><li>6 cold spark machines</li><li>Shure wireless microphone set</li></ul><a class="primary" href="#booking" data-package="premium">Ask about Premium</a></article></div><p class="booking-small">Contact Sarif for pricing and a personalized quote.</p><div class="package-comparison"><h3>Compare your setup</h3><div class="comparison-scroll" tabindex="0" aria-label="Package comparison"><table><thead><tr><th scope="col">Included</th><th scope="col">Basic</th><th scope="col">Premium - All Out</th></tr></thead><tbody><tr><th scope="row">DJ service, QSC &amp; JBL speakers, Shure wireless microphone set</th><td>Included</td><td>Included</td></tr><tr><th scope="row">Lighting</th><td>Standard party lighting</td><td>6 moving heads, 1 premium Gig Bar, 3 strobes, 10 uplights</td></tr><tr><th scope="row">Additional bass</th><td>No additional subwoofers listed</td><td>5 subwoofers</td></tr><tr><th scope="row">Special effects</th><td>Not included in the listed Basic package</td><td>Regular smoke machine, dry ice low-lying fog effect, 6 cold spark machines</td></tr><tr><th scope="row">Performance hours &amp; travel</th><td colspan="2">Confirmed in your personalized quote</td></tr></tbody></table></div><p class="booking-small">Tell us about any extra lighting, sound or effects you would like. Availability and pricing are confirmed with your quote.</p></div></section><section class="card faq-section" id="faq"><p class="eyebrow">BEFORE THE FIRST SONG</p><h2>A few things to know.</h2><details><summary>How soon will I hear back?</summary><p>Expect a response within 24–48 hours. For a time-sensitive request, call 614-772-6549.</p></details><details><summary>Does an inquiry reserve my date?</summary><p>No. We will confirm availability, discuss your plans and send a personalized quote. Your booking requirements and confirmation are set out in your agreement.</p></details><details><summary>How many hours does each package include?</summary><p>Performance hours, setup and breakdown timing are confirmed in your quote based on your event schedule.</p></details><details><summary>Do you travel, and are there travel fees?</summary><p>Send your venue location with your inquiry. Travel availability and any travel fees will be confirmed in your quote.</p></details><details><summary>Can we request songs?</summary><p>Yes. Share your favorite genres, must-play songs and do-not-play list in your inquiry so we can discuss the music for your event.</p></details><details><summary>What deposit is required?</summary><p>The deposit amount and payment schedule will be confirmed in your quote and agreement.</p></details><details><summary>What is the cancellation or rescheduling policy?</summary><p>Cancellation and rescheduling terms are confirmed in your agreement. Contact Sarif if your plans change.</p></details><details><summary>Can I customize a package?</summary><p>Tell us which sound, lighting or effects you are interested in. Available options and any additional charges will be confirmed in your quote.</p></details><details><summary>What does the venue need to provide?</summary><p>Share the venue details and available setup space. We will coordinate access, power and any venue requirements for lighting, fog and special effects before the event.</p></details></section><section class="card booking-new" id="booking"><div><p class="eyebrow">LET'S MAKE IT YOUR NIGHT</p><h2>The next great night<br><em>starts right here.</em></h2><p>Share your date, venue and event type. We'll talk music, confirm availability and work out the details together.</p><button class="primary" type="button" data-inquiry>Check my date</button><noscript><p>Call <a href="tel:+16147726549">614-772-6549</a> or <a href="mailto:djinquiries1000@gmail.com">email Sarif</a> to check your date.</p></noscript><p class="booking-small">Expect a reply within 24–48 hours. Sending an inquiry does not reserve a date.</p></div><div class="booking-steps"><p><b>01</b><span><strong>Tell me about your event</strong>Date, location and the kind of celebration.</span></p><p><b>02</b><span><strong>Hear back in 24–48 hours</strong>We’ll discuss your music, timeline, setup and personalized quote.</span></p><p><b>03</b><span><strong>Let's make it happen</strong>Confirm the details together.</span></p><a href="tel:+16147726549">Prefer to talk? 614-772-6549 ↗</a></div></section>
+    <section class="card" id="packages"><p class="eyebrow">MADE FOR YOUR NIGHT</p><h2>Choose your starting point.</h2><div class="package-grid"><article class="package-card"><p class="eyebrow">01 / BASIC</p><h3>Basic</h3><p>Great for birthdays, private parties and small events.</p><ul class="package-inclusions"><li>Professional DJ service</li><li>QSC &amp; JBL speaker setup</li><li>Shure wireless microphone set</li><li>Standard party lighting</li></ul><button class="primary" type="button" data-package="basic" aria-label="Get my quote for Basic">Get my quote</button></article><article class="package-card"><p class="eyebrow">02 / PREMIUM</p><h3>Premium — All Out</h3><p>Ideal for weddings, receptions and large celebrations.</p><ul class="package-inclusions"><li>Full DJ experience</li><li>QSC &amp; JBL speaker setup</li><li>5 subwoofers</li><li>6 moving heads</li><li>1 premium Gig Bar</li><li>3 strobes</li><li>10 uplights</li><li>Regular smoke machine</li><li>Dry ice low-lying fog effect</li><li>6 cold spark machines</li><li>Shure wireless microphone set</li></ul><button class="primary" type="button" data-package="premium" aria-label="Get my quote for Premium — All Out">Get my quote</button></article></div><p class="booking-small">Contact Sarif for pricing and a personalized quote. Every quote is personalized to your venue, timeline and setup.</p><div class="package-comparison"><h3>Compare your setup</h3><div class="comparison-scroll" tabindex="0" aria-label="Package comparison"><table><thead><tr><th scope="col">Included</th><th scope="col">Basic</th><th scope="col">Premium - All Out</th></tr></thead><tbody><tr><th scope="row">DJ service, QSC &amp; JBL speakers, Shure wireless microphone set</th><td>Included</td><td>Included</td></tr><tr><th scope="row">Lighting</th><td>Standard party lighting</td><td>6 moving heads, 1 premium Gig Bar, 3 strobes, 10 uplights</td></tr><tr><th scope="row">Additional bass</th><td>No additional subwoofers listed</td><td>5 subwoofers</td></tr><tr><th scope="row">Special effects</th><td>Not included in the listed Basic package</td><td>Regular smoke machine, dry ice low-lying fog effect, 6 cold spark machines</td></tr><tr><th scope="row">Performance hours &amp; travel</th><td>Confirmed in your personalized quote</td><td>Confirmed in your personalized quote</td></tr></tbody></table></div><p class="booking-small">Tell me about any extra lighting, sound or effects you would like. Availability and pricing are confirmed with your quote.</p></div></section><section class="card faq-section" id="faq"><p class="eyebrow">BEFORE THE FIRST SONG</p><h2>A few things to know.</h2><details><summary>How soon will I hear back?</summary><p>Expect a response within 24–48 hours. For a time-sensitive request, call 614-772-6549.</p></details><details><summary>Does an inquiry reserve my date?</summary><p>No. I will confirm availability, discuss your plans and send a personalized quote. Your booking requirements and confirmation are set out in your agreement.</p></details><details><summary>How many hours does each package include?</summary><p>Performance hours, setup and breakdown timing are confirmed in your quote based on your event schedule.</p></details><details><summary>Do you travel, and are there travel fees?</summary><p>Send your venue location with your inquiry. Travel availability and any travel fees will be confirmed in your quote.</p></details><details><summary>Can we request songs?</summary><p>Yes. Share your favorite genres, must-play songs and do-not-play list in your inquiry so I can plan the music for your event.</p></details><details><summary>What deposit is required?</summary><p>The deposit amount and payment schedule will be confirmed in your quote and agreement.</p></details><details><summary>What is the cancellation or rescheduling policy?</summary><p>Cancellation and rescheduling terms are confirmed in your agreement. Contact Sarif if your plans change.</p></details><details><summary>Can I customize a package?</summary><p>Tell me which sound, lighting or effects you are interested in. Available options and any additional charges will be confirmed in your quote.</p></details><details><summary>What does the venue need to provide?</summary><p>Share the venue details and available setup space. I will coordinate access, power and any venue requirements for lighting, fog and special effects before the event.</p></details></section><section class="card booking-new" id="booking"><div><p class="eyebrow">LET'S MAKE IT YOUR NIGHT</p><h2>The next great night<br><em>starts right here.</em></h2><p>Share your date, venue and event type. I’ll talk music, confirm availability and work out the details together.</p><button class="primary" type="button" data-inquiry>Check my date</button><noscript><p>Call <a href="tel:+16147726549">614-772-6549</a> or <a href="mailto:hello@djsarif.com">email Sarif</a> to check your date.</p></noscript><p class="booking-small">Expect a reply within 24–48 hours. Sending an inquiry does not reserve a date.</p></div><div class="booking-steps"><p><b>01</b><span><strong>Tell me about your event</strong>Date, location and the kind of celebration.</span></p><p><b>02</b><span><strong>Hear back in 24–48 hours</strong>I’ll discuss your music, timeline, setup and personalized quote.</span></p><p><b>03</b><span><strong>Let's make it happen</strong>Confirm the details together.</span></p><a href="tel:+16147726549">Prefer to talk? 614-772-6549 ↗</a></div></section>
 
     <!-- CONTACT -->
     <section class="card" id="contact">
@@ -2631,17 +2575,17 @@
           Subedi</a><br>
         Instagram: <a href="https://instagram.com/_dj.sarif" target="_blank" rel="noopener">@_dj.sarif</a><br>
         Phone: <a href="tel:+16147726549">614-772-6549</a><br>
-        Email: <a href="mailto:Djinquiries1000@gmail.com">Djinquiries1000@gmail.com</a>
+        Email: <a href="mailto:hello@djsarif.com">hello@djsarif.com</a>
       </p>
     </section>
 
-    <footer><strong>DJ SARIF.</strong><span>© <span id="currentYear">2026</span> DJ Sarif</span><a href="#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="#top">Back to top ↑</a></footer>
+    <footer><strong>DJ SARIF.</strong><span>© <span id="currentYear">2026</span> DJ Sarif</span><button class="footer-client" type="button" onclick="openClientAccess()">Client Access</button><a href="review.html">Leave a review</a><a href="#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="#top">Back to top ↑</a></footer>
   </main>
 
   <!-- Floating contacts -->
   <a href="tel:+16147726549" class="floating-call" aria-label="Call DJ Sarif">📞</a>
   <a href="sms:+16147726549" class="floating-sms" aria-label="Text DJ Sarif">💬</a>
-  <a href="mailto:Djinquiries1000@gmail.com" class="floating-email" aria-label="Email DJ Sarif">✉️</a>
+  <a href="mailto:hello@djsarif.com" class="floating-email" aria-label="Email DJ Sarif">✉️</a>
   <a href="https://wa.me/16147726549" target="_blank" rel="noopener" class="whatsapp-float"
     aria-label="WhatsApp DJ Sarif">💬</a>
 
@@ -2652,99 +2596,6 @@
   <div id="eventPromoSelectorRoot" aria-live="polite"></div>
 
   <!-- END EVENT PROMOTION SYSTEM: HTML ADDITIONS -->
-
-  <!-- VIP Orb -->
-  <button class="vip-orb" type="button" onclick="toggleVIP(true)" aria-label="Open event inquiry">
-    <span class="vip-orb-label">VIP</span>
-  </button>
-
-  <!-- VIP Panel -->
-  <div class="vip-panel-wrap" aria-live="polite">
-    <div class="vip-panel" id="vipPanel" role="dialog" aria-label="Event inquiry panel">
-      <div class="vip-head">
-        <div>
-          <p class="vip-title">Event inquiry</p>
-          <p class="vip-sub">Tell me a little about your event.</p>
-        </div>
-        <button class="vip-close" type="button" onclick="toggleVIP(false)" aria-label="Close VIP Panel">✕</button>
-      </div>
-
-      <div class="vip-body">
-        <form id="vipForm" onsubmit="submitVIP(event)">
-          <div class="vip-grid">
-            <input class="vip-input" name="name" placeholder="Full Name" required />
-            <input class="vip-input" name="email" type="email" placeholder="Email Address" required />
-
-            <select class="vip-select" name="eventType" required><option value="" disabled selected>Event Type</option><option>Wedding</option><option>Birthday</option><option>Corporate</option><option>Concert</option><option>Private Party</option><option>Club</option><option>Other</option></select>
-
-            <div class="date-row">
-              <select class="vip-select" name="mm" required aria-label="Month">
-                <option value="" disabled selected>Month</option>
-              </select>
-              <select class="vip-select" name="dd" required aria-label="Day">
-                <option value="" disabled selected>Day</option>
-              </select>
-              <select class="vip-select" name="yyyy" required aria-label="Year">
-                <option value="" disabled selected>Year</option>
-              </select>
-            </div>
-
-            <input class="vip-input" id="vipVenue" name="venue" placeholder="Venue Name / Location"
-              autocomplete="off" />
-            <input class="vip-input" name="guests" type="number" placeholder="Estimated Guests" />
-            <input class="vip-input" name="startTime" type="text" placeholder="Start Time (e.g. 6PM)" />
-            <input class="vip-input" name="duration" type="text" placeholder="Duration (e.g. 4 Hours)" />
-            <textarea class="vip-textarea" name="specialRequests"
-              placeholder="Special Requests or Must-Play songs..."></textarea>
-          </div>
-
-          <div class="vip-actions">
-            <button class="vip-btn" id="vipSubmitBtn" type="submit">Send Request</button>
-            <button class="vip-ghost" type="button" onclick="goToBooking()">Book Now</button>
-          </div>
-
-          <div class="vip-note" id="vipNote">
-            Your date is confirmed after we connect. You can also call 614-772-6549.
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- PROFILE MODAL -->
-  <div id="profileModal">
-    <div class="modal-backdrop" onclick="closeProfile()"></div>
-    <div class="modal-card">
-      <div class="modal-top">
-        <div>
-          <h2 style="margin:0;">DJ Sarif – Profile</h2>
-          <p style="margin:8px 0 0; opacity:.85;">Weddings • Corporate • Concerts • Private Parties</p>
-        </div>
-        <button class="modal-close" type="button" onclick="closeProfile()" aria-label="Close Profile">✕</button>
-      </div>
-
-      <div class="modal-grid">
-        <img src="images/dj-sarif-stage-portrait.webp" style="border:2px solid var(--neon1);" alt="DJ Sarif photo 1">
-        <img src="images/sarif-live.webp" style="border:2px solid var(--neon2);" alt="DJ Sarif photo 2">
-      </div>
-
-      <div class="about-box">
-        <h3>About</h3>
-        <p style="margin:10px 0 0;">
-          I specialize in reading the crowd and keeping energy high with clean transitions. I mix Bollywood, Nepali,
-          Hip-Hop, Top 40, and EDM to match your vibe.
-        </p>
-        <p style="margin:10px 0 0;">
-          Professional sound system, wireless mic, dance floor lighting, and full setup/breakdown included.
-        </p>
-
-        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="btn-primary" href="#booking" onclick="closeProfile()">Book Now</a>
-          <button class="btn-primary" type="button" onclick="watchAboutVideo()">Watch Video</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- CLIENT ACCESS MODAL -->
   <div id="clientAccessModal" role="dialog" aria-modal="true" aria-label="Client Access">
@@ -2765,14 +2616,14 @@
           Use this after you’ve spoken with DJ Sarif to confirm details.
         </p>
 
-        <p class="form-privacy">We use these details to respond and plan your event. <a href="privacy.html">Privacy notice</a></p><form id="clientAccessForm" onsubmit="submitClientAccess(event)">
+        <p class="form-privacy">I use these details to respond and plan your event. <a href="privacy.html">Privacy notice</a></p><form id="clientAccessForm" onsubmit="submitClientAccess(event)">
           <div class="client-grid">
             <input class="client-input" name="clientName" placeholder="Client Name" required />
             <input class="client-input" name="clientEmail" type="email" placeholder="Client Email" required />
             <input class="client-input" name="eventDate" type="date" required />
             <input class="client-input" id="clientLocation" name="location" placeholder="Venue / Location" required
               autocomplete="off" />
-            <input class="client-input" name="rate" type="number" placeholder="Agreed Rate ($)" />
+            
             <select class="client-select" name="eventType" required><option value="" disabled selected>Event Type</option><option>Wedding</option><option>Birthday</option><option>Corporate</option><option>Concert</option><option>Private Party</option><option>Club</option><option>Other</option></select>
             <label class="field-label">Package preference<select class="client-select" name="packageOption"><option value="unsure">Help me choose</option><option value="basic">Basic</option><option value="premium">Premium — All Out</option></select></label><textarea class="client-textarea" name="notes"
               placeholder="Notes, timeline, must-play songs, special requests..."></textarea>
@@ -2793,659 +2644,8 @@
     </div>
   </div>
 
-  <!-- VIDEO MODAL -->
-  <div id="videoModal" role="dialog" aria-modal="true" aria-label="Full screen video">
-    <div class="modal-backdrop" onclick="closeVideoModal()"></div>
-    <div class="video-modal-card">
-      <div class="video-modal-top">
-        <h3>DJ Sarif – Video</h3>
-        <button class="video-modal-close" type="button" onclick="closeVideoModal()">✕</button>
-      </div>
 
-        <div class="video-modal-player">
-          <iframe
-            id="videoModalFrame"
-            title="DJ Sarif full screen video"
-            src="about:blank"
-            loading="lazy"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"
-          ></iframe>
-        </div>
-    </div>
-  </div>
-
-  <!-- autoComplete.js (OSM) -->
-
-
-  <script>
-    /* ===========================
-       IMPORTANT: Your Apps Script URL
-       =========================== */
-    const SCRIPT_URL = window.DJ_CONFIG.publicApiUrl || "https://script.google.com/macros/s/AKfycbyFdjV0zjHtGDSF2g_0UkBIjNo5jzc8htWFn590tT0fL_oXdVRbdPvYOJyf92MNTJJE/exec";
-
-    /* ===========================
-       MEDIA VIDEO CONFIG (CLOUDFLARE STREAM TABS)
-       =========================== */
-    const STREAM_CUSTOMER_HOST = "customer-tj8nsrtq4n6pjvgm.cloudflarestream.com";
-
-    const MEDIA_VIDEOS = {
-      highlight: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Highlights" },
-      wedding: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Weddings" },
-      club: { uid: "9edf078f3801e17ffda7b0e73fc78e57", label: "Clubs" },
-      corporate: { uid: "b04e69b02f931cac2a3dd8bf7454228f", label: "Corporate" }
-    };
-
-    let currentMediaKey = "highlight";
-    let userStartedInlineVideo = false;
-
-    function buildStreamIframeSrc(uid, opts) {
-      const options = Object.assign(
-        { autoplay: false, muted: false, loop: true, controls: true },
-        opts || {}
-      );
-
-      const params = new URLSearchParams();
-      if (options.autoplay) params.set("autoplay", "true");
-      if (options.muted) params.set("muted", "true");
-      if (options.loop) params.set("loop", "true");
-      if (options.controls) params.set("controls", "true");
-
-      const qs = params.toString();
-      return `https://${STREAM_CUSTOMER_HOST}/${uid}/iframe${qs ? "?" + qs : ""}`;
-    }
-
-    function getMediaFrame() {
-      return document.getElementById("aboutVideoFrame");
-    }
-
-    function setMediaVideo(key) {
-      const frame = getMediaFrame();
-      const wrap = document.getElementById("mediaPlayerWrap");
-      const overlay = document.getElementById("playOverlay");
-      if (!frame || !MEDIA_VIDEOS[key]) return;
-
-      currentMediaKey = key;
-      userStartedInlineVideo = false;
-
-      document.querySelectorAll(".media-tab").forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.key === key);
-      });
-
-      frame.src = buildStreamIframeSrc(MEDIA_VIDEOS[key].uid, {
-        autoplay: false,
-        muted: false,
-        loop: true,
-        controls: true
-      });
-
-      if (overlay) overlay.classList.remove("hidden");
-
-      if (wrap) {
-        wrap.classList.remove("media-glow");
-        void wrap.offsetWidth;
-        wrap.classList.add("media-glow");
-      }
-    }
-
-    function enterWebsite() {
-      const w = document.getElementById("djWizard");
-      if (w) w.classList.add("hidden");
-
-      document.body.style.overflow = "auto";
-      document.documentElement.style.overflow = "auto";
-
-      if (typeof toggleVIP === "function") toggleVIP(false);
-
-      const nav = document.getElementById("navLinks");
-      if (nav) nav.classList.remove("open");
-    }
-
-    function playInlineVideo() {
-      const frame = getMediaFrame();
-      const overlay = document.getElementById("playOverlay");
-      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
-      if (!frame || !cfg) return;
-
-      userStartedInlineVideo = true;
-      if (overlay) overlay.classList.add("hidden");
-
-      frame.src = buildStreamIframeSrc(cfg.uid, {
-        autoplay: true,
-        muted: false,
-        loop: true,
-        controls: true
-      });
-    }
-
-    function syncPlayOverlay() {
-      const overlay = document.getElementById("playOverlay");
-      if (!overlay) return;
-
-      if (userStartedInlineVideo) overlay.classList.add("hidden");
-      else overlay.classList.remove("hidden");
-    }
-
-    function watchAboutVideo() {
-      try { closeProfile(); } catch (e) { }
-
-      const section = document.getElementById("media");
-      const wrap = document.getElementById("mediaPlayerWrap");
-
-      if (section) section.scrollIntoView({ behavior: "smooth", block: "center" });
-
-      if (wrap) {
-        wrap.classList.remove("media-glow");
-        void wrap.offsetWidth;
-        wrap.classList.add("media-glow");
-      }
-
-      setTimeout(() => playInlineVideo(), 600);
-    }
-
-    /* Auto-stop cloud stream when media section leaves view */
-    (function initAutoPause() {
-      const section = document.getElementById("media");
-      const frame = getMediaFrame();
-      if (!frame || !section) return;
-
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
-            const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
-            frame.src = buildStreamIframeSrc(cfg.uid, {
-              autoplay: false,
-              muted: false,
-              loop: true,
-              controls: true
-            });
-            userStartedInlineVideo = false;
-            syncPlayOverlay();
-          }
-        });
-      }, { threshold: [0, 0.35, 0.6, 1] });
-
-      obs.observe(section);
-    })();
-
-    /* Fullscreen modal using Cloudflare Stream */
-    function openVideoModal() {
-      const modal = document.getElementById("videoModal");
-      const frame = document.getElementById("videoModalFrame");
-      const cfg = MEDIA_VIDEOS[currentMediaKey] || MEDIA_VIDEOS.highlight;
-      if (!modal || !frame || !cfg) return;
-
-      modal.style.display = "block";
-      document.body.style.overflow = "hidden";
-
-      frame.src = buildStreamIframeSrc(cfg.uid, {
-        autoplay: true,
-        muted: false,
-        loop: true,
-        controls: true
-      });
-    }
-
-    function closeVideoModal() {
-      const modal = document.getElementById("videoModal");
-      const frame = document.getElementById("videoModalFrame");
-      if (frame) frame.src = "";
-      if (modal) modal.style.display = "none";
-      document.body.style.overflow = "auto";
-    }
-
-    function openVideoModalFromInline() {
-      openVideoModal();
-    }
-
-    /* ===========================
-       REVIEWS: fancy stars + submit (no fake reviews shown)
-       =========================== */
-    function setStars(n) {
-      const input = document.getElementById("ratingInput");
-      const text = document.getElementById("ratingText");
-      if (input) input.value = String(n);
-      if (text) text.textContent = String(n);
-
-      document.querySelectorAll(".star-btn").forEach(btn => {
-        const v = Number(btn.dataset.val || "0");
-        btn.classList.toggle("active", v <= n);
-
-        // tiny "pop" animation
-        btn.animate(
-          [{ transform: "translateY(0) scale(1)" }, { transform: "translateY(-2px) scale(1.04)" }, { transform: "translateY(0) scale(1)" }],
-          { duration: 220, easing: "ease-out" }
-        );
-      });
-    }
-
-    function scrollToBooking() {
-      const booking = document.getElementById("booking");
-      if (booking) booking.scrollIntoView({ behavior: "smooth" });
-    }
-
-    /* ===========================
-       NAV (mobile + wizard)
-       =========================== */
-    function toggleNav() {
-      const open = document.getElementById("navLinks").classList.toggle("open");
-      document.querySelector(".hamburger").setAttribute("aria-expanded", String(open));
-    }
-
-    function selectEvent(type) {
-      closeWizard();
-      setTimeout(() => {
-        const booking = document.getElementById("booking");
-        if (booking) booking.scrollIntoView({ behavior: "smooth" });
-      }, 200);
-    }
-
-    function closeWizard() {
-      const w = document.getElementById("djWizard");
-      if (w) w.classList.add("hidden");
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const isFile = location.protocol === "file:";
-
-      // Disable OSM autocomplete when opened as file:// (prevents CORS/403 errors)
-      if (!isFile) {
-        
-        
-      }
-
-      syncPlayOverlay();
-    });
-
-    /* ===========================
-       VIP PANEL
-       =========================== */
-    function toggleVIP(open) {
-      const panel = document.getElementById("vipPanel");
-      if (!panel) return;
-      panel.classList.toggle("open", !!open);
-
-      if (window.matchMedia("(max-width: 768px)").matches) {
-        document.body.style.overflow = open ? "hidden" : "auto";
-      }
-    }
-
-    function goToBooking() {
-      toggleVIP(false);
-      closeWizard();
-      const booking = document.getElementById("booking");
-      if (booking) booking.scrollIntoView({ behavior: "smooth" });
-    }
-
-    /* ===========================
-       PROFILE MODAL
-       =========================== */
-    function openProfile() {
-      closeWizard();
-      document.getElementById("profileModal").style.display = "block";
-    }
-    function closeProfile() {
-      document.getElementById("profileModal").style.display = "none";
-    }
-
-    /* ===========================
-       CLIENT ACCESS MODAL
-       =========================== */
-    function openClientAccess() {
-      closeWizard();
-      toggleVIP(false);
-      document.getElementById("clientAccessModal").style.display = "block";
-      document.body.style.overflow = "hidden";
-      document.getElementById("navLinks").classList.remove("open");
-      const first = document.querySelector("#clientAccessForm input[name='clientName']");
-      if (first) first.focus();
-    }
-
-    function closeClientAccess() {
-      document.getElementById("clientAccessModal").style.display = "none";
-      document.body.style.overflow = "auto";
-    }
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        toggleVIP(false);
-        closeClientAccess();
-        closeProfile();
-        closeVideoModal();
-      }
-    });
-
-    /* ===========================
-       VIP DATE DROPDOWNS
-       =========================== */
-    (function initDateDropdowns() {
-      const form = document.getElementById("vipForm");
-      if (!form) return;
-
-      const mm = form.elements.mm;
-      const dd = form.elements.dd;
-      const yyyy = form.elements.yyyy;
-
-      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      months.forEach((m, i) => {
-        const opt = document.createElement("option");
-        opt.value = String(i + 1).padStart(2, "0");
-        opt.textContent = m;
-        mm.appendChild(opt);
-      });
-
-      for (let d = 1; d <= 31; d++) {
-        const opt = document.createElement("option");
-        opt.value = String(d).padStart(2, "0");
-        opt.textContent = String(d);
-        dd.appendChild(opt);
-      }
-
-      const yearNow = new Date().getFullYear();
-      for (let y = yearNow; y <= yearNow + 3; y++) {
-        const opt = document.createElement("option");
-        opt.value = String(y);
-        opt.textContent = String(y);
-        yyyy.appendChild(opt);
-      }
-    })();
-
-    function isValidYMD(yyyy, mm, dd) {
-      if (!yyyy || !mm || !dd) return false;
-      const test = new Date(`${yyyy}-${mm}-${dd}T00:00:00`);
-      const ok =
-        test &&
-        (String(test.getFullYear()) === String(yyyy)) &&
-        (String(test.getMonth() + 1).padStart(2, "0") === String(mm).padStart(2, "0")) &&
-        (String(test.getDate()).padStart(2, "0") === String(dd).padStart(2, "0"));
-      return ok;
-    }
-
-    /* ===========================
-       POST helper
-       =========================== */
-    async function postFormData(url, formData) {
-      const res = await fetch(url, {
-        method: "POST",
-        body: formData,
-        signal: AbortSignal.timeout(15000),
-        headers: { "Accept": "application/json" }
-      });
-
-      const text = await res.text();
-      let data = {};
-      try { data = JSON.parse(text); } catch (e) { throw new Error("The service returned an unexpected response"); }
-
-      if (!res.ok) throw new Error(data?.error || `Request failed (${res.status})`);
-      if (data?.ok !== true) throw new Error(data?.error || "The service did not confirm your request");
-      return data;
-    }
-
-    /* ===========================
-       LOCAL DASHBOARD CAPTURE
-       This lets dashboard.html manage submissions made in the same browser.
-       For all visitor submissions on the live site, connect these same fields
-       in Google Apps Script, Firebase, Supabase, or another backend.
-       =========================== */
-    const DASHBOARD_CLIENTS_KEY = "djSarifClients";
-    const DASHBOARD_REVIEWS_KEY = "djSarifReviews";
-
-    function getDashboardCollection(key) {
-      try {
-        const value = JSON.parse(localStorage.getItem(key) || "[]");
-        return Array.isArray(value) ? value : [];
-      } catch (error) {
-        return [];
-      }
-    }
-
-    function saveDashboardCollection(key, value) {
-      localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    function captureDashboardClient(record) { /* Submission is stored by the server after acknowledgement. */ }
-
-    function captureDashboardReview(record) { /* Submission is stored by the server after acknowledgement. */ }
-
-    /* ===========================
-       VIP submit
-       =========================== */
-    async function submitVIP(e) {
-      e.preventDefault();
-      const form = e.target;
-      const btn = document.getElementById("vipSubmitBtn");
-      const note = document.getElementById("vipNote");
-
-      btn.innerText = "Sending...";
-      btn.disabled = true;
-
-      try {
-        const mm = form.elements.mm?.value;
-        const dd = form.elements.dd?.value;
-        const yyyy = form.elements.yyyy?.value;
-
-        if (!isValidYMD(yyyy, mm, dd)) {
-          note.innerHTML = '<div class="vip-error">Please select a valid date.</div>';
-          btn.innerText = "Send Request";
-          btn.disabled = false;
-          return;
-        }
-
-        const fd = new FormData(form);
-        fd.append("source", "vip");
-        fd.append("eventDate", `${yyyy}-${mm}-${dd}`);
-        captureDashboardClient({
-          name: fd.get("name") || "",
-          email: fd.get("email") || "",
-          phone: fd.get("phone") || "",
-          eventType: fd.get("eventType") || "",
-          eventDate: `${yyyy}-${mm}-${dd}`,
-          location: fd.get("venue") || "",
-          rate: "",
-          notes: [
-            fd.get("specialRequests") || "",
-            fd.get("guests") ? `Guests: ${fd.get("guests")}` : "",
-            fd.get("startTime") ? `Start: ${fd.get("startTime")}` : "",
-            fd.get("duration") ? `Duration: ${fd.get("duration")}` : ""
-          ].filter(Boolean).join("\n")
-        });
-
-        await postFormData(SCRIPT_URL, fd);
-
-        note.innerHTML = '<div class="vip-success">Submitted. Check your email for confirmation.</div>';
-        form.reset();
-
-        btn.innerText = "Sent!";
-        setTimeout(() => { btn.innerText = "Send Request"; btn.disabled = false; }, 2500);
-      } catch (err) {
-        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
-        btn.innerText = "Send Request";
-        btn.disabled = false;
-      }
-    }
-
-    /* ===========================
-       Client Access submit
-       =========================== */
-    async function submitClientAccess(e) {
-      e.preventDefault();
-      const form = e.target;
-      const btn = document.getElementById("clientSubmitBtn");
-      const note = document.getElementById("clientNote");
-
-      btn.innerText = "Sending...";
-      btn.disabled = true;
-
-      try {
-        const fd = new FormData(form);
-        fd.append("source", "client_access");
-        captureDashboardClient({
-          name: fd.get("clientName") || "",
-          email: fd.get("clientEmail") || "",
-          phone: "",
-          eventType: fd.get("eventType") || "",
-          eventDate: fd.get("eventDate") || "",
-          location: fd.get("location") || "",
-          rate: fd.get("rate") || "",
-          notes: fd.get("notes") || ""
-        });
-
-        await postFormData(SCRIPT_URL, fd);
-
-        note.innerHTML = '<div class="vip-success">Submitted. Confirmation email should arrive shortly.</div>';
-        form.reset();
-
-        btn.innerText = "Sent!";
-        setTimeout(() => { btn.innerText = "Send"; btn.disabled = false; }, 2500);
-      } catch (err) {
-        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. If this keeps happening, call/text DJ Sarif.</div>`;
-        btn.innerText = "Send";
-        btn.disabled = false;
-      }
-    }
-
-    /* ===========================
-       Review submit
-       =========================== */
-    async function submitReview(e) {
-      e.preventDefault();
-      const form = e.target;
-      const btn = document.getElementById("reviewSubmitBtn");
-      const note = document.getElementById("reviewNote");
-
-      const rating = Number(document.getElementById("ratingInput")?.value || "0");
-      if (!rating || rating < 1) {
-        note.innerHTML = '<div class="vip-error">Please choose a star rating (1–5).</div>';
-        return;
-      }
-
-      btn.innerText = "Submitting...";
-      btn.disabled = true;
-
-      try {
-        const fd = new FormData(form);
-        fd.append("source", "review");
-        captureDashboardReview({
-          name: fd.get("reviewerName") || "",
-          email: fd.get("reviewerEmail") || "",
-          eventType: fd.get("eventType") || "",
-          rating: fd.get("rating") || "",
-          text: fd.get("reviewText") || ""
-        });
-
-        await postFormData(SCRIPT_URL, fd);
-
-        note.innerHTML = '<div class="vip-success">Thank you! Your review was submitted.</div>';
-        form.reset();
-        setStars(0);
-
-        btn.innerText = "Submitted!";
-        setTimeout(() => { btn.innerText = "Submit Review"; btn.disabled = false; }, 2500);
-      } catch (err) {
-        note.innerHTML = `<div class="vip-error">Error: ${escapeHtml(err.message || err)}. Please try again.</div>`;
-        btn.innerText = "Submit Review";
-        btn.disabled = false;
-      }
-    }
-
-    function escapeHtml(str) {
-      return String(str ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    async function fetchJsonp(url) {
-      let lastError;
-      for(let attempt=0;attempt<2;attempt++){
-        try{const response=await fetch(url,{signal:AbortSignal.timeout(25000),cache:'no-store'});
-          if(!response.ok)throw Error('Service unavailable');
-          const data=await response.json();if(data?.ok!==true)throw Error(data?.error||'Service unavailable');return data;
-        }catch(error){lastError=error;}
-      }
-      throw lastError;
-    }
-
-    async function loadApprovedReviews() {
-      const grid=document.getElementById('approvedReviews'),empty=document.getElementById('approvedReviewsEmpty');if(!grid)return;
-      grid.replaceChildren();grid.setAttribute('role','list');const summary=document.getElementById('reviewSummary');if(summary)summary.hidden=true;
-      try{const data=await fetchJsonp(`${SCRIPT_URL}?action=approved_reviews`);const reviews=Array.isArray(data.reviews)?data.reviews:[];
-        const ratings=reviews.map(r=>Number(r.rating)).filter(r=>Number.isFinite(r)&&r>=1&&r<=5);if(summary&&ratings.length){summary.textContent=(ratings.reduce((sum,r)=>sum+r,0)/ratings.length).toFixed(1)+' out of 5 from '+ratings.length+' approved '+(ratings.length===1?'review':'reviews');summary.hidden=false;}
-        if(empty){empty.style.display=reviews.length?'none':'block';empty.textContent='No approved reviews posted yet.';}
-        for(const r of reviews){const card=document.createElement('article');card.className='approved-review-card';card.setAttribute('role','listitem');
-          const stars=document.createElement('div');stars.className='review-stars';const rating=Math.max(1,Math.min(5,Math.round(Number(r.rating)||5)));stars.textContent='\u2605'.repeat(rating);stars.setAttribute('aria-label',rating+' out of 5 stars');
-          const quote=document.createElement('blockquote');quote.textContent=r.text||'';
-          const byline=document.createElement('div');byline.className='review-byline';const name=document.createElement('strong');name.textContent=r.name||'Client';const type=document.createElement('span');type.textContent=r.eventType||'';byline.append(name,type);card.append(stars,quote,byline);grid.append(card);
-        }
-      }catch(e){if(empty){empty.style.display='block';empty.textContent='Unable to load approved reviews right now.';}}
-    }
-      /* ===========================
-     OSM AUTOCOMPLETE (Nominatim)
-     =========================== */
-  function initOSMAutocomplete(selector, placeholder) {
-    const el = document.querySelector(selector);
-    if (!el) return null;
-
-    el.setAttribute("autocomplete", "off");
-    el.setAttribute("spellcheck", "false");
-
-    return new autoComplete({
-      selector,
-      placeHolder: placeholder || "Search city or address...",
-      threshold: 3,
-      debounce: 350,
-      data: {
-        src: async (query) => {
-          try {
-            const url =
-              `https://nominatim.openstreetmap.org/search` +
-              `?format=json&addressdetails=1&limit=6&countrycodes=us&accept-language=en` +
-              `&q=${encodeURIComponent(query)}`;
-
-            const res = await fetch(url);
-            const data = await res.json();
-            return Array.isArray(data) ? data : [];
-          } catch (e) {
-            return [];
-          }
-        },
-        keys: ["display_name"],
-      },
-      resultItem: { highlight: true },
-      resultsList: { noResults: true },
-      events: {
-        input: {
-          selection: (event) => {
-            const selection = event.detail.selection.value.display_name;
-            if (event?.detail?.input) {
-              event.detail.input.value = selection;
-            }
-          },
-        },
-      },
-    });
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const isFile = location.protocol === "file:";
-
-    // Disable OSM autocomplete when opened as file:// (prevents CORS/403 errors)
-    if (!isFile) {
-      
-      
-    }
-
-    // Ensure play overlay is correct on load (only if your function exists)
-    if (typeof syncPlayOverlay === "function") syncPlayOverlay();
-    loadApprovedReviews();
-  });
-
-
-</script>
-<script src="redesign.js?v=8dac412c39b563f2"></script>
-<script src="site-api.js?v=8dac412c39b563f2"></script>
+<script defer src="redesign.js?v=d6f23a519be71f0c"></script>
+<script defer src="site-api.js?v=d6f23a519be71f0c"></script>
 </body>
 </html>
