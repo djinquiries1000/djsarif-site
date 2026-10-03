@@ -101,7 +101,7 @@
   function safeMediaURL(value){if(!value)return '';if(value.length<=1500000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value))return value;try{const u=new URL(value,location.href);return (u.protocol==='https:'||u.origin===location.origin)&&!u.username&&!u.password?u.href:''}catch{return ''}}
 
   const flyerRequests=new Map();
-  function loadEventFlyer(url){if(!flyerRequests.has(url))flyerRequests.set(url,fetch('/api/event-preview?url='+encodeURIComponent(url),{signal:AbortSignal.timeout(12000)}).then(r=>r.ok?r.json():null).then(data=>data?.image||''));return flyerRequests.get(url);}
+  function loadEventFlyer(url){if(!flyerRequests.has(url))flyerRequests.set(url,fetch('/api/event-preview?url='+encodeURIComponent(url),{signal:AbortSignal.timeout(12000)}).then(r=>r.ok?r.json():null).then(data=>data?.ok?data:null));return flyerRequests.get(url);}
   async function upcoming(){
 
     const list=document.getElementById('eventPromoList');
@@ -158,7 +158,7 @@
         const foot=document.createElement('span');foot.className='event-day-label';foot.textContent=date.toLocaleDateString('en-US',{weekday:'long',year:'numeric',timeZone:'America/New_York'});
         details.append(tag,title,location,foot);card.append(badge,details);
         function flyer(src){if(!isPublic||!safeMediaURL(src)||card.querySelector('.event-flyer'))return;const a=document.createElement('a');a.className='event-flyer-link';a.href=destination;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Tickets and details for '+e.title);const img=document.createElement('img');img.className='event-flyer';img.src=src;img.alt=e.title+' event flyer';img.loading='lazy';img.width=1280;img.height=714;img.onerror=()=>{a.remove();card.classList.remove('has-flyer')};a.append(img);card.prepend(a);card.classList.add('has-flyer');}
-        if(isPublic){const a=document.createElement('a');a.className='event-ticket-button';a.href=destination;a.textContent='Tickets & details';a.target='_blank';a.rel='noopener noreferrer';details.append(a);if(e.image)flyer(safeMediaURL(e.image));else loadEventFlyer(destination).then(flyer).catch(()=>{});}
+        if(isPublic){const a=document.createElement('a');a.className='event-ticket-button';a.href=destination;a.textContent='Tickets & details';a.target='_blank';a.rel='noopener noreferrer';details.append(a);if(e.image)flyer(safeMediaURL(e.image));loadEventFlyer(destination).then(meta=>{if(!meta)return;if(!e.image)flyer(meta.image);if(e.calendar&&meta.title)title.textContent=meta.title;const missingVenue=!e.venue||/^(Location TBA|TBA)$/i.test(e.venue);if(missingVenue&&(meta.venue||meta.address))location.textContent=[meta.venue,meta.address,e.time].filter(Boolean).join(' · ');}).catch(()=>{});}
         return card;
       }
       const seen=new Set();for(const e of events){const key=safeLink(e.ticketLink);if(key&&seen.has(key))continue;if(key)seen.add(key);list.append(makeCard(e));}
