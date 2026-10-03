@@ -15,6 +15,7 @@ export async function adminRequest(request,env){
   if(request.headers.get('Origin')!==url.origin||request.headers.get('Sec-Fetch-Site')==='cross-site')return json({ok:false,error:'Open the dashboard on this website.'},403);
   if(!request.headers.get('Content-Type')?.startsWith('application/json'))return json({ok:false,error:'JSON required'},415);
   if(Number(request.headers.get('Content-Length'))>1600000)return json({ok:false,error:'Request too large'},413);
+  let phase='request';
   try{
     // Streaming size limit also covers requests without Content-Length.
     const reader=request.body?.getReader();if(!reader)return json({ok:false,error:'Request required'},400);
@@ -28,15 +29,18 @@ export async function adminRequest(request,env){
     const session=(request.headers.get('Cookie')||'').split(';').map(s=>s.trim()).find(s=>s.startsWith(COOKIE+'='))?.slice(COOKIE.length+1)||'';
     if(['rpc','logout','logout_all'].includes(operation)&&!/^[A-Za-z0-9_-]{43}$/.test(session))return json({ok:false,error:'Sign in again.'},401);
     const payload={operation,session,email:body.email,challenge:body.challenge,code:body.code,action:body.action,payload:body.payload};
-    const response=await fetch(BACKEND,{method:'POST',body:new URLSearchParams({action:'admin_gateway',payload:JSON.stringify(payload)}),redirect:'follow',signal:AbortSignal.timeout(25000)});
+    phase='backend';
+    const response=await fetch(BACKEND,{method:'POST',body:new URLSearchParams({action:'admin_gateway',payload:JSON.stringify(payload)}),redirect:'follow',signal:AbortSignal.timeout(55000)});
     if(!response.ok)throw Error('backend');
     const result=await response.json();
     if(!result.ok)return json({ok:false,error:result.error||'Unable to complete request.'},result.error==='Sign in again.'?401:400);
     if(operation==='verify_code'){
+      phase='session';
       if(!/^[A-Za-z0-9_-]{43}$/.test(result.session))throw Error('session');
+      phase='cookie';
       return json({ok:true},200,{'Set-Cookie':cookie(result.session,604800)});
     }
     if(operation==='logout'||operation==='logout_all')return json({ok:true},200,{'Set-Cookie':cookie('',0)});
     delete result.session;return json(result);
-  }catch{return json({ok:false,error:'Could not connect. Please try again shortly.'},503);}
+  }catch{return json({ok:false,error:'Could not complete sign-in. Please try again shortly. Reference: '+phase+'.'},503);}
 }
