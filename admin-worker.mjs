@@ -25,7 +25,7 @@ export async function adminRequest(request,env){
     const body=JSON.parse(new TextDecoder().decode(bytes));
     const operation=url.pathname.split('/').pop();
     if(!['request_code','verify_code','rpc','logout','logout_all'].includes(operation))return json({ok:false,error:'Not found'},404);
-    if(operation==='rpc'&&!['state','save_event','moderate_review','booking_status','video_authorize'].includes(body.action))return json({ok:false,error:'Unknown action'},400);
+    if(operation==='rpc'&&!['state','save_event','moderate_review','booking_status','video_authorize','video_library'].includes(body.action))return json({ok:false,error:'Unknown action'},400);
     const session=(request.headers.get('Cookie')||'').split(';').map(s=>s.trim()).find(s=>s.startsWith(COOKIE+'='))?.slice(COOKIE.length+1)||'';
     if(['rpc','logout','logout_all'].includes(operation)&&!/^[A-Za-z0-9_-]{43}$/.test(session))return json({ok:false,error:'Sign in again.'},401);
     const payload={operation,session,email:body.email,challenge:body.challenge,code:body.code,action:body.action,payload:body.payload};
@@ -33,7 +33,7 @@ export async function adminRequest(request,env){
     const response=await fetch(BACKEND,{method:'POST',body:new URLSearchParams({action:'admin_gateway',payload:JSON.stringify(payload)}),redirect:'follow',signal:AbortSignal.timeout(55000)});
     if(!response.ok)throw Error('backend');
     const result=await response.json();
-    if(!result.ok)return json({ok:false,error:result.error||'Unable to complete request.'},result.error==='Sign in again.'?401:400);
+    if(!result.ok)return json({ok:false,error:result.error||'Unable to complete request.',...(result.retryAfter?{retryAfter:result.retryAfter}:{})},result.error==='Sign in again.'?401:400);
     if(operation==='verify_code'){
       phase='session';
       if(!/^[A-Za-z0-9_-]{43}$/.test(result.session))throw Error('session');
@@ -41,6 +41,11 @@ export async function adminRequest(request,env){
       return json({ok:true},200,{'Set-Cookie':cookie(result.session,604800)});
     }
     if(operation==='logout'||operation==='logout_all')return json({ok:true},200,{'Set-Cookie':cookie('',0)});
+    if(operation==='rpc'&&body.action==='video_library'){
+      const listing=await env.VIDEOS.list({prefix:'clips/',limit:100,include:['customMetadata','httpMetadata']});
+      const clips=listing.objects.filter(o=>/^clips\/[a-f0-9-]{36}\.mp4$/.test(o.key)).map(o=>({id:o.key.slice(6,-4),size:o.size,url:'/api/videos/file/'+o.key.slice(6,-4)+(o.customMetadata?.format==='mov'?'.mov':'.mp4'),uploadedAt:o.uploaded})).sort((a,b)=>new Date(b.uploadedAt)-new Date(a.uploadedAt));
+      return json({ok:true,clips});
+    }
     delete result.session;return json(result);
   }catch{return json({ok:false,error:'Could not complete sign-in. Please try again shortly. Reference: '+phase+'.'},503);}
 }

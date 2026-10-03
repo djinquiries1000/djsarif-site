@@ -41,7 +41,20 @@ $('#publishVideo').onclick=()=>run(async()=>{
   const auth=await rpc('video_authorize',{action:'publish',...uploadedVideo});
   const response=await fetch('https://djsarif.com/api/videos/publish',{method:'POST',headers:{Authorization:'Bearer '+auth.token}}),data=await response.json();
   if(!response.ok||!data.ok)throw Error(data.error||'Could not publish.');
+  const check=await fetch('/api/videos/config?verify='+Date.now(),{cache:'no-store'}).then(r=>r.json());
+  if(!check.ok||!check.videos?.[uploadedVideo.slot]?.url?.includes(uploadedVideo.id))throw Error('Publication was not confirmed on the live site. Your upload is saved; try Publish video again.');
   $('#videoMessage').textContent='Published! Visitors will see this video when they open or refresh your website.';$('#publishVideo').hidden=true;uploadedVideo=null;
+});
+
+const libraryButton=el('button','Find my uploaded videos');libraryButton.type='button';
+const libraryList=el('div');$('#videos').append(libraryButton,libraryList);
+libraryButton.onclick=()=>run(async()=>{
+  $('#videoMessage').textContent='Finding your saved uploads…';
+  const data=await rpc('video_library');libraryList.replaceChildren();
+  for(const clip of data.clips){const card=el('article');card.append(el('p',new Date(clip.uploadedAt).toLocaleString()+' — '+(clip.size/1024/1024).toFixed(1)+' MB'),button('Preview this upload',()=>{
+    uploadedVideo={id:clip.id,size:clip.size,slot:$('#videoSlot').value};$('#videoPreview').src=clip.url;$('#videoPreview').hidden=false;$('#publishVideo').hidden=false;$('#videoMessage').textContent='Saved upload selected for '+$('#videoSlot').selectedOptions[0].text+'. Play the preview, then Publish video.';
+  }));libraryList.append(card);}
+  $('#videoMessage').textContent=data.clips.length?'Choose an upload below. No need to upload the file again.':'No saved uploads found.';
 });
 
 window.startAdmin=data=>{if(data){state=data;render();$('#status').textContent='Loaded from shared storage.';}else run(refresh);};
