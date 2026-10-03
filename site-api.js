@@ -76,7 +76,7 @@
 
       const result=await api({...payload,requestId:id,challenge,website:form.elements.website?.value||''});
 
-      note.textContent=payload.action==='submit_review'?'Thank you. Your review was submitted for approval.': 'Thanks! Your inquiry was received. Sarif will follow up within 24–48 hours about your date and package.'; if(result.id)note.textContent+=' Reference: '+result.id;
+      note.textContent=payload.action==='submit_review'?'Thank you. Your review was submitted for approval.': 'Thanks! Your inquiry was received. I’ll follow up within 24–48 hours about your date and package.'; if(result.id)note.textContent+=' Reference: '+result.id;
 
       sessionStorage.setItem('sarif-last-submit-'+payload.action,String(Date.now()));form.reset();delete form.dataset.requestFingerprint;delete form.dataset.requestId;
 

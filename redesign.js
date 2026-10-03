@@ -6,7 +6,8 @@
 
   const clips = {highlight:'media/dj-sarif-highlight.mp4',club:'media/dj-sarif-clubs.mp4'};
 
-  let selectedClip='highlight';
+  let selectedClip='highlight',mediaVisible=false;
+  const videoLoader=new IntersectionObserver(entries=>{if(entries.some(e=>e.isIntersecting)){mediaVisible=true;if(!video.getAttribute('src')){video.src=clips[selectedClip];video.load();}videoLoader.disconnect();}},{rootMargin:'200px'});videoLoader.observe(video);
   const error=document.getElementById('videoError'),fallback=document.getElementById('videoFallback');
   video.addEventListener('error',()=>{error.hidden=false;fallback.href=video.currentSrc||clips[selectedClip]});
   video.addEventListener('loadedmetadata',()=>error.hidden=true);
@@ -17,7 +18,7 @@
       if(typeof url==='string' && /^\/api\/videos\/file\/[a-f0-9-]{36}\.mp4$/.test(url))clips[key]=url;
     }
     // Never interrupt a video the visitor has already started.
-    if(video.paused && video.currentTime===0){video.src=clips[selectedClip];video.load();}
+    if(mediaVisible && video.paused && video.currentTime===0){video.src=clips[selectedClip];video.load();}
   }).catch(()=>{});
   window.setMediaVideo = key => {
     selectedClip=key;
@@ -159,7 +160,7 @@
       }
       const seen=new Set();for(const e of events){const key=safeLink(e.ticketLink);if(key&&seen.has(key))continue;if(key)seen.add(key);list.append(makeCard(e));}
       const featured=document.getElementById('featuredEvent'),next=events.find(e=>safeLink(e.ticketLink));
-      if(featured){featured.replaceChildren();featured.hidden=!next;if(next)featured.append(makeCard(next));}
+      if(featured){featured.replaceChildren();featured.hidden=!next;if(next){const heading=document.createElement('h2');heading.className='visually-hidden';heading.textContent='Next public event';featured.append(heading,makeCard(next));}}
     }catch{document.getElementById('eventPromoSidebar').hidden=true;document.querySelector('.quick-card[href="#eventPromoSidebar"]').hidden=true;}
 
   }
