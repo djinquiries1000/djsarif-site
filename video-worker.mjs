@@ -1,5 +1,6 @@
 // R2 binding: VIDEOS. Shared secret: VIDEO_UPLOAD_SECRET (also in Apps Script).
-const MAX_BYTES = 100 * 1024 * 1024;
+const MAX_BYTES = 1024 * 1024 * 1024;
+const PART_BYTES = 20 * 1024 * 1024;
 const slots = ['highlight', 'club'];
 const originOK = origin => origin === 'https://djsarif.com' || /^https:\/\/(?:[a-z0-9-]+\.)?googleusercontent\.com$/.test(origin) || /^https:\/\/[a-z0-9-]+\.script\.googleusercontent\.com$/.test(origin) || origin === 'https://script.google.com';
 const json = (data, status = 200) => Response.json(data, {status, headers:{'Cache-Control':'no-store'}});
@@ -52,9 +53,40 @@ async function handleVideo(request, env) {
       if(range)headers.set('Content-Range',`bytes ${range.offset}-${range.offset+range.length-1}/${metadata.size}`);
       headers.set('Content-Length',String(range?range.length:metadata.size));
       response=new Response(object?object.body:null,{status:range?206:200,headers});
+    } else if (url.pathname.startsWith('/api/videos/multipart/') && ['POST','PUT'].includes(request.method)) {
+      const p=await claims(request,env,'upload'),key='clips/'+p.id+'.mp4',operation=url.pathname.split('/').pop();
+      if(operation==='start'&&request.method==='POST'){
+        if(await env.VIDEOS.head(key))return json({ok:false,error:'This video already exists. Start a new upload.'},409);
+        const upload=await env.VIDEOS.createMultipartUpload(key,{httpMetadata:{contentType:'video/mp4'}});
+        return json({ok:true,uploadId:upload.uploadId,partSize:PART_BYTES});
+      }
+      const uploadId=url.searchParams.get('uploadId');
+      if(!uploadId||uploadId.length>1000)return json({ok:false,error:'Invalid upload.'},400);
+      const upload=env.VIDEOS.resumeMultipartUpload(key,uploadId);
+      if(operation==='part'&&request.method==='PUT'){
+        const partNumber=Number(url.searchParams.get('partNumber')),count=Math.ceil(p.size/PART_BYTES);
+        const expected=partNumber===count?p.size-PART_BYTES*(count-1):PART_BYTES;
+        if(!Number.isInteger(partNumber)||partNumber<1||partNumber>count||Number(request.headers.get('Content-Length'))!==expected||request.headers.get('Content-Type')!=='application/octet-stream')return json({ok:false,error:'Invalid video part.'},400);
+        const part=await upload.uploadPart(partNumber,request.body);
+        return json({ok:true,part});
+      }
+      if(operation==='abort'&&request.method==='POST'){await upload.abort();return json({ok:true});}
+      if(operation==='complete'&&request.method==='POST'){
+        const raw=await request.text();if(raw.length>20000)return json({ok:false,error:'Invalid video parts.'},400);
+        const {parts}=JSON.parse(raw),count=Math.ceil(p.size/PART_BYTES);
+        if(!Array.isArray(parts)||parts.length!==count||parts.some((part,i)=>part.partNumber!==i+1||typeof part.etag!=='string'||part.etag.length>200))return json({ok:false,error:'Upload all video parts before finishing.'},400);
+        if(await env.VIDEOS.head(key))return json({ok:false,error:'This video already exists. Start a new upload.'},409);
+        const object=await upload.complete(parts);
+        const head=await env.VIDEOS.get(key,{range:{offset:0,length:12}}),bytes=new Uint8Array(await head.arrayBuffer());
+        if(object.size!==p.size||String.fromCharCode(...bytes.slice(4,8))!=='ftyp'){
+          await env.VIDEOS.delete(key);return json({ok:false,error:'The upload is incomplete or is not a supported MP4.'},400);
+        }
+        return json({ok:true,id:p.id,url:'/api/videos/file/'+p.id+'.mp4'});
+      }
+      return json({ok:false,error:'Invalid upload operation.'},400);
     } else if (url.pathname === '/api/videos/upload' && request.method === 'PUT') {
       const p = await claims(request,env,'upload');
-      if (request.headers.get('Content-Type') !== 'video/mp4' || Number(request.headers.get('Content-Length')) !== p.size) return json({ok:false,error:'Choose an MP4 under 100 MB.'},400);
+      if (p.size>100*1024*1024 || request.headers.get('Content-Type') !== 'video/mp4' || Number(request.headers.get('Content-Length')) !== p.size) return json({ok:false,error:'Refresh the admin dashboard to use the large-video uploader.'},400);
       // Uploaded objects are immutable; retry requires a fresh upload authorization.
       const stored = await env.VIDEOS.put('clips/'+p.id+'.mp4', request.body, {onlyIf:{etagDoesNotMatch:'*'},httpMetadata:{contentType:'video/mp4'}});
       if (!stored) return json({ok:false,error:'This upload was already used. Select the file again.'},409);
