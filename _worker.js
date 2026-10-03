@@ -1,7 +1,7 @@
 import {adminRequest} from './admin-worker.mjs';
 import {videoRequest} from './video-worker.mjs';
 // Public event-page metadata only. No credentials, scripts or cookies are forwarded.
-const hosts=['goldendoko.com','eventbrite.com','eventbrite.ca','eventbrite.co.uk','ticketweb.com','ticketmaster.com','allevents.in','simpletix.com','ticketsource.us'];
+const hosts=['partiful.com','goldendoko.com','eventbrite.com','eventbrite.ca','eventbrite.co.uk','ticketweb.com','ticketmaster.com','allevents.in','simpletix.com','ticketsource.us'];
 function allowed(url){return url.protocol==='https:'&&!url.username&&!url.password&&(!url.port||url.port==='443')&&hosts.some(h=>url.hostname===h||url.hostname.endsWith('.'+h));}
 function decode(s){return s.replace(/&amp;/gi,'&').replace(/&quot;/gi,'"').replace(/&#39;|&apos;/gi,"'").replace(/&#(\d+);/g,(_,n)=>String.fromCharCode(Number(n)));}
 export function imageFromHTML(html,base){for(const property of ['og:image:secure_url','og:image','twitter:image'])for(const tag of html.match(/<meta\b[^>]*>/gi)||[]){const attrs={};for(const m of tag.matchAll(/([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g))attrs[m[1].toLowerCase()]=m[2]??m[3];if((attrs.property||attrs.name||'').toLowerCase()!==property||!attrs.content)continue;try{const u=new URL(decode(attrs.content),base);if(u.protocol==='https:'&&!u.username&&!u.password&&!/^\d+(?:\.\d+){3}$/.test(u.hostname)&&u.hostname.includes('.')&&!u.hostname.endsWith('.local'))return u.href}catch{}}return '';}
