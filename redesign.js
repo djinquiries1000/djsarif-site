@@ -101,7 +101,7 @@
   function safeMediaURL(value){if(!value)return '';if(value.length<=1500000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(value))return value;try{const u=new URL(value,location.href);return (u.protocol==='https:'||u.origin===location.origin)&&!u.username&&!u.password?u.href:''}catch{return ''}}
 
   const flyerRequests=new Map();
-  function loadEventFlyer(url){if(!flyerRequests.has(url))flyerRequests.set(url,fetch('/api/event-preview?url='+encodeURIComponent(url),{signal:AbortSignal.timeout(12000)}).then(r=>r.ok?r.json():null).then(data=>data?.ok?data:null));return flyerRequests.get(url);}
+  function loadEventFlyer(url){if(!flyerRequests.has(url))flyerRequests.set(url,fetch('/api/event-preview?v=2&url='+encodeURIComponent(url),{signal:AbortSignal.timeout(12000)}).then(r=>r.ok?r.json():null).then(data=>data?.ok?data:null));return flyerRequests.get(url);}
   async function upcoming(){
 
     const list=document.getElementById('eventPromoList');
